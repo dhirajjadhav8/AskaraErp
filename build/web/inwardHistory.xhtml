@@ -1,0 +1,35 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{externalInwordDAO.retrieveInwardHistory()}"/>    
+    <p:scrollPanel id="scrExternalInwardHistory" style="width: 600px;height: 220px;" mode="native">
+
+        <p:dataTable id="tblUserExtInwordHistory" paginator="true" value="#{externalInwordDAO.allInwardsHistory}" var="eachInwardHistory"
+                     paginatorPosition="bottom" rows="8" style="width: auto;" lazy="false">
+            <p:column headerText="#{i18n['ui.Inno']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.inNo}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.type']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.type}" style="font-weight: bold">
+                    <f:converter converterId="Type"/>
+                </h:outputText>
+            </p:column>
+            <p:column headerText="#{i18n['ui.indate']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.inDate}" style="font-weight: bold"/>
+            </p:column>   
+            <p:column headerText="#{i18n['ui.from']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.ifrom}" style="font-weight: bold"/>
+            </p:column> 
+            <p:column headerText="#{i18n['ui.forwardedto']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.forwardedTo.firstname} #{eachInwardHistory.forwardedTo.lastname}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.comments']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInwardHistory.comments}"/>
+            </p:column>
+        </p:dataTable>
+    </p:scrollPanel>
+</ui:composition>
+

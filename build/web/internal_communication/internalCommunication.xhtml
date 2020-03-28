@@ -1,0 +1,39 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Internal Communication Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforinternalCommunication.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>        
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <p:scrollPanel id="scrIntCommunication" style="width: 79.5%;height: 460px;position: absolute;top: 24%;border-width: 0px;" mode="native">
+                    <div align="center">
+                        <p:tabView id="tbvInternalComunication" dynamic="true" widgetVar="tabwizInComm" cache="false" activeIndex="#{internalCommunicationDAO.currentIndex}">
+                            <p:ajax event="tabChange" listener="#{internalCommunicationDAO.onTabChange}" update=":tbvInternalComunication"/>  
+                            <p:tab id="tbInbox" title="Inbox">  
+                                <ui:include src="inbox.xhtml"/>
+                            </p:tab>
+                            <p:tab id="tbOutbox" title="Outbox">   
+                                <ui:include src="outbox.xhtml"/>
+                            </p:tab>
+                        </p:tabView>
+                    </div>
+                </p:scrollPanel>
+            </p:panel>
+        </div>
+        <ui:include src="addInboxFolder.xhtml"/>
+        <ui:include src="addOutboxFolder.xhtml"/>
+    </h:body>
+</html>

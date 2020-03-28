@@ -1,0 +1,73 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{roomTypesDAO.retrieveAllRoomTypes}"/>
+    <p:scrollPanel id="scrAddRoom" style="height: 280px;width: 400px;" mode="native">
+        <div align="center">
+            <h:form id="frmAddRoom">
+                <p:panelGrid style="position: absolute;top: 20%;left: 5%;width: 90%;border-width: 1px;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.RoomType']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column style="vertical-align: bottom">
+                            <p:selectOneMenu  id="roomType" value="#{roomTypesDAO.selectedRoomType.id}" effect="fade" required="true" requiredMessage="Please select at least one RoomType to add.">
+                                <f:selectItem itemLabel="Select" itemValue=""/> 
+                                <f:selectItems value="#{roomTypesDAO.allRoomTypes}" var="eachRoomType" itemLabel="#{eachRoomType.name}" itemValue="#{eachRoomType.id}"/>
+                            </p:selectOneMenu>
+                            <p:commandButton value=" " title="Add RoomTypes" actionListener="#{roomTypesDAO.removeSelected}" style="height: 100%;left: 2%" icon="ui-icon-plus" process="@this" update="@form"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.code']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="inptCod" value="#{roomsDAO.selectedRoom.code}" required="true" requiredMessage="Code ia required."/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText id="inptNme" value="#{roomsDAO.selectedRoom.name}" required="true" requiredMessage="Name is required."/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="Add" actionListener="#{roomsDAO.addRoom}" process="@form" update="@form :frmArea:growlmsg :tblRoomdetails:tblRoom"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+            <h:form id="tblRoomdetails">
+                <p:dataTable id="tblRoom" paginator="true" rowStyleClass="rowheights" rows="2" paginatorPosition="bottom" rowIndexVar="srno" 
+                             value="#{roomsDAO.allRooms}" var="eachroom"
+                             style=" width: 90%;height: 50%;position: absolute;top:55.5%;border-radius: 12px;left:5% ;">
+                    <p:column headerText="SrNo" styleClass="tblHeader">
+                        #{srno+1}
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.code']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachroom.code}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachroom.name}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.RoomType']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachroom.roomtypes.name}" style="font-weight: bold"/>
+                    </p:column>                    
+                </p:dataTable>
+            </h:form> 
+        </div>
+    </p:scrollPanel>        
+
+</ui:composition>
+

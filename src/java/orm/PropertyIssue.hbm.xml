@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.PropertyIssue" table="PROPERTYISSUE" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>       
+        <many-to-one name="employees" class="orm.Employees" fetch="select">
+            <column name="EMPLOYEEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <many-to-one name="properties" class="orm.Properties" fetch="select">
+            <column name="PROPERTYID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <many-to-one name="unites" class="orm.Unites" fetch="select">
+            <column name="UNITID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <property name="comments" type="string">
+            <column name="COMMENTS" />
+        </property>
+        <many-to-one name="issuedBy" class="orm.Users" fetch="select">
+            <column name="ISSUEDBY" not-null="false">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <property name="issueDate" type="date">
+            <column name="ISSUEDBY_ISSUEDATE" />
+        </property>
+        <many-to-one name="returnedBy" class="orm.Users" fetch="select">
+            <column name="RETURNEDBY" not-null="false">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <property name="returnDate" type="date">
+            <column name="RETURNEDBY_RETURNDATE" />
+        </property>
+        <many-to-one name="verifiedBy" class="orm.Users" fetch="select">
+            <column name="VERIFIEDBY" not-null="false">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <property name="verifyDate" type="date">
+            <column name="VERIFIEDBY_VERIFIEDDATE" />
+        </property>
+        <property name="quantity" type="string">
+            <column name="QUANTITY" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

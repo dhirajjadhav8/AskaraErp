@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12 Feb, 2013 3:25:23 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.ZEmployees" table="Z_EMPLOYEES" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="employeeId" type="int">
+            <column name="EMPLOYEE_ID" not-null="true" />
+        </property>
+        <property name="firstname" type="string">
+            <column name="FIRSTNAME" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="LASTNAME" />
+        </property>
+        <property name="joiningDate" type="date">
+            <column name="JOINING_DATE" length="10" />
+        </property>
+        <property name="tempAddress" type="string">
+            <column name="TEMP_ADDRESS" />
+        </property>
+        <property name="permAddress" type="string">
+            <column name="PERM_ADDRESS" />
+        </property>
+        <property name="gender" type="java.lang.Character">
+            <column name="GENDER" length="1" />
+        </property>
+        <property name="maritalStatus" type="java.lang.Character">
+            <column name="MARITAL_STATUS" length="1" />
+        </property>
+        <property name="tempPin" type="string">
+            <column name="TEMP_PIN" length="25" />
+        </property>
+        <property name="permPin" type="string">
+            <column name="PERM_PIN" length="25" />
+        </property>
+        <property name="birthDate" type="date">
+            <column name="BIRTH_DATE" length="10" />
+        </property>
+        <property name="passportNo" type="string">
+            <column name="PASSPORT_NO" length="25" />
+        </property>
+        <property name="passportExpdate" type="date">
+            <column name="PASSPORT_EXPDATE" length="10" />
+        </property>
+        <property name="passportCopy" type="string">
+            <column name="PASSPORT_COPY" length="25" />
+        </property>
+        <property name="emerCtcNo" type="string">
+            <column name="EMER_CTC_NO" length="25" />
+        </property>
+        <property name="emerCtcRel" type="string">
+            <column name="EMER_CTC_REL" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="16" />
+        </property>
+        <property name="nationality" type="string">
+            <column name="NATIONALITY" length="50" />
+        </property>
+        <property name="tempCity" type="string">
+            <column name="TEMP_CITY" length="50" />
+        </property>
+        <property name="tempState" type="string">
+            <column name="TEMP_STATE" length="50" />
+        </property>
+        <property name="tempCountry" type="string">
+            <column name="TEMP_COUNTRY" length="50" />
+        </property>
+        <property name="permCity" type="string">
+            <column name="PERM_CITY" length="50" />
+        </property>
+        <property name="permState" type="string">
+            <column name="PERM_STATE" length="50" />
+        </property>
+        <property name="permCountry" type="string">
+            <column name="PERM_COUNTRY" length="50" />
+        </property>
+        <property name="emerCtc" type="string">
+            <column name="EMER_CTC" />
+        </property>
+        <property name="photo" type="string">
+            <column name="PHOTO" />
+        </property>
+        <property name="leavingdate" type="date">
+            <column name="LEAVINGDATE" length="10" />
+        </property>
+        <property name="leavingreason" type="string">
+            <column name="LEAVINGREASON" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="employeeno" type="string">
+            <column name="EMPLOYEENO" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" />
+        </property>
+    </class>
+</hibernate-mapping>

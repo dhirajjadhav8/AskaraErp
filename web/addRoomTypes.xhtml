@@ -1,0 +1,62 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{roomTypesDAO.retrieveAllRoomTypes}"/>
+
+    <p:confirmDialog id="confirmRoomTypeDlg" widgetVar="DlgRoomTypeConfirm" closable="false" style="width: 90%; height: 60%;left:10%; top: 10%;">   
+        <f:facet name="header">
+            <h:outputText value="Add Room Type"/>
+        </f:facet>
+        <h:form id="frmAddRoomType">
+            <p:scrollPanel id="scrAddRoomTypes" style="height: 290px;width: 400px;" mode="native">
+
+                <div align="center">
+                    <p:panelGrid style="position: absolute;top: 20%;left: 5%;width: 90%;">
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputText value="#{roomTypesDAO.selectedRoomType.name}" required="true" requiredMessage="Name is required."/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column>
+                                <h:outputText value="#{i18n['ui.Description']}" style="font-weight: bold;"/>
+                            </p:column>
+                            <p:column>
+                                <p:inputTextarea value="#{roomTypesDAO.selectedRoomType.description}"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="2">
+                                <p:commandButton value="Add" actionListener="#{roomTypesDAO.addRoomType}" process="@form" update="@form :frmArea:growlmsg"/>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                    <p:dataTable id="tblRoomTypes" paginator="true" rowStyleClass="rowheights" rows="2" paginatorPosition="bottom" rowIndexVar="srno" 
+                                 value="#{roomTypesDAO.allRoomTypes}" var="eachRoomType" rowKey="#{eachRoomType.id}"
+                                 style=" width: 90%;height: 50%;position: absolute;top:58.5%;border-radius: 12px;left:5% ;">
+                        <p:column headerText="SrNo" styleClass="tblHeader">
+                            #{srno+1}
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachRoomType.name}" style="font-weight: bold"/>
+                        </p:column> 
+                        <p:column headerText="#{i18n['ui.Description']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachRoomType.description}" style="font-weight: bold"/>
+                        </p:column>  
+                    </p:dataTable>
+                </div>
+            </p:scrollPanel>  
+            <p:commandButton value="Finish" oncomplete="DlgAreaConfirm.show()" onclick="DlgRoomTypeConfirm.hide()" process="@this" update=":confirmAreaDlg">
+                <f:setPropertyActionListener value="room" target="#{mainIncludeFilesSelect.includeFile}"/>
+            </p:commandButton>
+        </h:form>
+    </p:confirmDialog>
+</ui:composition>

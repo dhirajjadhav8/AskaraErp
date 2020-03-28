@@ -1,0 +1,74 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:scrollPanel id="scrExternalInwardUpdate" style="width: 600px;height: 200px;" mode="native">
+        <div align="left">
+            <h:form id="frmExternalInwardUpdate">
+                <p:panelGrid style="width: 100%;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.indate']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:calendar mode="popup" value="#{externalInwordDAO.updateInward.inDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="#{i18n['ui.Bean.StartDate']}" disabled="true" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.type']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{externalInwordDAO.updateInward.type}" disabled="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.deliveryMode']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{externalInwordDAO.updateInward.deliverymode}" disabled="true"/>
+
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.from']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{externalInwordDAO.updateInward.ifrom.name}" disabled="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.forwardedto']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{externalInwordDAO.updateInward.forwardedTo.firstname} #{externalInwordDAO.updateInward.forwardedTo.lastname}" disabled="true"/>
+                        </p:column>   
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.isReserved']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectBooleanCheckbox value="#{externalInwordDAO.updateInward.isreceived}">
+                                <p:ajax listener="#{externalInwordDAO.updateCheckComment}" update="updTextAreaComment"/>
+                            </p:selectBooleanCheckbox>
+                        </p:column> 
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.comments']}"/>
+                        </p:column>
+                        <p:column colspan="3">
+                            <p:inputTextarea id="updTextAreaComment" value="#{externalInwordDAO.updateInward.comments}" disabled="#{externalInwordDAO.checkComments}" style="width: 98%;"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:commandButton value="Update" actionListener="#{externalInwordDAO.updateInwardToCheckReceivable}" process="@form" update=":frmAddExternalInword:growlmsg :frmExtInWordTable" />
+                            <p:commandButton value="Close" oncomplete="DlgConfirmForInward.hide()" process="@form" update=":frmAddExternalInword:growlmsg :frmExtInWordTable" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </p:scrollPanel>
+</ui:composition>

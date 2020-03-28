@@ -1,0 +1,30 @@
+ /*
+    Document   : test
+    Created on : 9 Nov, 2012, 11:10:58 AM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.ui-panelgrid {
+    width: 80%;
+border-collapse: collapse;
+
+}
+.ui-panelgrid td {
+border-width: 1px;
+border-style: solid;
+border-color: inherit;
+background-color: greenyellow;
+
+max-width:20%;
+word-wrap:break-word;
+}
+.colwidth{
+    width: 10%;
+}
+
+.colwidthforvalues{
+    max-width:20%;
+word-wrap:break-word;
+}

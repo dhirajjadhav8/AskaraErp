@@ -1,0 +1,57 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12 Feb, 2013 3:25:23 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.ZPropertyissue" table="Z_PROPERTYISSUE" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="propertyissueid" type="int">
+            <column name="PROPERTYISSUEID" not-null="true" />
+        </property>
+        <property name="employeeid" type="int">
+            <column name="EMPLOYEEID" not-null="true" />
+        </property>
+        <property name="propertyid" type="java.lang.Integer">
+            <column name="PROPERTYID" />
+        </property>
+        <property name="unitid" type="java.lang.Integer">
+            <column name="UNITID" />
+        </property>
+        <property name="comments" type="string">
+            <column name="COMMENTS" />
+        </property>
+        <property name="issuedby" type="java.lang.Integer">
+            <column name="ISSUEDBY" />
+        </property>
+        <property name="issuedbyIssuedate" type="date">
+            <column name="ISSUEDBY_ISSUEDATE" length="10" />
+        </property>
+        <property name="returnedby" type="java.lang.Integer">
+            <column name="RETURNEDBY" />
+        </property>
+        <property name="returnedbyReturndate" type="date">
+            <column name="RETURNEDBY_RETURNDATE" length="10" />
+        </property>
+        <property name="verifiedby" type="java.lang.Integer">
+            <column name="VERIFIEDBY" />
+        </property>
+        <property name="verifiedbyVerifieddate" type="date">
+            <column name="VERIFIEDBY_VERIFIEDDATE" length="10" />
+        </property>
+        <property name="quantity" type="string">
+            <column name="QUANTITY" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

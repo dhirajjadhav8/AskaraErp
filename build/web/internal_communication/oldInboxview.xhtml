@@ -1,0 +1,73 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+
+    <h:form id="frmoldInboxViews">
+        <p:scrollPanel id="scrOldInboxView" style="height: 350px;width: 750px;" mode="native">
+            <div align="center">
+                <p:panelGrid style="width: 100%;"> 
+                    <f:facet name="header">
+                        Inbox
+                    </f:facet>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.from']}" style="font-weight: bold;"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.requestFrom.firstname} #{internalCommunicationDAO.selectedInnerCommOldInboxView.requestFrom.lastname}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.subject']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.subject}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Date']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.requestDate}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.status']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.status}">
+                                <f:converter converterId="status"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.msgType']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.messagetype}">
+                                <f:converter converterId="messageType"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Details']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInnerCommOldInboxView.details}" escape="false"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </div>
+        </p:scrollPanel>
+    </h:form>
+</ui:composition>

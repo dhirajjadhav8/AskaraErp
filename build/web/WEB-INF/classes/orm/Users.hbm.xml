@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 5 Oct, 2012 10:24:47 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.Users" table="USERS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="username" type="string">
+            <column name="USERNAME" not-null="true" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" not-null="true" />
+        </property>
+        <many-to-one name="employees" class="orm.Employees" fetch="select">
+            <column name="EMPLOYEEID" not-null="true" unique="true">
+                <comment/>
+            </column>
+        </many-to-one> 
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="passwordchangedon" type="timestamp">
+            <column name="PASSWORDCHANGEDON" length="29" />
+        </property>
+        <property name="salt" type="string">
+            <column name="SALT" not-null="false" />
+        </property>
+    </class>
+</hibernate-mapping>

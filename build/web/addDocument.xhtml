@@ -1,0 +1,43 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:loadBundle basename="employees" var="i18n"/>
+    <p:confirmDialog id="addDoc" message="" header="Add Document" closable="false" severity="alert" widgetVar="docvar">
+        <h:form id="DocAdd">
+            <p:panel id="pnlDocAdd"> 
+                <table width="60%" align="center">
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.documents']}* " />  
+                        </td>
+                        <td>
+                            <p:inputText id="empdocuments" value="#{employeeDocumentsDAO.document.name}" required="true" requiredMessage="#{i18n['ui.msg.documents']}">
+                                <f:validator validatorId="NameValidater"/>
+                            </p:inputText><br/>
+                            <h:message for="empdocuments"  style="color: red"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.description']} " />  
+                        </td>
+                        <td>
+                            <p:inputTextarea id="empDocDescription" value="#{employeeDocumentsDAO.document.description}"/>
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td colspan="2" align="center">
+                            <p:commandButton value="Add" actionListener="#{employeeDocumentsDAO.addDocuments()}" process="@form" update="@form :frmempDocAdd:growlmsg" />
+                            <p:commandButton value="close" onclick="docvar.hide()"/>
+                        </td>
+                    </tr>                                 
+                </table>
+            </p:panel>
+        </h:form>
+    </p:confirmDialog>
+</ui:composition>
+

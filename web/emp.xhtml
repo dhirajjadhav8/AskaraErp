@@ -1,0 +1,51 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>       
+    <f:loadBundle basename="employees" var="i18n"/>
+    <table>
+        <tr>
+            <td>
+                <img id="imgEmp" cache="false" alt="" src="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}resources#{forceSessionCreateA.separator}photos#{forceSessionCreateA.separator}up#{forceSessionCreateA.separator}#{employeesDAO.selectedEmployee.id}.jpg"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h:outputText id="empName" value="#{employeesDAO.selectedEmployee.firstname} #{employeesDAO.selectedEmployee.lastname}"/>
+            </td>
+        </tr>
+    </table>   
+    <p:scrollPanel id="scrupdate" style="width: 1200px;height: 460px;" mode="native">
+        <div align="center">
+            <p:messages id="message"/>
+            <p:growl id="growlmessasge" showDetail="false"/>
+            <p:tabView id="tbvEmployees" dynamic="true" widgetVar="tabwiz" cache="false" activeIndex="#{employeesDAO.activeIndex}">
+                <p:ajax event="tabChange" listener="#{employeeTabLiestner.onTabChange}" update="tbvEmployees"/>  
+                <p:tab id="tbPersonal" title="Basic Info">                            
+
+                    <ui:include src="employeeForm.xhtml"/>
+
+                </p:tab>
+                <p:tab id="tbPhoto" title="UploadNewPhoto" disabled="#{employeesDAO.tabview}">                            
+
+                    <ui:include src="addEmpPhoto.xhtml"/>
+
+                </p:tab>
+                <p:tab id="tbEmploymentDetails" title="Employement Details" disabled="#{employeesDAO.tabview}">
+
+                    <ui:include src="empDetailsInclude.xhtml"/>                                   
+
+                </p:tab>
+                <p:tab id="tbEmployeeDesignation" title="Employee Designation" disabled="#{employeesDAO.tabview}">
+
+                    <ui:include src="employeeDesignationInclude.xhtml"/>                           
+
+                </p:tab>
+            </p:tabView>
+        </div>                
+    </p:scrollPanel> 
+</ui:composition>

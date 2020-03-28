@@ -1,0 +1,32 @@
+
+                        # Style Sheet #
+panelstyle contains the font-size: 1em; for the panel elements.
+in stylesheetforDocuments we can override the .ui-datatable table and .tblHeader to stylesheet from the component style sheet.
+StylesheetforemployeeDocuments we can override .ui-datatable table for datatable in the page.
+stylesheetforemployeeQualification we can override .ui-datatable table for datatable in the page.
+stylesheetformain we can override .ui-datatable table ,tblHeader for datatable and .ui-panelgrid td for the column in the panelgrid of the stylesheet.
+stylesheetfor qualification in which .ui-datatable table ,tblHeader are override to customise the given ui in user needed format. 
+in the EmployeeDocumentExpiryCount we can define a style for padding the notification bar and make the bar transparent format. 
+for displaying the address field in the one block in a fixed size we can use the max-width and world-wrap function for css.
+
+                        # WEB Pages #
+
+login page contains the login panel and askara images.
+main page contains the search panel through the employee list can display in the data table, search is on firstname or lastname the project wise search is optional 
+but we must select the employee status for search it's either current or old.
+resulted employee list we can add,update and view operation through we can add new employee,update existing employee and view the employee information.
+ Documents page contains the add new document panel and existing document list in datatable.
+ Qualification page contains the add qualification panel for adding the new qualifications to the qualification list and qualification list in data table.
+ addemployee is the include page in the main page for adding the new employee.
+ viewemployee is the include page in the main page for view the employee information in the page.
+ updateemployee is the include page in the main page for update the existing employee information.
+ EmployeeDetails page contains the employeedetails list  and  Add employeeDetails  the Employeedetails list in the datatable can be retrieve through 
+the selected employee from the employee combo box.
+To add employeeDetails we can select all teh equired fields in the add panel given.
+We can modify the employeeDetails list through the update command button by selecting the end date and end reason.
+Employeedocdetails page contains the employeeDocument list which had to expiry date is less than 10 days or current date is greator than expiry date.
+employeeDocumentExpairyCount page contains the no of expired documents of employee or which is to be expired within ten days and  link provided to the 
+employeeDocDetials page to show the Employee Documents list with the employee list.this is an include page within all pages except emploeeDocDetails 
+the notification bar can be pop up within 30 sec time interval.
+EmployeeQualification page contains the add panel for add the qualification to the existing employee in the employee list and data table to show the employee 
+qualification for the particular employee. 

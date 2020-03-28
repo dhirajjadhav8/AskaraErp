@@ -1,0 +1,254 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+
+    <h:form id="frmEmpView">
+        <f:loadBundle basename="employees" var="i18n"/>
+        <table>
+            <tr>
+                <td>
+                    <p:graphicImage alt="" value="#{forceSessionCreateA.separator}resources#{forceSessionCreateA.separator}photos#{forceSessionCreateA.separator}up#{forceSessionCreateA.separator}#{employeesDAO.selectedEmployee.id}.jpg"/>
+                    
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h:outputText value="#{employeesDAO.selectedEmployee.firstname} #{employeesDAO.selectedEmployee.lastname}"/>
+                </td>
+            </tr>
+        </table>    
+        <p:scrollPanel id="scrView" style="height: 395px;width: 1000px;" mode="native">
+            <div align="center">
+                <p:messages id="msgs"/> 
+                <p:panelGrid> 
+                    <f:facet name="header">
+                        Employee Details
+                    </f:facet>
+                    <p:row>
+                        <p:column colspan="4" >
+                            <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;color: navy;"/>   
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.firstname']}" style="font-weight: bold;"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.firstname}"/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.lastname']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.lastname}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.birthDate']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.birthDate}"/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.joiningDate']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.joiningDate}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.gender']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value=" #{employeesDAO.selectedEmployee.gender}">
+                                <f:converter converterId="gender"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.maritalStatus']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.maritalStatus}">
+                                <f:converter converterId="maritalStatus"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.phone']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.phone}"/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.nationality']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.nationality}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4" >                                
+                            <h:outputLabel value="#{i18n['ui.address']}" style="font-weight: bold;color: navy;"/>                              
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.tempAddress']} " style="font-weight: bold;"/>   
+                        </p:column>
+                        <p:column style="width: 20%" styleClass="columnwidth">                               
+                            <h:outputText value="#{employeesDAO.selectedEmployee.tempAddress}" style="width:20%;"/>                              
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.permAddress']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.permAddress}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.tempCity']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.tempCity}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.permCity']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.permCity}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.tempState']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.tempState}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.permState']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.permState}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.tempCountry']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.tempCountry}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.permCountry']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.permCountry}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.tempPin']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.tempPin}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.permPin']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.permPin}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="4" >
+                            <h:outputText value="#{i18n['ui.emergencyContact']}" style="font-weight: bold;color: navy;"/>   
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.emerCtc']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.emerCtc}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.emerCtcRel']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.emerCtcRel}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.emerCtcNo']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth" colspan="3">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.emerCtcNo}"/>
+                            <br/>
+                        </p:column>
+
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4" >
+                            <h:outputText value="#{i18n['ui.otherInfo']}" style="font-weight: bold;color: navy;"/>   
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4" >
+                            <h:outputText value="#{i18n['ui.passportInfo']}" style="font-weight: bold;color: navy;"/>   
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.passportNo']} " style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.passportNo}"/>
+                            <br/>
+                        </p:column>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.passportExpdate']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.passportExpdate}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>
+                    <p:row>                           
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.passportCopy']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth" colspan="3">
+                            <h:outputText value="#{employeesDAO.selectedEmployee.passportCopy}"/>
+                            <br/>
+                        </p:column>
+                    </p:row>                         
+                </p:panelGrid>
+            </div>
+        </p:scrollPanel>
+    </h:form>
+</ui:composition>
+
+

@@ -1,0 +1,49 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="frmmenubar">
+        <p:menubar>  
+            <p:submenu label="HR" icon="stark">  
+                <p:menuitem value="Employee Info" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}main.xhtml" />        
+                <p:menuitem value="Department Incharge" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}addDepartmentIncharge.xhtml" />                              
+                <p:menuitem value="Project Incharge" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}addProjectIncharge.xhtml" />
+                <p:menuitem value="Employee Document" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}EmployeeDocuments.xhtml" />
+                <p:menuitem value="Employee Qualification" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}employeeQualifications.xhtml" />
+                <p:menuitem value="Employee Responsibility" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}EmployeeResponsibilities.xhtml" />
+                <p:menuitem value="Designation Responsibility" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}DesignationResponsibilities.xhtml" />
+            </p:submenu>  
+
+            <p:submenu label="Office Administration" icon="ui-icon-pencil">  
+                <p:menuitem value="Area" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}area.xhtml" icon="ui-icon-arrowreturnthick-1-w" />  
+                <p:menuitem value="Add Storage" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}addStorage.xhtml" icon="ui-icon-arrowreturnthick-1-e" />  
+                <p:menuitem value="External Inward" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}externalInward.xhtml" icon="ui-icon-arrowreturnthick-1-e" />  
+            </p:submenu> 
+            <p:submenu label="System Admin" icon="ui-icon-document">
+                <p:menuitem value="Login Info" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}loginInfo.xhtml" icon="ui-icon-arrowreturnthick-1-e" />  
+            </p:submenu>
+            <p:submenu label="Facilities" icon="ui-icon-document">
+                <p:menuitem value="Item" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}items.xhtml" icon="ui-icon-arrowreturnthick-1-e" /> 
+                <p:menuitem value="Room Facilities" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}addRoomFacilities.xhtml"  icon="ui-icon-arrowreturnthick-1-e" />
+            </p:submenu>
+            <p:submenu label="Progress Tracking" icon="ui-icon-pencil">
+                <p:menuitem value="Milestones" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}progressTracking#{forceSessionCreateA.separator}milestone.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                <p:menuitem value="Activities" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}progressTracking#{forceSessionCreateA.separator}activities.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                <p:menuitem value="Tasks" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}progressTracking#{forceSessionCreateA.separator}tasks.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                <p:menuitem value="SubTasks" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}progressTracking#{forceSessionCreateA.separator}subTasks.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+            </p:submenu>            
+            <p:menuitem value="Todo" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}Todo#{forceSessionCreateA.separator}addTodo.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+            <p:menuitem value="Internal Communicaion" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}internal_communication#{forceSessionCreateA.separator}internalCommunication.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+            <p:submenu label="Tenant" icon="ui-icon-pencil">
+                <p:menuitem value="Organization" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}tenant#{forceSessionCreateA.separator}organization.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+                <p:menuitem value="Branches" url="#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}tenant#{forceSessionCreateA.separator}Branches.xhtml" icon="ui-icon-arrowreturnthick-1-e"/>
+            </p:submenu>
+
+            <f:facet name="options">  
+                <p:commandButton value="Logout" actionListener="#{loginbean.logout()}" rendered="#{(loginbean.loggedin == true)?true:false}" ajax="false" process="@subform"/>
+            </f:facet>  
+        </p:menubar>
+    </h:form>
+</ui:composition>

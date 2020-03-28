@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Departments" table="DEPARTMENTS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="employeeDetails" inverse="true">
+            <key>
+                <column name="DEPARTMENTID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeDetails"/>
+        </set>
+        <set name="departmentIncharge" inverse="true">
+            <key>
+                <column name="DEPARTMENTID" not-null="true">
+                    <comment/>
+                </column>
+            </key>            
+            <one-to-many class="orm.DepartmentIncharge"/>
+        </set>
+    </class>
+</hibernate-mapping>

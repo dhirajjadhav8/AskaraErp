@@ -1,0 +1,32 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+
+    <p:scrollPanel id="scrView" style="height: 87px;width: 400px;" mode="native">
+        <h:form id="frmAddUpdOrganizations">
+            <p:growl id="msg" />
+            <p:panelGrid id="pnlgAddOrganization" style="width: 100%;">
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;"/>
+                    </p:column>
+                    <p:column>
+                        <p:autoComplete value="#{organizationDAO.selectedOrganization.name}" completeMethod="#{organizationDAO.completeOrganisation}" var="org" itemLabel="#{org.name}" rendered="#{mainIncludeFilesSelect.includeFile=='addOrganization'}"/>
+                        <p:autoComplete value="#{organizationDAO.selectedOrganizationToUpdate.name}" rendered="#{mainIncludeFilesSelect.includeFile=='updateOrganization'}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column colspan="2">
+                        <p:commandButton value="Add" actionListener="#{organizationDAO.addOrganization()}" process="@form" update="@form :frmAddUpdOrganizations :frmOrganizationTable" rendered="#{mainIncludeFilesSelect.includeFile=='addOrganization'}"/>
+                        <p:commandButton value="Update" actionListener="#{organizationDAO.updateOrganization()}" process="@form" update="@form :frmAddUpdOrganizations :frmOrganizationTable" rendered="#{mainIncludeFilesSelect.includeFile=='updateOrganization'}"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:scrollPanel>
+
+</ui:composition>

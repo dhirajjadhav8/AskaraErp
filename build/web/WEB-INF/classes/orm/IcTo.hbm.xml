@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.IcTo" table="IC_TO" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="requestTo" class="orm.Employees" fetch="select">
+            <column name="REQUEST_TO" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <many-to-one name="internalcommunication" class="orm.InternalCommunication" fetch="select">
+            <column name="INTERNALCOMMUNICATIONID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="seen" type="boolean">
+            <column name="SEEN" not-null="true" />
+        </property>
+        <property name="seenDate" type="timestamp">
+            <column name="SEEN_DATE" length="29" />
+        </property>
+        <many-to-one name="inboxicfolders" class="orm.IcFolders" fetch="select">
+            <column name="INBOXICFOLDERID">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="msgFlag" type="char">
+            <column name="MSG_FLAG" length="1" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

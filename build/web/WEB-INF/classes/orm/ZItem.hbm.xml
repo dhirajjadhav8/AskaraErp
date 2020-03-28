@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.ZItem" table="Z_ITEM" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="itemid" type="int">
+            <column name="ITEMID" not-null="true" />
+        </property>
+        <property name="model" type="string">
+            <column name="MODEL" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        <property name="itypeid" type="int">
+            <column name="ITYPEID" />
+        </property>
+        <property name="imakeid" type="int">
+            <column name="IMAKEID" />
+        </property>
+        <property name="reorderlevel" type="int">
+            <column name="REORDERLEVEL" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="classification" type="char">
+            <column name="CLASSIFICATION" length="1" />
+        </property>
+        <property name="photo" type="string">
+            <column name="PHOTO" />
+        </property>
+    </class>
+</hibernate-mapping>

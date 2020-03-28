@@ -1,0 +1,133 @@
+                        Date 8-10-2012
+Make changes to the gender and marital status field in the updateEmployee.xhtml page.
+validation is remaining in both the update and add pages of the given Employee page.
+
+                           Date 9-10-2012
+Projection is not working in the project.
+
+                           Date 8-11-2012
+
+Report attachment to the given project through the servlet.
+
+                            Date 26-11-2012
+
+when ever you enter loginpage request when user is loggedin multiple time the "This webpage has a redirect loop" message is shown in browser.
+After user login when ever we press back button on browser it redirects to login page and after forward button press it again goes to the main page.   
+
+                            Date 27-11-2012
+
+when we clear Browser.
+
+
+                                        Date 30-1-2013
+
+when the particular user is locked then redirect to login page messages is not working.
+
+                                        Date 31-01-2013
+problem occur while creating the triggers of update and delete in same trigger EMPLOYEE_AUD.
+Timestamp value in the given login_Details are not working (the time 00:00:00.000) is passed when user is login and logout in Login_Date and Logout_Date.
+No. of login attempts by unauthorized user can be maintain in the loin_Details is remaining.
+
+
+                                    Date 22-02-2013
+
+Asymmetric increption of password.
+Authontication of login change. 
+
+
+                                                    Date 5-03-2013
+
+test case on main page take scrollpanel and remove paginator and check the radio button select case on each record.
+
+and on update on record check the values of the updatedrecord.
+
+We use selectedEmployee single object to all view , update and add so use it carefully.
+
+
+                                                    Date 6-03-2013
+
+After on click finish button on pop up box in main page ajax request is send which is not necessary. 
+
+
+                                                     Date 13-03-2013
+
+Dialog box in addroom.xhtml modify model to true not working.
+
+                                                     Date 1-04-2013
+
+Uploaded file in the resources folder can not shown but if the total file path is given then the file is present in the folder.
+
+
+                                                    Date 15-04-2013
+
+Converter for login details page for date to timestamp use to string method in dao.
+
+                                                    Date 19-04-2013
+
+Socket connection reset error occurred.
+
+                                                    Date 24-04-2013
+Check the Item Details query for the Add room facilities page.
+
+
+                                                    Date 29-04-2013
+
+conditional ajax poll.
+
+
+                                                    Date 2-05-2013
+
+In add to do page the table column must be resize.
+
+                                                    Date 6-05-2013
+
+select random 10 record from database table query.
+in external inward table is visible hard coded by user id 1 change it. 
+inward is coming for data entry operator then. 
+
+                                                    Date 07-05-2013
+
+Inward wrong data entry and duplicate data entry.
+
+
+                                                        Date 07-05-2013
+
+Message in draft can change from multiple users check it. 
+
+
+                                                    Date 29-05-2013
+
+editor must be custmise check.(file upload in editor).
+notices module (department notices,employee notices,project notices).
+check duplicate wile adding the new folders,area,room,roomtype.
+
+
+                                                    Date 6-06-2013
+
+How to check char c==''.(For phase listener in send message to draft. )
+
+                                                    Date 12-06-2013
+
+Employee search query modify.
+
+                                                    Date 13-06-13
+
+if employee goto another location for 8 days temp location change.
+location wise multiple project assign.
+if end date is null for particular employee for particular location add same project not be inserted.
+if at the last date inward is came and employee move to another location then that inward is shown in his inward or not.
+
+create organization table and add location in that.
+In project table flag add(internal,ongoing,client),start_date,target_date and actual_date.
+Add project id null column in inward and outward table.
+create employee location table.   
+
+
+                                                     Date 14-06-13
+
+modify the primary key to composite primary key in all table.
+give unique constraint to null column.
+create id and varchar composite key.
+work area in department.
+eg single employee can work in multiple such as design,programmer,testing in multiple department on single location.
+organization and branches will be store some where in link menu bar.

@@ -1,0 +1,128 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+   
+    <p:growl id="growlmsg" showDetail="false"/>
+    <p:scrollPanel style="height: 440px;width: 80%;border: 0;" mode="native">
+        <h:form id="frmEmpDetails">
+            <p:panel id="pnlEmpDetails" style="border-style: solid;width: 98.5%;height: 
+                     auto;border-top-left-radius: 15px;border-top-right-radius: 15px;-webkit-box-shadow: 3px 3px 9px 1px darkgray;
+                     box-shadow:5px 4px 4px darkgray ;vertical-align: top;">
+                <table>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.employee']} *"/>
+                        </td>
+                        <td colspan="2">
+                            <h:outputLabel value="#{employeesDAO.selectedEmployee.firstname} #{employeesDAO.selectedEmployee.lastname}"/>                            
+                        </td>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.location']} *"/> 
+                        </td>
+                        <td colspan="2">
+                            <p:selectOneMenu  id="locations" value="#{employeeDetailsDAO.selectedLocation}" effect="fade" required="true" 
+                                              requiredMessage="please select at least one location.">
+                                <f:selectItem itemLabel="Select" itemValue=""/>
+                                <f:selectItems value="#{employeeDetailsDAO.allLocations}" var="locationforcombo" 
+                                               itemLabel="#{locationforcombo.name}" itemValue="#{locationforcombo.id}"/>                                             
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.project']} *"/> 
+                        </td>
+                        <td colspan="2">
+                            <p:selectOneMenu  id="projects" value="#{employeeDetailsDAO.selectedProject}" effect="fade" required="true" 
+                                              requiredMessage="please select at least one project.">
+                                <f:selectItem itemLabel="Select" itemValue=""/>
+                                <f:selectItems value="#{employeeDetailsDAO.allProjects}" var="projectforcombo" itemLabel="#{projectforcombo.name}" itemValue="#{projectforcombo.id}"/>                                             
+                            </p:selectOneMenu>
+                        </td>
+
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.designation']} *"/> 
+                        </td>
+                        <td colspan="2">
+                            <p:selectOneMenu  id="designations" value="#{employeeDetailsDAO.selectedDesignation}" effect="fade" 
+                                              required="true" requiredMessage="please select at least one designation.">
+                                <f:selectItem itemLabel="Select" itemValue=""/>
+                                <f:selectItems value="#{employeeDetailsDAO.allDesignations}" var="designationforcombo" 
+                                               itemLabel="#{designationforcombo.name}" itemValue="#{designationforcombo.id}"/>                                             
+                            </p:selectOneMenu>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <h:outputLabel value="#{i18n['ui.department']} *"/> 
+                        </td>
+                        <td colspan="2">
+                            <p:selectOneMenu  id="departments" value="#{employeeDetailsDAO.selectedDepartments}" 
+                                              effect="fade" required="true" requiredMessage="please select at least one Departments.">
+                                <f:selectItem itemLabel="Select" itemValue=""/>
+                                <f:selectItems value="#{employeeDetailsDAO.allDepartments}" var="departmentforcombo" 
+                                               itemLabel="#{departmentforcombo.name}" itemValue="#{departmentforcombo.id}"/>                                             
+                            </p:selectOneMenu>
+                        </td>
+
+                        <td>
+                            <h:outputLabel value="Start Date *"/> 
+                        </td>
+                        <td colspan="2">
+                            <p:calendar mode="popup" id="startDate" value="#{employeeDetailsDAO.employeeDetails.startDate}" 
+                                        pattern="yyyy-MM-dd" required="true" requiredMessage="Start date is must."/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <p:commandButton value="Add" actionListener="#{employeeDetailsDAO.addEmployeeDetails()}" process="@form" 
+                                             update=":tbvEmployees:frmEmpDetails :tbvEmployees:frmEmpDetailsTbl:tblEmpDetails" />
+                        </td>
+                    </tr>
+                </table>
+            </p:panel>
+        </h:form>
+        <p:separator style="width: 99%; -webkit-box-shadow: 3px 3px 9px 1px darkgray;box-shadow:2px 2px 2px darkgray ; height: 4px;"/>  
+        <h:form id="frmEmpDetailsTbl">
+            <p:contextMenu for="tblEmpDetails">
+                <p:menuitem value="Update" icon="ui-icon-update" actionListener="#{employeeDetailsDAO.updateEmployeeDetails()}" 
+                            process="@form" update=":tbvEmployees:frmEmpDetails :tbvEmployees:frmEmpDetailsTbl" /> 
+            </p:contextMenu>            
+                <p:dataTable id="tblEmpDetails" paginator="true" rows="2" paginatorPosition="bottom" var="eachEmployeeDetails" value="#{employeeDetailsDAO.allEmployeeDetails}" 
+                             selection="#{employeeDetailsDAO.selectedEmpDetails}" selectionMode="single"  rowKey="#{eachEmployeeDetails.id}" 
+                             style="position: absolute;left:11.8%;width: 77%;">
+                    <f:facet name="header">
+                        Employee Details
+                    </f:facet>
+                    <p:column headerText="Projects" styleClass="tblHeader">
+                        <h:outputLabel  value="#{eachEmployeeDetails.projects.name}"/>
+                    </p:column>
+                    <p:column headerText="Location" styleClass="tblHeader">
+                        <h:outputText value="#{eachEmployeeDetails.locations.name}"/>
+                    </p:column>
+                    <p:column headerText="Designation" styleClass="tblHeader">
+                        <h:outputText value="#{eachEmployeeDetails.designations.name}"/>
+                    </p:column>
+                    <p:column headerText="Department" styleClass="tblHeader">
+                        <h:outputText value="#{eachEmployeeDetails.departments.name}"/>
+                    </p:column>
+                    <p:column headerText="Start Date" styleClass="tblHeader">
+                        <h:outputText value="#{eachEmployeeDetails.startDate}"/>
+                    </p:column>                                        
+                    <p:column headerText="End Date" styleClass="tblHeader"> 
+                        <p:calendar mode="popup" value="#{eachEmployeeDetails.endDate}" mindate="#{eachEmployeeDetails.startDate}" 
+                                    pattern="yyyy-MM-dd" disabled="#{(eachEmployeeDetails.endDate == null || eachEmployeeDetails.endDate=='' )?false:true }"/>
+                    </p:column>
+                    <p:column headerText="End Reason" styleClass="tblHeader">
+                        <p:inputTextarea  value="#{eachEmployeeDetails.endReason}" 
+                                          disabled="#{(eachEmployeeDetails.endReason == null || eachEmployeeDetails.endReason == '')?false:true}"/>
+                    </p:column>
+                </p:dataTable>            
+        </h:form>
+    </p:scrollPanel>
+</ui:composition>

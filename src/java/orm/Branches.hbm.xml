@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Branches" table="BRANCHES" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="ADDRESS" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="16" />
+        </property>
+        <many-to-one name="organization" class="orm.Organization" fetch="select">
+            <column name="ORGANIZATIONID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

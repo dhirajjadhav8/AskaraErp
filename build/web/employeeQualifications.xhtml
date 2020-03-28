@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Employee Qualifications Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforemployeeQualifications.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}panelstyle.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforlogout.css"></link> 
+        <script type="text/javascript">
+            function showStats() {
+                statusDlg.show();
+            }
+
+            function hideStats() {
+                statusDlg.hide();
+            }
+        </script>  
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmempQualificationAdd" styleClass="form" enctype="multipart/form-data">
+                    <p:growl id="growlmsg" showDetail="false"/>
+                    <p:panel styleClass="addPanel">
+                        <f:facet name="header">
+                            <h:outputText value="Add Employee Qualification"/>
+                        </f:facet>
+                        <table>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.employee']} *"/> &nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="employees" value="#{employeeQualificationsDAO.selectedEmployee}" effect="fade">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>
+                                        <f:selectItems value="#{employeeQualificationsDAO.allEmployees}" var="employeeforcombo" 
+                                                       itemLabel="#{employeeforcombo.firstname} #{employeeforcombo.lastname}" itemValue="#{employeeforcombo.id}"/>  
+                                        <p:ajax listener="#{employeeQualificationsDAO.retrieveQualificationDetails()}" 
+                                                event="change" update="qualifications :frmempQualificationtbl" process="@this"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="Qualifications *"/> &nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="qualifications" value="#{employeeQualificationsDAO.selectedQualifications}" effect="fade">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>
+                                        <f:selectItems value="#{employeeQualificationsDAO.employeeQualificationsToadd}" var="employeeforcombo" itemLabel="#{employeeforcombo.name}" itemValue="#{employeeforcombo.id}"/> 
+                                        <p:ajax process="@this"/>
+                                    </p:selectOneMenu>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.filename']} "/> &nbsp;&nbsp;&nbsp;
+                                </td>
+                                <td>
+                                    <p:fileUpload fileUploadListener="#{employeeQualificationsDAO.handleFileUpload}"  
+                                                  mode="advanced"  
+                                                  update="growlmsg"  
+                                                  auto="true" allowTypes="/(\.|\/)(pdf)$/">
+
+                                    </p:fileUpload>                                         
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" actionListener="#{employeeQualificationsDAO.addEmployeeQualification}" 
+                                                     process="@form" update=":frmempQualificationAdd :frmempQualificationtbl growlmsg"/>
+                                </td>
+                            </tr>
+                        </table>                                              
+                    </p:panel>
+                </h:form>
+                <h:form id="frmempQualificationtbl">
+                    <p:contextMenu for="tblempqualification">  
+                        <p:menuitem value="Remove" icon="ui-icon-delete" actionListener="#{employeeQualificationsDAO.removeEmployeeQualification()}" 
+                                    process="@form" update="@form tblempqualification :frmempQualificationAdd:growlmsg" /> 
+                    </p:contextMenu>
+                    <p:scrollPanel mode="native" style="width:79.5%;position: absolute; top:54%;-webkit-box-shadow: 3px 3px 9px 1px darkgray;
+                                   box-shadow:5px 4px 4px darkgray ; border-bottom-left-radius:12px;border-bottom-right-radius: 12px" >
+                        <p:dataTable id="tblempqualification" paginator="true" rows="2" 
+                                     paginatorPosition="bottom" rowIndexVar="srno" value="#{employeeQualificationsDAO.employeeQualifications}" 
+                                     var="empqualification" rowKey="#{empqualification.id}" 
+                                     selection="#{employeeQualificationsDAO.selectedEmpQualification}" selectionMode="single" >
+                            <f:facet name="header">
+                                Employee Qualifications
+                            </f:facet>
+                            <p:column headerText="SRNO" styleClass="tblHeader">
+                                #{srno+1}
+                            </p:column>
+                            <p:column headerText="QualificationName" styleClass="tblHeader">
+                                <h:outputText value="#{empqualification.qualifications.name}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Download" actionListener="#{employeeQualificationsDAO.downloadFileController()}" onclick="PrimeFaces.monitorDownload(showStats, hideStats)" ajax="false" process="@form">
+                                    <p:fileDownload value="#{employeeQualificationsDAO.fileDownload}"/>                                    
+                                </p:commandButton>
+                            </f:facet>
+                        </p:dataTable>
+                    </p:scrollPanel>
+                </h:form>
+            </p:panel>
+        </div>  
+        <p:dialog modal="true" widgetVar="statusDlg" draggable="false" closable="false" resizable="false" style="background-color: darkgray;">  
+            <p:graphicImage value="#{forceSessionCreateA.separator}img#{forceSessionCreateA.separator}ajax-loader.gif" />  
+        </p:dialog> 
+    </h:body>
+</html>
+

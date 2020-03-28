@@ -1,0 +1,79 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="frmItemDetailsAddUpd">
+        <p:growl id="msggrol"/>
+        <div align="left">
+            <table>
+                <tr>
+                    <td>
+                        <h:outputText value="Serial No."/>
+                    </td>
+                    <td>
+                        <p:inputText value="#{itemDetailsDAO.selectedItemDetails.manufserialno}" required="true" requiredMessage="#{i18n['ui.serialnoiRequired']}"/>
+                    </td>
+                    <td>
+                        <h:outputText value="Code"/>
+                    </td>
+                    <td>
+                        <p:inputText value="#{itemDetailsDAO.selectedItemDetails.code}" required="true" requiredMessage="#{i18n['ui.codeRequired']}" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="Purchase Date"/>
+                    </td>
+                    <td>
+                        <p:calendar value="#{itemDetailsDAO.selectedItemDetails.purchaseDate}" pattern="yyyy-MM-dd"/>
+                    </td>
+                    <td>
+                        <h:outputText value="Exp Date"/>
+                    </td>
+                    <td>
+                        <p:calendar value="#{itemDetailsDAO.selectedItemDetails.warrentyexpDate}" pattern="yyyy-MM-dd"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h:outputText value="Specification"/>
+                    </td>
+                    <td>
+                        <p:inputTextarea value="#{itemDetailsDAO.selectedItemDetails.specifications}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <p:commandButton value="Add" actionListener="#{itemDetailsDAO.addItemDetails()}" process="@form" update="@form :tbvItem:frmItemDetailsAddUpd:msggrol :tbvItem:frmItemDetailstbl"/>
+                    </td>
+                    <td>
+                        <p:commandButton value="Next" actionListener="#{itemDAO.nextTabToChange}" process="@this"/>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </h:form>
+    <h:form id="frmItemDetailstbl">
+        <p:dataTable paginator="true" paginatorPosition="bottom" rows="5" value="#{itemDetailsDAO.allItemDetails}" var="eachItemDetails" 
+                     rowKey="#{eachItemDetails.id}">
+            <p:column headerText="#{i18n['ui.serialNo']}" styleClass="tblHeader">
+                <h:outputText value="#{eachItemDetails.manufserialno}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.code']}" styleClass="tblHeader">
+                <h:outputText value="#{eachItemDetails.code}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.purchasedate']}" styleClass="tblHeader">
+                <h:outputText value="#{eachItemDetails.purchaseDate}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.expdate']}" styleClass="tblHeader">
+                <h:outputText value="#{eachItemDetails.warrentyexpDate}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.specification']}" styleClass="tblHeader">
+                <h:outputText value="#{eachItemDetails.specifications}" style="font-weight: bold"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</ui:composition>
+

@@ -1,0 +1,226 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 27 Sep, 2012 12:53:51 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.Employees" table="EMPLOYEES" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="firstname" type="string">
+            <column name="FIRSTNAME" not-null="true" />
+        </property>
+        <property name="lastname" type="string">
+            <column name="LASTNAME" not-null="true" />
+        </property>
+        <property name="joiningDate" type="date">
+            <column name="JOINING_DATE" length="10" not-null="true"></column>
+        </property>
+        <property name="leavingDate" type="date">
+            <column name="LEAVINGDATE" length="10"/>
+        </property>
+        <property name="leavingReason" type="string">
+            <column name="LEAVINGREASON" />
+        </property>
+        <property name="tempAddress" type="string">
+            <column name="TEMP_ADDRESS" not-null="true" />
+        </property>
+        <property name="permAddress" type="string">
+            <column name="PERM_ADDRESS" not-null="true" />
+        </property>
+        <property name="gender" type="char">
+            <column name="GENDER" length="1" not-null="true" />
+        </property>
+        <property name="maritalStatus" type="char">
+            <column name="MARITAL_STATUS" length="1" not-null="true" />
+        </property>
+        <property name="tempPin" type="string">
+            <column name="TEMP_PIN" length="25" not-null="true" />
+        </property>
+        <property name="permPin" type="string">
+            <column name="PERM_PIN" length="25" not-null="true" />
+        </property>
+        <property name="birthDate" type="date">
+            <column name="BIRTH_DATE" length="10" not-null="true" />
+        </property>
+        <property name="passportNo" type="string">
+            <column name="PASSPORT_NO" length="25" />
+        </property>
+        <property name="passportExpdate" type="date">
+            <column name="PASSPORT_EXPDATE" length="10" />
+        </property>
+        <property name="passportCopy" type="string">
+            <column name="PASSPORT_COPY" length="25" />
+        </property>
+        <property name="emerCtc" type="string">
+            <column name="EMER_CTC" length="25" not-null="true" />
+        </property>
+        <property name="emerCtcNo" type="string">
+            <column name="EMER_CTC_NO" length="25" not-null="true" />
+        </property>
+        <property name="emerCtcRel" type="string">
+            <column name="EMER_CTC_REL" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="16" not-null="true" />
+        </property>
+        <property name="nationality" type="string">
+            <column name="NATIONALITY" length="50" not-null="true" />
+        </property>
+        <property name="tempCity" type="string">
+            <column name="TEMP_CITY" length="50" not-null="true" />
+        </property>
+        <property name="tempState" type="string">
+            <column name="TEMP_STATE" length="50" not-null="true" />
+        </property>
+        <property name="tempCountry" type="string">
+            <column name="TEMP_COUNTRY" length="50" not-null="true" />
+        </property>
+        <property name="permCity" type="string">
+            <column name="PERM_CITY" length="50" not-null="true" />
+        </property>
+        <property name="permState" type="string">
+            <column name="PERM_STATE" length="50" not-null="true" />
+        </property>
+        <property name="permCountry" type="string">
+            <column name="PERM_COUNTRY" length="50" not-null="true" />
+        </property>
+        <property name="photo" type="string">
+            <column name="PHOTO" length="50" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="employeeno" type="string">
+            <column name="EMPLOYEENO" length="25" not-null="true" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" />
+        </property>  
+        
+        <set name="employeeDocuments" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeDocuments"/>
+        </set>
+        <set name="employeeQualifications" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeQualifications"/>
+        </set>
+        <set name="employeeResponsibilities" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeResponsibilities"/>
+        </set>
+        <set name="employeeDetails" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeDetails"/>
+        </set>
+        <set name="employeePropertyIssued" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.PropertyIssue"/>
+        </set>
+        <set name="employeeDesignations" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeDesignations"/>
+        </set>
+        <set name="employeeEmploymenttypes" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.EmployeeEmpntTypes"/>
+        </set>
+        <set name="users" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Users"/>
+        </set>
+        <set name="projectIncharge" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.ProjectIncharge"/>
+        </set>
+        <set name="departmentIncharge" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.DepartmentIncharge"/>
+        </set>
+        <set name="inwordse" inverse="true">
+            <key>
+                <column name="FORWARDED_TO" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Inwordse"/>
+        </set>
+        <set name="todofor" inverse="true">
+            <key>
+                <column name="TODOFOR" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Todos"/>
+        </set>
+        <set name="requestTo" inverse="true">
+            <key>
+                <column name="REQUEST_TO" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.IcTo"/>
+        </set>
+        <set name="requestFrom" inverse="true">
+            <key>
+                <column name="REQUEST_FROM" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.InternalCommunication"/>
+        </set>
+        <set name="icFolders" inverse="true">
+            <key>
+                <column name="EMPLOYEEID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.IcFolders"/>
+        </set>   
+    </class>    
+</hibernate-mapping>

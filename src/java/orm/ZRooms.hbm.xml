@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.ZRooms" table="Z_ROOMS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="roomsid" type="int">
+            <column name="ROOMSID" not-null="true" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" length="50" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="15" />
+        </property>
+        <property name="roomtypeid" type="int">
+            <column name="ROOMTYPEID" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

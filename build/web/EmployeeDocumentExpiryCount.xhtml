@@ -1,0 +1,19 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <h:form>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <p:notificationBar id="notificationbar" position="bottom" effect="slide" widgetVar="bar" style="filter:alpha(opacity=80);opacity:0.8;padding:20px 0 0 20px;">  
+            <p:panel style="width: 80%; alignment-adjust: middle;position: relative;left: 8%;top: 1%; ">
+                <a href="#" onclick="bar.hide()" onmousedown="myPoll.start();" style="float: right;color:red;">Close</a><br/>
+                <a href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}faces#{forceSessionCreateA.separator}employeeDocDetails.xhtml" style="color:red;font-size:36px;">Number of Expired Documents of Employees :</a>
+                <h:outputLabel value="#{employeeDocumentDetailsDAO.count}" style="color:red;font-size:36px;"/>                     
+            </p:panel>
+        </p:notificationBar> <br/><br/><br/><br/> 
+        <p:poll interval="10" listener="#{employeeDocumentDetailsDAO.employeeDocExpCount()}" 
+                oncomplete="bar.show()" widgetVar="myPoll" onsuccess="myPoll.stop();" update="notificationbar" /> 
+    </h:form>
+</ui:composition>

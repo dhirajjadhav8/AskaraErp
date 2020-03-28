@@ -1,0 +1,151 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Area Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforarea.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}panelstyle.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforlogout.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{areaDAO.retrieveAllArea}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{roomsDAO.retrieveAllRooms}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{flooresDAO.retrieveAllFloores}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{buildingsDAO.retrieveAllBuildings}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{areaTypesDAO.retrieveAllAreaType}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmArea" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/> 
+                    <p:panel styleClass="searchPanel">
+                        <f:facet name="header">
+                            <h:outputText value="#{i18n['ui.SearchArea']}" style="float: left;"/>
+                        </f:facet>
+                        <div align="left">
+                            <table>                          
+                                <tr>
+                                    <td>
+                                        <h:outputLabel value="#{i18n['ui.code']} *  " style="font-weight: bold;text-align: center"/>  
+                                        <p:inputText id="inptCode" value="#{areaDAO.selectedArea.code}" required="true" requiredMessage="Code is required."/>
+                                    </td>
+                                    <td>
+
+                                        <h:outputLabel value="#{i18n['ui.Room']} *      " style="font-weight: bold;text-align: center;"/> 
+
+                                        <p:selectOneMenu  id="room" value="#{roomsDAO.selectedRoom.id}" required="true" requiredMessage="Please select at least one room.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/>
+                                            <f:selectItems value="#{roomsDAO.allRooms}" var="eachRoom" itemLabel="#{eachRoom.name}" itemValue="#{eachRoom.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:commandButton value=" " title="Add Room" actionListener="#{roomsDAO.removeSelected}" icon="ui-icon-plus" style="height: 100%;text-align: center;width: 15%;left: 2%" oncomplete="DlgAreaConfirm.show()" process="@this" update=":confirmAreaDlg">
+                                            <f:setPropertyActionListener value="room" target="#{mainIncludeFilesSelect.includeFile}"/>
+                                        </p:commandButton>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel value="#{i18n['ui.Floores']} *  " style="font-weight: bold"/>
+
+                                        <p:selectOneMenu  id="floores" value="#{flooresDAO.selectedFloore.id}" required="true" requiredMessage="Please select at least one floore.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/> 
+                                            <f:selectItems value="#{flooresDAO.allFloores}" var="eachFloore" itemLabel="#{eachFloore.name}" itemValue="#{eachFloore.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:commandButton value=" " title="Add Floore" actionListener="#{flooresDAO.removeSelected}" icon="ui-icon-plus" style="height: 100%;text-align: center;width: 15%;left: 2%" oncomplete="DlgAreaConfirm.show()" process="@this" update=":confirmAreaDlg">
+                                            <f:setPropertyActionListener value="floores" target="#{mainIncludeFilesSelect.includeFile}"/>
+                                        </p:commandButton>
+                                    </td>
+                                    <td>
+                                        <h:outputLabel value="#{i18n['ui.Buildings']} *  " style="font-weight: bold"/>
+
+                                        <p:selectOneMenu  id="Buildings" value="#{buildingsDAO.selectedBuilding.id}" required="true" requiredMessage="Please select at least one Building.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/>  
+                                            <f:selectItems value="#{buildingsDAO.allBuildings}" var="eachBuilding" itemLabel="#{eachBuilding.name}" itemValue="#{eachBuilding.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:commandButton value=" " title="Add Building" actionListener="#{buildingsDAO.removeSelected}" style="height: 100%;text-align: center;width: 15%;left: 2%" icon="ui-icon-plus" oncomplete="DlgAreaConfirm.show()" process="@this" update=":confirmAreaDlg">
+                                            <f:setPropertyActionListener value="Buildings" target="#{mainIncludeFilesSelect.includeFile}"/>
+                                        </p:commandButton>
+                                    </td>  
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel value="#{i18n['ui.AreaTypes']} *  " style="font-weight: bold"/> 
+
+                                        <p:selectOneMenu  id="AreaTypes" value="#{areaTypesDAO.selectedAreaType.id}" required="true" requiredMessage="Please select at least one AreaType.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/> 
+                                            <f:selectItems value="#{areaTypesDAO.allAreaTypes}" var="eachAreatype" itemLabel="#{eachAreatype.name}" itemValue="#{eachAreatype.id}"/>
+                                        </p:selectOneMenu>
+                                        <p:commandButton value=" " title="Add AreaType" oncomplete="DlgAreaConfirm.show()" style="height: 100%;text-align: center;width: 15%;left: 2%" icon="ui-icon-plus" process="@this" update=":confirmAreaDlg">
+                                            <f:setPropertyActionListener value="AreaTypes" target="#{mainIncludeFilesSelect.includeFile}"/>
+                                        </p:commandButton>
+                                    </td>  
+
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <p:commandButton value="Add" actionListener="#{areaDAO.addArea}" process="@form" update="@form growlmsg :frmAreatbl:tblArea"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </p:panel>
+                </h:form>
+                <h:form id="frmAreatbl">
+                    <p:dataTable id="tblArea" paginator="true" rowStyleClass="rowheights" rows="2" paginatorPosition="bottom" 
+                                 value="#{areaDAO.allArea}" var="eachArea" rowKey="#{eachArea.id}"
+                                 style=" width: 79.8%;height: 50%;position: absolute;top:51.5%;border-radius: 12px;left:10% ;">
+
+                        <p:column headerText="#{i18n['ui.Buildings']}" styleClass="tblHeader" sortBy="#{eachArea.buildings.code}" filterBy="#{eachArea.buildings.code}" 
+                                  filterMatchMode="exact">
+                            <h:outputText value="#{eachArea.buildings.code}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.Floores']}" styleClass="tblHeader" sortBy="#{eachArea.floores.code}">
+                            <h:outputText value="#{eachArea.floores.code}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.Room']}" styleClass="tblHeader" sortBy="#{eachArea.rooms.code}">
+                            <h:outputText value="#{eachArea.rooms.code}" style="font-weight: bold"/>
+                        </p:column>                        
+                        <p:column headerText="#{i18n['ui.Area']}" styleClass="tblHeader" sortBy="#{eachArea.code}">
+                            <h:outputText value="#{eachArea.code}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.AreaTypes']}" styleClass="tblHeader" sortBy="#{eachArea.areatypes.name}">
+                            <h:outputText value="#{eachArea.areatypes.name}" style="font-weight: bold"/>
+                        </p:column>
+                    </p:dataTable>                    
+                </h:form>
+            </p:panel>
+        </div>        
+        <p:confirmDialog id="confirmAreaDlg" widgetVar="DlgAreaConfirm" closable="false" style="width: 90%; height: 60%;left:10%; top: 10%;">
+            <f:facet name="header">
+                <h:outputText value="Add Room" rendered="${mainIncludeFilesSelect.includeFile == 'room'}"/>
+                <h:outputText value="Add Floores" rendered="${mainIncludeFilesSelect.includeFile == 'floores'}"/>
+                <h:outputText value="Add Buildings" rendered="${mainIncludeFilesSelect.includeFile == 'Buildings'}"/>
+                <h:outputText value="Add Area Types" rendered="${mainIncludeFilesSelect.includeFile == 'AreaTypes'}"/>
+            </f:facet>
+            <h:panelGroup id="pnlroom" rendered="${mainIncludeFilesSelect.includeFile == 'room'}">
+                <ui:include src="addRoom.xhtml"/>
+            </h:panelGroup>
+            <h:panelGroup id="pnlFloores" rendered="${mainIncludeFilesSelect.includeFile == 'floores'}">
+                <ui:include src="addFloore.xhtml"/>
+            </h:panelGroup>
+            <h:panelGroup id="pnlBuildings" rendered="${mainIncludeFilesSelect.includeFile == 'Buildings'}">
+                <ui:include src="addBuildings.xhtml"/>
+            </h:panelGroup>
+            <h:panelGroup id="pnlAreaTypes" rendered="${mainIncludeFilesSelect.includeFile == 'AreaTypes'}">
+                <ui:include src="addAreaTypes.xhtml"/> 
+            </h:panelGroup>
+            <p:commandButton value="Finish" onclick="DlgAreaConfirm.hide()" update=":frmArea"/>
+        </p:confirmDialog>
+        <ui:include src="addRoomTypes.xhtml"/>
+    </h:body>
+</html>
+

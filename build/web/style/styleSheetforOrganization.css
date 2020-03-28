@@ -1,0 +1,86 @@
+/* 
+    Document   : styleSheetforOrganization
+    Created on : 14 Jun, 2013, 4:53:23 PM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.body{
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.form{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+.rowheights{
+    height: 10%;
+}
+
+.mainpanel{
+
+    background-color: white;
+    height: 100%;
+    width: 81%;
+    border-radius: 12px;
+    /*   background-image: url(/EmployeeManagement/img/askara.jpg);
+       background-repeat: no-repeat; */
+    -webkit-box-shadow: 5px 5px 4px black;
+    box-shadow: 5px 5px 4px rgb(136 136 136);
+}
+
+.banerimage{
+
+    padding-left: 0px;
+    height: 14%;
+    width:52.1%;
+    margin-right: 30%; 
+    position: absolute;  
+    left: 9.5%;
+    top: 0.4%;
+    border-radius: 12px;
+}
+
+
+.horizontalSeparator{
+
+    width: 79.5%;
+    height: 1.1%;
+    position: absolute;
+    top:14%;
+    left:10% ;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+
+.searchPanel{
+    width: 79.5%; 
+    height: 14%;
+    position: absolute; 
+    top:23%;
+    border-width: 1px;
+    left:10% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+
+.ui-menubar {
+    position: absolute;
+    top:17%;
+    width: 79.5%;
+    left:10% ;
+}
+p {
+    display: none;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}

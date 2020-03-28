@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 5 Oct, 2012 10:24:47 AM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.EmployeeDocuments" table="EMPLOYEE_DOCUMENTS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="expairyDate" type="date">
+            <column name="EXPAIRY_DATE" length="10" />
+        </property>
+        <many-to-one name="documents" class="orm.Documents" fetch="select">
+            <column name="DOCUMENTID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>        
+        <many-to-one name="employees" class="orm.Employees" fetch="select">
+            <column name="EMPLOYEEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>  
+        <property name="filename" type="string">
+            <column name="FILENAME" />
+        </property>
+        
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+       
+    </class>
+</hibernate-mapping>

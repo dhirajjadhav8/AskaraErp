@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Internal Communication Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}styleSheetforOrganization.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/> 
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{organizationDAO.retrieveAllOrganization()}"/> 
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddOrganization" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>   
+                </h:form>
+                <h:form id="frmOrganizationTable">
+                    <p:dataTable id="tblOrganization" paginator="true" value="#{organizationDAO.allOrganizations}" var="eachOrganization" selection="#{organizationDAO.selectedOrganizationToUpdate}"
+                                 selectionMode="single" rowKey="#{eachOrganization.id}" paginatorPosition="bottom" rows="12" rowIndexVar="srno" style="position: absolute;top: 23.5%;width: 80%;left: 10%;">
+
+                        <p:ajax event="rowSelect" listener="#{organizationDAO.onRowSelect()}" process="@form" update="@form :confirmDlgForOrganization" oncomplete="DlgConfirmOrganization.show();" /> 
+                        <p:column headerText="SrNo" style="width: 10%;text-align: center;">
+                            #{srno+1}
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.name']}">
+                            <h:outputText value="#{eachOrganization.name}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Add" process="@this" update="@form :confirmDlgForOrganization" oncomplete="DlgConfirmOrganization.show();">
+                                <f:setPropertyActionListener value="addOrganization" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+        <p:confirmDialog id="confirmDlgForOrganization" widgetVar="DlgConfirmOrganization" closable="false" style="width: 80%; height: 60%;left:10%; top: 5%;">
+            <f:facet name="header">
+                <h:outputText value="Add Organizaion" rendered="#{mainIncludeFilesSelect.includeFile == 'addOrganization'}"/>
+                <h:outputText value="Update Organizaion" rendered="#{mainIncludeFilesSelect.includeFile == 'updateOrganization'}"/>
+            </f:facet>
+            <h:panelGroup id="pnladdOrganization" rendered="${mainIncludeFilesSelect.includeFile == 'addOrganization' || mainIncludeFilesSelect.includeFile == 'updateOrganization'}">
+                <ui:include src="addOranisation.xhtml"/> 
+            </h:panelGroup>
+            <p:commandButton value="Finish" actionListener="#{organizationDAO.finishUploading()}" onclick="DlgConfirmOrganization.hide();" update=":frmOrganizationTable"/> 
+        </p:confirmDialog>
+    </h:body>
+</html>

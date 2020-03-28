@@ -1,0 +1,28 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveAllOldInboxIntercommunication()}"/>
+    <h:form id="frmOldInbox">
+        <h:panelGroup id="pnlOldInbox">
+            <p:scrollPanel id="scrInbox" style="width: 800px;height: 360px;" mode="native">
+                <p:dataTable id="inboxOldtbl" paginator="true" paginatorPosition="bottom" rows="5" value="#{internalCommunicationDAO.allOldInboxInterCommunication}"
+                             var="eachOldInbox" selection="#{internalCommunicationDAO.selectedInnerCommOldInboxView}" selectionMode="single" rowKey="#{eachOldInbox.id}">
+                    <p:ajax event="rowSelect" listener="#{internalCommunicationDAO.removeSelected()}" process="@this" update="@form :tbvInternalComunication:confirmDlgForInbox"/>
+                    <p:column headerText="#{i18n['ui.Date']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachOldInbox.requestDate}"/>
+                    </p:column>   
+                    <p:column headerText="#{i18n['ui.from']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachOldInbox.requestFrom.firstname} #{eachOldInbox.requestFrom.lastname}"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.subject']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachOldInbox.subject}"/>
+                    </p:column>                                     
+                </p:dataTable>                
+            </p:scrollPanel>
+        </h:panelGroup>
+    </h:form>
+</ui:composition>

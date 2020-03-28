@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.InternalCommunication" table="INTERNAL_COMMUNICATION" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="subject" type="string">
+            <column name="SUBJECT" not-null="true" />
+        </property>
+        <property name="status" type="char">
+            <column name="STATUS" length="1" not-null="true" />
+        </property>
+        <property name="requestDate" type="date">
+            <column name="REQUEST_DATE" length="10" not-null="true" />
+        </property>
+        <property name="details" type="string">
+            <column name="DETAILS" length="32672" not-null="true" />
+        </property>
+        <many-to-one name="requestFrom" class="orm.Employees" fetch="select">
+            <column name="REQUEST_FROM" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="messagetype" type="char">
+            <column name="MESSAGETYPE" length="1" not-null="true" />
+        </property>
+        <many-to-one name="outboxicfolders" class="orm.IcFolders" fetch="select">
+            <column name="OUTBOXICFOLDERID">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="rejectedReason" type="string">
+            <column name="REJECTED_REASON" />
+        </property>
+        <property name="rejectedDate" type="date">
+            <column name="REJECTED_DATE" length="10" />
+        </property>
+        <property name="notes" type="string">
+            <column name="NOTES" length="32672" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="msgFlag" type="char">
+            <column name="MSG_FLAG" length="1" not-null="true" />
+        </property>
+        <set name="attachements" inverse="true">
+            <key>
+                <column name="INTERNALCOMMUNICATIONID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Attachements"/>
+        </set>
+        <set name="icTo" inverse="true">
+            <key>
+                <column name="INTERNALCOMMUNICATIONID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.IcTo"/>
+        </set>
+    </class>
+</hibernate-mapping>

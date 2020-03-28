@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.Area" table="AREA" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="code" type="string">
+            <column name="CODE" not-null="true" />
+        </property>
+        <many-to-one name="rooms" class="orm.Rooms" fetch="select">
+            <column name="ROOMSID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <many-to-one name="floores" class="orm.Floores" fetch="select">
+            <column name="FLOORESID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <many-to-one name="buildings" class="orm.Buildings" fetch="select">
+            <column name="BUILDINGSID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>  
+        <many-to-one name="areatypes" class="orm.AreaTypes" fetch="select">
+            <column name="AREATYPESID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="storage" inverse="true">
+            <key>
+                <column name="AREAID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Storage"/>
+        </set>
+    </class>
+</hibernate-mapping>

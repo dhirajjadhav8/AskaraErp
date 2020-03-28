@@ -1,0 +1,40 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+    <h:form id="frmAddAreaTypes">
+        <p:scrollPanel id="scrAddAreaTypes" style="height: 220px;width: 320px;" mode="native">
+            <div align="center">
+                <p:panelGrid style="position: absolute;top: 22%;left: 5%;width: 90%;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column>
+                            <p:inputText value="#{areaTypesDAO.selectedAreaType.name}" required="true" requiredMessage="#{i18n['ui.msg.Name']}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="Add" actionListener="#{areaTypesDAO.addAreaType}" process="@form" update="@form :frmArea:growlmsg"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <p:dataTable id="tblAreaTypes" paginator="true" rowStyleClass="rowheights" rows="2" paginatorPosition="bottom" rowIndexVar="srno" 
+                             value="#{areaTypesDAO.allAreaTypes}" var="eachAreaType" rowKey="#{eachAreaType.id}"
+                             style=" width: 90%;height: 50%;position: absolute;top:50.5%;border-radius: 12px;left:5% ;">
+                    <p:column headerText="SrNo" styleClass="tblHeader">
+                        #{srno+1}
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachAreaType.name}" style="font-weight: bold"/>
+                    </p:column> 
+                </p:dataTable>
+            </div>
+        </p:scrollPanel>
+    </h:form>
+</ui:composition>

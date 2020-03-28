@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.Inwordse" table="INWORDSE" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="inNo" type="string">
+            <column name="IN_NO" not-null="true" />
+        </property>
+        <property name="inDate" type="date">
+            <column name="IN_DATE" length="10" not-null="true" />
+        </property>
+        <property name="type" type="char">
+            <column name="TYPE" length="1" not-null="true" />
+        </property>
+        <property name="deliverymode" type="char">
+            <column name="DELIVERYMODE" length="1" not-null="true" />
+        </property>
+        <property name="comments" type="string">
+            <column name="COMMENTS" />
+        </property>
+        <many-to-one name="ifrom" class="orm.Contacts" fetch="select">
+            <column name="IFROM" not-null="true">
+                <comment />
+            </column>
+        </many-to-one>
+        <many-to-one name="forwardedTo" class="orm.Employees" fetch="select">
+            <column name="FORWARDED_TO" not-null="true">
+                <comment />
+            </column>
+        </many-to-one>
+        <property name="isreceived" type="boolean">
+            <column name="ISRECEIVED" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

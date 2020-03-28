@@ -1,0 +1,69 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Internal Communication Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}styleSheetForBranches.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/> 
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{branchesDAO.retrieveAllBranches()}"/> 
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddBranches" styleClass="form">
+                    <p:growl id="growlBranchesmsg" showDetail="false"/>   
+                </h:form>
+
+                <h:form id="frmBranchesTable">
+                    <p:dataTable id="tblBranches" paginator="true" value="#{branchesDAO.allBranches}" var="eachBranch" 
+                                 selection="#{branchesDAO.selectedBranchUpdate}" selectionMode="single" rowKey="#{eachBranch.id}"
+                                 paginatorPosition="bottom" rows="12" rowIndexVar="srno" style="position: absolute;top: 23.5%;width: 80%;left: 10%;">
+                        <p:ajax event="rowSelect" listener="#{branchesDAO.onRowSelect()}" process="@form" update="@form :confirmDlgForBranches" 
+                                oncomplete="DlgConfirmBranches.show();"/> 
+                        <p:column headerText="SrNo" style="width: 10%;text-align: center;">
+                            #{srno+1}
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.name']}">
+                            <h:outputText value="#{eachBranch.name}"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.address']}">
+                            <h:outputText value="#{eachBranch.address}"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.phone']}">
+                            <h:outputText value="#{eachBranch.phone}"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.Organization']}">
+                            <h:outputText value="#{eachBranch.organization.name}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Add" process="@this" update="@form :confirmDlgForBranches" oncomplete="DlgConfirmBranches.show();">
+                                <f:setPropertyActionListener value="addBranches" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+        <p:confirmDialog id="confirmDlgForBranches" widgetVar="DlgConfirmBranches" closable="false" style="width: 80%; height: 60%;left:10%; top: 5%;">
+            <f:facet name="header">
+                <h:outputText value="Add Branch" rendered="#{mainIncludeFilesSelect.includeFile == 'addBranches'}"/>
+                <h:outputText value="Update Branch" rendered="#{mainIncludeFilesSelect.includeFile == 'updateBranch'}"/>
+            </f:facet>
+            <h:panelGroup id="pnladdOrganization" rendered="${mainIncludeFilesSelect.includeFile == 'addBranches' || mainIncludeFilesSelect.includeFile == 'updateBranch'}" >
+                <ui:include src="addBranches.xhtml"/>
+            </h:panelGroup>
+            <p:commandButton value="Finish" actionListener="#{branchesDAO.finishUploading()}" onclick="DlgConfirmBranches.hide();" update=":frmBranchesTable"/> 
+        </p:confirmDialog>
+
+    </h:body>
+</html>
+

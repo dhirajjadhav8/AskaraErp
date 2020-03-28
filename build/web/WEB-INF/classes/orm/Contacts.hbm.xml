@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   <class name="orm.Contacts" table="CONTACTS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="address" type="string">
+            <column name="ADDRESS" not-null="true" />
+        </property>
+        <property name="phone" type="string">
+            <column name="PHONE" length="16" />
+        </property>
+        <property name="mobile" type="string">
+            <column name="MOBILE" length="16" />
+        </property>
+        <property name="email" type="string">
+            <column name="EMAIL" />
+        </property>
+        <property name="comments" type="string">
+            <column name="COMMENTS" />
+        </property>
+        <many-to-one name="contacttypes" class="orm.ContactTypes" fetch="select">
+            <column name="CONTACTTYPEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+         <set name="inwordse" inverse="true">
+            <key>
+                <column name="IFROM" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Inwordse"/>
+        </set>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,265 @@
+/* 
+    Document   : stylesheetformain
+    Created on : 4 Oct, 2012, 12:39:53 PM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.body{
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.form{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+.rowheights{
+    height: 10%;
+}
+
+.mainpanel{
+
+    background-color: white;
+    height: 100%;
+    width: 81%;
+    border-radius: 12px;
+    /*   background-image: url(/EmployeeManagement/img/askara.jpg);
+       background-repeat: no-repeat; */
+    -webkit-box-shadow: 5px 5px 4px black;
+    box-shadow: 5px 5px 4px rgb(136 136 136);
+}
+
+.banerimage{
+
+    padding-left: 0px;
+    height: 14%;
+    width:52.1%;
+    margin-right: 30%; 
+    position: absolute;  
+    left: 9.5%;
+    top: 0.4%;
+    border-radius: 12px;
+}
+
+
+.horizontalSeparator{
+
+    width: 79.5%;
+    height: 1.1%;
+    position: absolute;
+    top:14%;
+    left:10% ;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+
+.searchPanel{
+    width: 79.5%; 
+    height: 14%;
+    position: absolute; 
+    top:23%;
+    border-width: 1px;
+    left:10% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+
+.outputLabelForFirstname{
+
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute;
+    top: 58%;left: 1%
+}
+
+.inputTxtBox{
+    position: absolute; 
+    top: 54%;
+    left:5%;
+    width: 15%;
+    size: 10px;
+    font-size: 100%;
+}
+.oneselect{
+    position: absolute; 
+    top: 54%;
+    left:45%;
+    width: 15%;
+    size: 10px;
+    font-size: 100%;
+}
+
+.outputLabelForLastname{
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute; 
+    top: 58%;
+    left: 34%;
+}
+
+.outputLabelForEmployeeStatus{
+    font-size: 15px;
+    font-weight: bold;
+    position: absolute; 
+    top: 78%;
+    left: 45%;
+}
+
+.inputTxtBoxForLastname{
+
+    position: absolute; 
+    top: 54%;
+    left: 25%;
+    width: 15%;
+    size: 10px;
+}
+
+table {
+    border-collapse: separate;
+    border-spacing: 1px;
+
+}
+
+td, th {
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 0;
+}
+.tblHeader{
+    height: 10%;
+    width: 10%;
+    font-size: 100%;
+}
+.tabviews{
+    position: absolute;
+    top:17%;
+    width: 79%;
+
+}
+.ui-menubar {
+    position: absolute;
+    top:17%;
+    width: 79.5%;
+    left:10% ;
+}
+
+
+.ui-datatable table {
+    border-collapse: collapse;
+    /*    width: 79.8%;
+        height: 50%;
+        position: absolute; 
+        top:38.5%;
+        border-radius: 12px; 
+        left:10% ;*/
+    text-align: center;
+    border-width: 1px;resize: none;
+    /*   -webkit-box-shadow: 4px 5px 6px 1px darkgray;
+        box-shadow:5px 5px 6px 1px darkgray;*/
+}
+.ui-panelgrid {
+    border-collapse: collapse;
+    max-width: 80%;
+}
+
+.ui-panelgrid td {
+    border-width: 1px;
+    border-style: solid;
+    border-color: lightgray;
+
+}
+.columnwidth{
+    width:30%;
+    word-wrap:break-word;
+}
+.labelfield{
+    width:20%;
+    word-wrap:break-word;
+}
+.panelwidth{
+    width: 20%;
+}
+
+.ui-dialog .ui-dialog-content {
+    position: relative;
+    border: 0;
+    padding:  .1em .2em;
+    background: none;
+    overflow: visible;
+    zoom: 0;
+}/*
+/*.ui-helper-clearfix::after {
+content: none;
+
+clear: both;
+visibility: hidden;
+}*/
+
+/*.ui-dialog .ui-dialog-titlebar {
+    padding: 1.5em 1.5em 1em 1em;
+
+position: relative;
+border: 0px;
+}*/
+
+.ui-confirm-dialog-severity {
+    float: right;
+    margin: 3px 7px 25px 0;
+}
+/*.ui-icon ui-icon-alert ui-confirm-dialog-severity {
+display: block;
+width: 0px;
+height: 0px;
+text-indent: -99999px;
+overflow: visible;
+background-repeat: no-repeat;
+}*/
+/*.ui-icon {
+    position: relative;
+top: -6px;
+    float: right;
+width: 0px;
+height: 0px;
+background-image: url("/askara/faces/javax.faces.resource/images/ui-icons_616161_256x240.png?ln=primefaces-aristo");
+}*/
+
+p {
+    display: none;
+    -webkit-margin-before: 0em;
+    -webkit-margin-after: 0em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px;
+}
+/*.ui-dialog .ui-dialog-buttonpane {
+text-align: left;
+border-width: 1px 0 0 0;
+background-image: none;
+margin: 0;
+padding: .3em 0.4em .5em .4em;
+padding-top: 0.3em;
+padding-right: 1em;
+padding-bottom: 0.5em;
+padding-left: 0.4em;
+}*/
+
+.ui-wizard-step-title {
+    font-size: 14px;
+    margin: 0 1px 0 0;
+    padding: 0.3em;
+    float: left;
+}
+
+
+.stark {
+
+    background-image: url("/AskaraErp/img/Recycle_16.png");
+}
+
+

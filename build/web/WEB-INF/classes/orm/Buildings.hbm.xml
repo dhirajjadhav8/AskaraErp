@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+   <class name="orm.Buildings" table="BUILDINGS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="code" type="string">
+            <column name="CODE" length="50" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="NAME" length="15" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="area" inverse="true">
+            <key>
+                <column name="BUILDINGSID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.Area"/>
+        </set>
+    </class>
+</hibernate-mapping>

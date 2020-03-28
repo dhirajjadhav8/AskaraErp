@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+ <class name="orm.ZAttachements" table="Z_ATTACHEMENTS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="attachementsid" type="int">
+            <column name="ATTACHEMENTSID" not-null="true" />
+        </property>
+        <property name="internalcommunicationid" type="int">
+            <column name="INTERNALCOMMUNICATIONID" />
+        </property>
+        <property name="filename" type="string">
+            <column name="FILENAME" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

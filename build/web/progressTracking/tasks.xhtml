@@ -1,0 +1,93 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Tasks Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforTask.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{taskDAO.retrieveAllTasks()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{taskDAO.retrieveAllActivities()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMainTask" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddTasks" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/> 
+                    <p:panel header="#{i18n['ui.addTask']}" styleClass="addTaskPanel">
+                        <table width="50%">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.name']}"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{taskDAO.selectedTask.name}" required="true" requiredMessage="#{i18n['ui.msg.Name']}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.targrtDate']}"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{taskDAO.selectedTask.targetDate}" mindate="#{mainIncludeFilesSelect.currentDate}" required="true" requiredMessage="#{i18n['ui.msg.TargetDate']}" pattern="yyyy-MM-dd"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.Activity']}"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu id="activityname" value="#{taskDAO.selectedActivity.id}" required="true" requiredMessage="#{i18n['ui.msg.ActivityRequired']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>
+                                        <f:selectItems value="#{taskDAO.allActivities}" var="eachActivity" itemLabel="#{eachActivity.name}" itemValue="#{eachActivity.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" actionListener="#{taskDAO.addTasks}" process="@form" update="@form :frmTaskTbl :frmAddTasks:growlmsg" />
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmTaskTbl">
+                    <p:dataTable id="taskTbl" paginator="true"  value="#{taskDAO.allTasks}" var="eachTask" rowKey="#{eachTask.id}" selection="#{taskDAO.selectTaskToUpdate}"
+                                 selectionMode="single" paginatorPosition="bottom" rows="3" 
+                                 style="position: absolute;top: 44%;width: 79.5%;" resizableColumns="true">
+                        <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachTask.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.targrtDate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachTask.targetDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.Activity']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachTask.activities.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.ActualDate']}" styleClass="tblHeader">
+                            <div align="center">
+                                <p:calendar value="#{eachTask.actualDate}" pattern="yyyy-MM-dd"/>
+                            </div>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.lateReason']}" styleClass="tblHeader">
+                            <p:inputTextarea value="#{eachTask.lateReason}" style="width: 96%;"/>
+                        </p:column>                        
+                    </p:dataTable>
+                    <p:contextMenu for="taskTbl">  
+                        <p:menuitem value="Update" icon="ui-icon-search" process="@form" update=":frmAddTasks:growlmsg">                            
+                        </p:menuitem>  
+                        <p:menuitem value="History" icon="ui-icon-search">                           
+                        </p:menuitem>  
+
+                    </p:contextMenu>  
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

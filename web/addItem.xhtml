@@ -1,0 +1,59 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>       
+    <f:loadBundle basename="employees" var="i18n"/>
+    <p:scrollPanel id="scrAddUpdItem" style="width: 1200px;height: 460px;" mode="native">
+        <div align="center" style="border-width: 0px;">
+            <p:messages id="message"/>
+            <p:growl id="growlmessasge" showDetail="false"/>
+            <h:form id="frmItempDetailsDisplay">
+                <p:panel style="position: absolute;top: 8%;left: 1.5%;width: 96%;border-width: 0px;">
+                    <div align="left">
+                        <tr>
+                            <td>
+                                <p:graphicImage id="imgItemphoto" cache="false" alt="" 
+                                                value="#{itemDAO.selectedItemToDisplay.photo}" rendered="#{itemDAO.selectedItemToDisplay.photo != null}"/>
+
+                            </td><br/>
+                        </tr>
+                        <tr>
+                            <td>
+                                <h:outputText id="itemmodel" value="#{itemDAO.selectedItemToDisplay.model}  "/>
+                            </td>
+
+                            <td>
+                                <h:outputText id="itemtypename" value="#{itemDAO.selectedItemToDisplay.itype.name}  "/>
+                            </td>
+                            <td>
+                                <h:outputText id="itemmakeName" value="#{itemDAO.selectedItemToDisplay.imake.name}  "/>
+                            </td>
+                            <td>
+                                <h:outputText id="itemClassificationname" value="#{itemDAO.selectedItemToDisplay.classification}">
+                                    <f:converter converterId="Consumable"/>
+                                </h:outputText>
+                            </td>
+                        </tr>
+                    </div>
+                </p:panel> 
+            </h:form>
+            <p:panel style="position: absolute;top: 24%;left: 1.5%; width: 96%;height: auto;">
+                <p:tabView id="tbvItem" dynamic="true" widgetVar="tabwiz" cache="false" activeIndex="#{itemDAO.activeIndex}">
+                    <p:tab id="tbItemInfo" title="Item Info" disabled="#{itemDAO.tabviewindex}">  
+                        <ui:include src="itemForm.xhtml"/>
+                    </p:tab>
+                    <p:tab id="tbItemDetailInfo" title="Item Details" disabled="#{itemDAO.tabview}">  
+                        <ui:include src="addItemDetails.xhtml"/>
+                    </p:tab>
+                    <p:tab id="tbItemPoto" title="Item Photo" disabled="#{itemDAO.tabview}">  
+                        <ui:include src="addItemPhoto.xhtml"/>
+                    </p:tab>
+                </p:tabView>
+            </p:panel>
+        </div>
+    </p:scrollPanel>
+</ui:composition>
+

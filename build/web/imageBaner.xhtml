@@ -1,0 +1,19 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="subform">
+        <img src="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}img#{forceSessionCreateA.separator}askara.jpg" class="banerimage" /><br/><br/>
+        
+        <p:ajaxStatus style="width:64px;height:64px;position:fixed;right:5px;bottom:5px">
+            <f:facet name="start">
+                <p:graphicImage value="#{forceSessionCreateA.separator}img#{forceSessionCreateA.separator}loading.gif" />
+            </f:facet>
+            <f:facet name="complete">
+                <h:outputText value="" />
+            </f:facet>
+        </p:ajaxStatus>
+    </h:form>
+</ui:composition>

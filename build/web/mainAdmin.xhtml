@@ -1,0 +1,121 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>MainAdmin Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/style/stylesheetformain.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/style/panelstyle.css"></link> 
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}/style/stylesheetforlogout.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmSearch" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>
+                   
+                    <p:panel header="#{i18n['ui.searchemployees']}" styleClass="searchPanel">
+                        <table width="100%">
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.employeeStatus']} *  " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="employeestatus" value="#{employeesDAO.selectedEmployeeStatus}" effect="fade" required="true" requiredMessage="#{i18n['ui.msg.employeeStatus']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItem itemLabel="Current" id="current" itemValue="Current"/>
+                                        <f:selectItem itemLabel="Past" id="past" itemValue="Past"/>
+                                        <p:ajax process="@this" update="@this"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.projectname']}   " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="projectname" value="#{employeesDAO.selectedProject}" effect="fade">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{employeesDAO.allProjects}" var="project" itemValue="#{project.id}" itemLabel="#{project.name}" /> 
+                                        <p:ajax process="@this" update="@this"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.firstname']} " style="font-weight: bold"/> 
+                                </td>
+                                <td>
+                                    <p:inputText id="txtfirstname" value="#{employeesDAO.strfirstname}">
+                                        <p:ajax listener="#{employeesDAO.retrieveAllEmployeesBysearch()}" event="keyup" update="tblEmployee,growlmsg" process="@this"/>
+                                        <f:validator validatorId="search"/>
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.lastname']} " style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <p:inputText id="txtlastname" value="#{employeesDAO.strlastname}"  >
+                                        <p:ajax listener="#{employeesDAO.retrieveAllEmployeesBysearch()}" event="keyup" update="tblEmployee,growlmsg" process="@this"/>
+                                        <f:validator validatorId="search"/>
+                                    </p:inputText>
+                                </td>
+
+                            </tr>
+                        </table>                      
+
+                    </p:panel>
+                    <p:contextMenu for="tblEmployee">  
+                        <p:menuitem value="View" icon="ui-icon-search" actionListener="#{employeesDAO.updateOnclick()}" process="frmSearch" update="@form"/>  
+                        <p:menuitem value="Add"  icon="ui-icon-search" actionListener="#{employeesDAO.updateforadd()}" process="frmSearch" update="@form"/>  
+                        <p:menuitem value="Update" icon="ui-icon-search" actionListener="#{employeesDAO.updateforupdate()}" process="frmSearch" update="@form"/>  
+                        <p:menuitem value="History" icon="ui-icon-search"  actionListener="#{employeesDAO.updateforHistory()}" process="frmSearch" update="@form"/> 
+                    </p:contextMenu>  
+
+                    <p:dataTable id="tblEmployee" paginator="true" rowStyleClass="rowheights" rows="4" paginatorPosition="bottom" var="eachEmployee" value="#{employeesDAO.searchEmployees}" rowKey="#{eachEmployee.id}" selection="#{employeesDAO.selectedEmployees}"  selectionMode="single">
+
+                        <p:ajax event="rowSelect" listener="#{employeesDAO.onRowSelect}" process="@this" update="@this"/>  
+
+                        <p:column headerText="#{i18n['ui.photo']}" styleClass="tblHeader">
+                            <p:graphicImage cache="false" id="image" value="#{eachEmployee.photo}" style="height: 50px ; width: 50px; alignment-adjust: central"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.firstname']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachEmployee.firstname}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.lastname']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachEmployee.lastname}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.joiningDate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachEmployee.joiningDate}" style="font-weight: bold"/>
+                        </p:column>
+
+                        <p:column headerText="#{i18n['ui.emerCtc']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachEmployee.emerCtc}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.emerCtcNo']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachEmployee.emerCtcNo}" style="font-weight: bold"/>
+                        </p:column>                        
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>       
+        <ui:include src="viewEmployee.xhtml"/> 
+        <ui:include src="addEmployee.xhtml"/>            
+        <ui:include src="UpdateEmployee.xhtml">               
+            <ui:param name="selectedEmployee" value="#{employeesDAO.selectedEmployees}"/>
+        </ui:include>
+        <ui:include src="includeEmployeeInoHistory.xhtml">
+            <ui:param name="selectedEmployee" value="#{employeesDAO.selectedEmployees}"/>
+        </ui:include>
+        <ui:include src="EmployeeDocumentExpiryCount.xhtml"/> 
+        <ui:include src="includeMenuBar.xhtml" />
+    </h:body>
+</html>
+
+

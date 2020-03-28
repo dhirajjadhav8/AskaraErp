@@ -1,0 +1,68 @@
+
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>       
+    <f:loadBundle basename="employees" var="i18n"/>
+    <table>
+        <tr>
+            <td>
+                <img id="imgEmp" alt="" src="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}resources#{forceSessionCreateA.separator}photos#{forceSessionCreateA.separator}up#{forceSessionCreateA.separator}#{employeesDAO.selectedEmployee.id}.jpg"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <h:outputText value="#{employeesDAO.selectedEmployee.firstname} #{employeesDAO.selectedEmployee.lastname}"/>
+            </td>
+        </tr>
+    </table>   
+    <p:scrollPanel id="scrupdate" style="height: 330px;width: 1200px;vertical-align: top;" mode="native">
+        <div align="center">
+            <p:messages id="message"/>
+            <p:growl id="growlmessasge" showDetail="false"/>
+            <p:tabView id="tabView" dynamic="true" widgetVar="tabwiz" cache="false" style="vertical-align: top">
+                <p:ajax event="tabChange" listener="#{employeeDetailsDAO.onTabChange}"/> 
+                <p:tab id="Personal" title="Basic Info">
+                    <h:form id="frmEmpUpdate">
+                        <p:panel  id="panelforemployeeupdate" style="border-style: solid; border:1px solid;vertical-align: top; " header="Update Employee Info">  
+                            <ui:include src="employeeForm.xhtml"/>
+                        </p:panel>
+                    </h:form>
+                </p:tab>
+                <p:tab id="Photo" title="UploadNewPhoto">
+                    <h:form id="frmPhoto">
+                        <p:panel  id="panelfornewphoto" style="border-style: solid; border:1px solid" header="PhotoUpload">
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>                                            
+                                        <p:graphicImage cache="false" alt="click below to insert image." id="image" 
+                                                        value="/resources/photos/up/#{employeesDAO.selectedEmployee.id}.jpg" style="height: 150px ; width: 150px "/>
+                                        <p:fileUpload  mode="advanced" value="#{employeesDAO.file}" 
+                                                       fileUploadListener="#{employeesDAO.handleFileUploadforExistingEmployee}" auto="true"/>
+                                    </p:column>
+                                </p:row>                                       
+                            </p:panelGrid>
+                        </p:panel>
+                    </h:form>
+                </p:tab>
+                <p:tab id="empDetails" title="Employement Details">
+                    <p:panel header="Employee Details" style="border: 0%;">
+                        <ui:include src="empDetailsInclude.xhtml">               
+                            <ui:param name="selectedEmployee" value="#{employeesDAO.selectedEmployee}"/>
+                        </ui:include>
+                    </p:panel>
+                </p:tab>
+                <p:tab id="employeeDesignation" title="Employee Designation">
+                    <p:panel header="Employee Designation" style="border: 0%;">
+                        <ui:include src="employeeDesignationInclude.xhtml">               
+                            <ui:param name="selectedEmployee" value="#{employeesDAO.selectedEmployee}"/>
+                        </ui:include>
+                    </p:panel>
+                </p:tab>
+            </p:tabView>
+        </div>                
+    </p:scrollPanel> 
+</ui:composition>

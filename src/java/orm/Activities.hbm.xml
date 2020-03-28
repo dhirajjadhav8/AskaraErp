@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Activities" table="ACTIVITIES" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="targetDate" type="date">
+            <column name="TARGET_DATE" length="10" not-null="true" />
+        </property>
+        <many-to-one name="milestones" class="orm.Milestones" fetch="select">
+            <column name="MILESTONEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="tasks" inverse="true">
+            <key>
+                <column name="ACTIVITYID" not-null="true">
+                    <comment/>
+                </column>
+               
+            </key>
+            <one-to-many class="orm.Tasks"/>
+        </set>
+        
+    </class>
+</hibernate-mapping>

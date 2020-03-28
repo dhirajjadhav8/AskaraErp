@@ -1,0 +1,128 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>External Inward Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}styesheetforExternalInword.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 10px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{externalInwordDAO.retrieveExteralInword()}" rendered="#{loginbean.loggedinUser.id==1}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{externalInwordDAO.retrieveEmpExternalInward()}" rendered="#{loginbean.loggedinUser.id!=1}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddExternalInword" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>   
+                </h:form>
+                <h:form id="frmExtInWordTable">
+                    <p:dataTable id="tblExtInword" paginator="true" value="#{externalInwordDAO.allInwordse}" var="eachExtInword"
+                                 paginatorPosition="bottom" rows="8" style="position: absolute;top: 23%;width: 79.5%;" lazy="false" rendered="#{loginbean.loggedinUser.id==1}">
+                        <f:facet name="header">
+                            <div align="right">
+                                <h:outputText value="From Date "/>
+                                <p:calendar value="#{externalInwordDAO.fromInward.inDate}" pattern="yyyy-MM-dd" />
+                                <h:outputText value=" To Date "/>
+                                <p:calendar value="#{externalInwordDAO.toInward.inDate}" pattern="yyyy-MM-dd">
+                                    <p:ajax event="dateSelect" listener="#{externalInwordDAO.searchInward()}" process="@form" update="@form :frmAddExternalInword:growlmsg"/>
+                                </p:calendar>
+                            </div>
+                        </f:facet>
+                        <p:column headerText="#{i18n['ui.Inno']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.inNo}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.type']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.type}" style="font-weight: bold">
+                                <f:converter converterId="Type"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.indate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.inDate}" style="font-weight: bold"/>
+                        </p:column>   
+                        <p:column headerText="#{i18n['ui.from']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.ifrom.name}" style="font-weight: bold"/>
+                        </p:column> 
+                        <p:column headerText="#{i18n['ui.forwardedto']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.forwardedTo.firstname} #{eachExtInword.forwardedTo.lastname}" style="font-weight: bold"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="Add Inward" oncomplete="DlgConfirmForInward.show();" update=":confirmDlgForInward">
+                                <f:setPropertyActionListener value="addInward" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                            <p:commandButton value="History1" oncomplete="DlgConfirmForInward.show();" update=":confirmDlgForInward">
+                                <f:setPropertyActionListener value="History1" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                    <p:dataTable id="tblUserExtInword" paginator="true" value="#{externalInwordDAO.allInwordse}" var="eachExtInword" selection="#{externalInwordDAO.updateInward}"
+                                 selectionMode="single" rowKey="#{eachExtInword.id}" paginatorPosition="bottom" rows="8" 
+                                 style="position: absolute;top: 23%;width: 79.5%;" lazy="false" rendered="#{loginbean.loggedinUser.id!=1}">
+                        <f:facet name="header">
+                            <div align="right">
+                                <h:outputText value="From Date "/>
+                                <p:calendar value="#{externalInwordDAO.fromInward.inDate}" pattern="yyyy-MM-dd" />
+                                <h:outputText value=" To Date "/>
+                                <p:calendar value="#{externalInwordDAO.toInward.inDate}" pattern="yyyy-MM-dd">
+                                    <p:ajax event="dateSelect" listener="#{externalInwordDAO.searchInward()}" process="@form" update="@form :frmAddExternalInword:growlmsg"/>
+                                </p:calendar>
+                            </div>
+                        </f:facet>
+                        <p:ajax event="rowSelect" listener="#{externalInwordDAO.setUpdateProperty}" update=":confirmDlgForInward" oncomplete="DlgConfirmForInward.show();"/>
+                        <p:column headerText="#{i18n['ui.Inno']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.inNo}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.type']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.type}" style="font-weight: bold">
+                                <f:converter converterId="Type"/>
+                            </h:outputText>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.indate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.inDate}" style="font-weight: bold"/>
+                        </p:column>   
+                        <p:column headerText="#{i18n['ui.from']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.ifrom.name}" style="font-weight: bold"/>
+                        </p:column> 
+                        <p:column headerText="#{i18n['ui.forwardedto']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachExtInword.forwardedTo.firstname} #{eachExtInword.forwardedTo.lastname}" style="font-weight: bold"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="History" oncomplete="DlgConfirmForInward.show();" update=":confirmDlgForInward">
+                                <f:setPropertyActionListener value="History" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Update" oncomplete="DlgConfirmForInward.show();" update=":confirmDlgForInward">
+                                <f:setPropertyActionListener value="Update" target="#{mainIncludeFilesSelect.includeFile}"/>
+                            </p:commandButton>
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+        <p:confirmDialog id="confirmDlgForInward" widgetVar="DlgConfirmForInward" closable="false" style="width: 80%; height: 60%;left:10%; top: 5%;">
+            <f:facet name="header" id="confirmHdrID">
+                <h:outputText value="Add External Inward" rendered="${mainIncludeFilesSelect.includeFile == 'addInward'}"/>
+                <h:outputText value="History" rendered="${mainIncludeFilesSelect.includeFile == 'History'}"/>
+                <h:outputText value="Update" rendered="${mainIncludeFilesSelect.includeFile == 'Update'}"/>
+            </f:facet>
+            <h:panelGroup id="pnladdExternalInward" rendered="${mainIncludeFilesSelect.includeFile == 'addInward'}">
+                <ui:include src="addExternalInward.xhtml"/> 
+            </h:panelGroup>
+            <h:panelGroup id="pnlHistory" rendered="${mainIncludeFilesSelect.includeFile == 'History' || mainIncludeFilesSelect.includeFile == 'History1'}">
+                <ui:include src="inwardHistory.xhtml"/> 
+            </h:panelGroup>
+            <h:panelGroup id="pnlUpdate" rendered="${mainIncludeFilesSelect.includeFile == 'Update'}">
+                <ui:include src="inwardUpdate.xhtml"/> 
+            </h:panelGroup>
+            <p:commandButton value="Finish" onclick="DlgConfirmForInward.hide();" update=":frmExtInWordTable" rendered="${mainIncludeFilesSelect.includeFile != 'Update'}"/> 
+        </p:confirmDialog>
+    </h:body>
+</html>
+
+

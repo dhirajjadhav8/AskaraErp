@@ -1,0 +1,30 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <h:form id="frmOldOutbox">
+        <p:scrollPanel id="scrOutbox" style="width: 600px;height: 260px;" mode="native">
+            <p:dataTable id="outboxOldtbl" paginator="true" paginatorPosition="bottom" rows="5">
+                <p:column headerText="#{i18n['ui.to']}" styleClass="tblHeader">
+                    <h:outputText value="" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.subject']}" styleClass="tblHeader">
+                    <h:outputText value="" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.Date']}" styleClass="tblHeader">
+                    <h:outputText value="" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.msgType']}" styleClass="tblHeader">
+                    <h:outputText value="" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.Details']}" styleClass="tblHeader">
+                    <h:outputText value="" style="font-weight: bold"/>
+                </p:column>
+
+            </p:dataTable>
+        </p:scrollPanel>
+    </h:form>
+</ui:composition>

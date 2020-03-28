@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Milestone Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforMilestone.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{milestonesDAO.retrieveMilestones()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{milestonesDAO.retrieveAllProjects()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddMilstone" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>                   
+                    <p:panel header="#{i18n['ui.addMilestone']}" styleClass="addMilestonePanel">
+                        <table width="50%">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.name']}"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{milestonesDAO.selectedMilestone.name}" required="true" requiredMessage="#{i18n['ui.msg.Name']}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.targrtDate']}"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{milestonesDAO.selectedMilestone.targetDate}" mindate="#{mainIncludeFilesSelect.currentDate}" required="true" requiredMessage="#{i18n['ui.msg.TargetDate']}" pattern="yyyy-MM-dd"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.projectname']}"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu id="milestoneProjectname" value="#{milestonesDAO.selectedProject.id}" required="true" requiredMessage="#{i18n['ui.msg.ProjectRequired']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>
+                                        <f:selectItems value="#{milestonesDAO.allProjects}" var="eachProject" itemLabel="#{eachProject.name}" itemValue="#{eachProject.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" actionListener="#{milestonesDAO.addMilestone}" process="@form" update="@form :frmMilestoneTbl :frmAddMilstone:growlmsg" />
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmMilestoneTbl">
+                    <p:dataTable id="milestoneTbl" paginator="true" value="#{milestonesDAO.allMilestones}" var="eachMilestone" rowKey="#{eachMilestone.id}" 
+                                 paginatorPosition="bottom" rows="5" style="position: absolute;top: 44%;width: 79.5%;" resizableColumns="true">
+                        <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachMilestone.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.targrtDate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachMilestone.targetDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.projectname']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachMilestone.projects.name}" style="font-weight: bold"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

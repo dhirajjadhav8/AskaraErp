@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Storage" table="STORAGE" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="code" type="string">
+            <column name="CODE" length="2" not-null="true" />
+        </property>
+        <many-to-one name="storagetypes" class="orm.Storagetypes" fetch="select">
+            <column name="STORAGETYPEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="islocable" type="boolean">
+            <column name="ISLOCABLE" not-null="true" />
+        </property>
+        <property name="kyeNo" type="string">
+            <column name="KYE_NO" length="50" />
+        </property>
+        <many-to-one name="area" class="orm.Area" fetch="select">
+            <column name="AREAID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>        
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <many-to-one name="itemDetails" class="orm.ItemDetails" fetch="select">
+            <column name="ITEMDETAILSID" not-null="true">
+                <comment />
+            </column>
+        </many-to-one>
+    </class>
+</hibernate-mapping>

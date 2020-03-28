@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.ZStorage" table="Z_STORAGE" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="storageid" type="int">
+            <column name="STORAGEID" not-null="true" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" length="2" />
+        </property>
+        <property name="storagetypeid" type="java.lang.Integer">
+            <column name="STORAGETYPEID" />
+        </property>
+        <property name="islocable" type="java.lang.Boolean">
+            <column name="ISLOCABLE" />
+        </property>
+        <property name="kyeNo" type="string">
+            <column name="KYE_NO" length="50" />
+        </property>
+        <property name="areaid" type="java.lang.Integer">
+            <column name="AREAID" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

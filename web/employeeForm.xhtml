@@ -1,0 +1,337 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="frmEmpAddUpd">
+        <p:panelGrid id="pnlgrdAddUpd" styleClass="panelgridstyle"> 
+            <f:facet name="header">
+                Update Employee Details
+            </f:facet>
+            <p:row>
+                <p:column colspan="4">
+                    <h:outputText value="#{i18n['ui.name']}" style="font-weight: bold;color: navy;"/>   
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.firstname']} *" style="font-weight: bold" /> 
+                </p:column>
+                <p:column>
+                    <p:inputText id="Firstname" value="#{employeesDAO.selectedEmployee.firstname}" 
+                                 label="firstname" required="true" requiredMessage="#{i18n['ui.msg.firstname']}"
+                                 rendered="${mainIncludeFilesSelect.includeFile != 'viewEmployee'}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText><br/>
+                    <h:message for="Firstname"  style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.lastname']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="4">
+                    <p:inputText value="#{employeesDAO.selectedEmployee.lastname}" 
+                                 id="Lastname" label="LastName" required="true" requiredMessage="#{i18n['ui.msg.lastname']}">                               
+                    </p:inputText><br/>
+                    <h:message for="Lastname" style="color: red" />
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.birthDate']} *" style="font-weight: bold"/> 
+                </p:column>
+                <p:column>
+                    <p:calendar value="#{employeesDAO.selectedEmployee.birthDate}" 
+                                id="Dateofbirth" mode="popup" 
+                                navigator="true" required="true" pattern="yyyy-MM-dd" requiredMessage="#{i18n['ui.msg.birthDate']}">                                
+                    </p:calendar><br/>
+                    <h:message for="Dateofbirth" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.joiningDate']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="4">                                
+                    <p:calendar value="#{employeesDAO.selectedEmployee.joiningDate}" 
+                                id="JoiningDate"  mode="popup" navigator="true" 
+                                pattern="yyyy-MM-dd" required="true" requiredMessage="#{i18n['ui.msg.joiningDate']}">                               
+                    </p:calendar><br/>
+                    <h:message for="JoiningDate" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.gender']} *" style="font-weight: bold"/> 
+                </p:column>
+                <p:column>                                
+                    <h:selectOneRadio id="gender" value="#{employeesDAO.selectedEmployee.gender}" 
+                                      layout="pageDirection" required="true" requiredMessage="#{i18n['ui.msg.gender']}">
+                        <f:selectItem itemLabel="Male" itemValue="M" />  
+                        <f:selectItem itemLabel="Female" itemValue="F" />
+                    </h:selectOneRadio>
+                    <h:message for="gender" style="color: red" />
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.maritalStatus']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="4">
+                    <h:selectOneRadio id="maritalStatus" value="#{employeesDAO.selectedEmployee.maritalStatus}" 
+                                      layout="pageDirection" required="true" requiredMessage="#{i18n['ui.msg.maritalStatus']}">  
+                        <f:selectItem itemLabel="Married" itemValue="M" /> 
+                        <f:selectItem itemLabel="Unmarried" itemValue="U"/>
+                    </h:selectOneRadio> 
+                    <h:message for="maritalStatus" style="color: red" />
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.phone']} *" style="font-weight: bold"/> 
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.phone}" 
+                                 id="Phone" label="PhoneNo" required="true" requiredMessage="#{i18n['ui.msg.phone']}">
+                        <f:validator validatorId="PhoneNoValidater"/>
+                    </p:inputText><br/>
+                    <h:message for="Phone" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.nationality']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="4">
+                    <p:inputText value="#{employeesDAO.selectedEmployee.nationality}" 
+                                 id="Nationality" label="Nationality" required="true" requiredMessage="#{i18n['ui.msg.nationality']}">
+                        <f:validator validatorId="NameValidater" /> 
+                    </p:inputText><br/>
+                    <h:message for="Nationality"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.employeeNo']} *" style="font-weight: bold;"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText id="empno" value="#{employeesDAO.selectedEmployee.employeeno}" required="true" requiredMessage="EmployeeNo. is required"/>
+                    <br/>
+                    <h:message for="empno" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.email']}" style="font-weight: bold;"/> 
+                </p:column>
+                <p:column>
+                    <p:inputText id="emailId" value="#{employeesDAO.selectedEmployee.email}">                 
+                    </p:inputText>                    
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="4" >
+                    <h:outputText value="#{i18n['ui.address']}" style="font-weight: bold;color: navy;"/>   
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.tempAddress']} * " style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputTextarea value="#{employeesDAO.selectedEmployee.tempAddress}" 
+                                     id="Temp_Address" label="TEMPADDRESS" required="true" requiredMessage="#{i18n['ui.msg.tempAddress']}">
+                        <f:validator validatorId="EmployeeAddressValidater"/>
+                    </p:inputTextarea>
+                    <br/>
+                    <h:message for="Temp_Address" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.permAddress']} * " style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputTextarea value="#{employeesDAO.selectedEmployee.permAddress}" 
+                                     id="Perm_Address" label="PERMADDRESS" required="true" requiredMessage="#{i18n['ui.msg.permAddress']}">
+                        <f:validator validatorId="EmployeeAddressValidater"/>
+                    </p:inputTextarea>
+                    <br/>
+                    <h:message for="Perm_Address" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.tempCity']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.tempCity}" 
+                                 id="Temp_City" label="City" required="true" requiredMessage="#{i18n['ui.msg.tempCity']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="Temp_City" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.permCity']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.permCity}" 
+                                 id="Perm_City" label="City" required="true" requiredMessage="#{i18n['ui.msg.permCity']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="Perm_City" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.tempState']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.tempState}" 
+                                 id="temp_State" label="State" required="true" requiredMessage="#{i18n['ui.msg.tempState']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="temp_State" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.permState']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.permState}" 
+                                 id="perm_State" label="State" required="true" requiredMessage="#{i18n['ui.msg.permState']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="perm_State" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.tempCountry']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.tempCountry}" 
+                                 id="temp_Country" label="Country" required="true" requiredMessage="#{i18n['ui.msg.tempCountry']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="temp_Country" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.permCountry']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.permCountry}" 
+                                 id="perm_Country" label="Country" required="true" requiredMessage="#{i18n['ui.msg.permCountry']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="perm_Country" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.tempPin']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.tempPin}" 
+                                 id="temp_Pin" label="PIN" required="true" requiredMessage="#{i18n['ui.msg.tempPin']}">
+                        <f:validator validatorId="NumberValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="temp_Pin" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.permPin']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.permPin}" 
+                                 id="perm_Pin" label="PIN" required="true" requiredMessage="#{i18n['ui.msg.permPin']}">
+                        <f:validator validatorId="NumberValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="perm_Pin" style="color: red"/>
+                </p:column>
+            </p:row>
+
+            <p:row>
+                <p:column colspan="4" >
+                    <h:outputText value="#{i18n['ui.emergencyContact']}" style="font-weight: bold;color: navy;"/>   
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.emerCtc']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.emerCtc}" 
+                                 id="emer_Ctc" label="PersonName" required="true" requiredMessage="#{i18n['ui.msg.emerCtc']}">
+                        <f:validator validatorId="EmployeeNameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="emer_Ctc" style="color: red"/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.emerCtcRel']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.emerCtcRel}" id="EmerCtcRel" label="PersonName" required="true" requiredMessage="#{i18n['ui.msg.emerCtcRel']}">
+                        <f:validator validatorId="NameValidater"/>
+                    </p:inputText>
+                    <br/>
+                    <h:message for="EmerCtcRel" style="color: red"/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.emerCtcNo']} *" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText value="#{employeesDAO.selectedEmployee.emerCtcNo}"
+                                 id="emer_CtcNo" label="PhoneNo" required="true" requiredMessage="#{i18n['ui.msg.emerCtcNo']}">
+                        <f:validator validatorId="PhoneNoValidater"/>
+                    </p:inputText><br/>
+                    <h:message for="emer_CtcNo" style="color: red"/>
+                </p:column>
+
+            </p:row>
+            <p:row>
+                <p:column colspan="4" >
+                    <h:outputText value="#{i18n['ui.otherInfo']}" style="font-weight: bold;color: navy;"/>   
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="4" >
+                    <h:outputText value="#{i18n['ui.passportInfo']}" style="font-weight: bold;color: navy;"/>   
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.passportNo']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.passportNo}"/>
+                    <br/>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.passportExpdate']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{employeesDAO.selectedEmployee.passportExpdate}"/>
+                    <br/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column>
+                    <h:outputText value="#{i18n['ui.passportCopy']}" style="font-weight: bold"/>   
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputText value="#{employeesDAO.selectedEmployee.passportCopy}"/>
+                    <br/>
+                </p:column>
+            </p:row>
+            <p:row>                           
+                <p:column colspan="4" rendered="${mainIncludeFilesSelect.includeFile == 'UpdateEmployee'}">
+                    <p:commandButton value="Update" actionListener="#{employeesDAO.updateEmployees()}" process="@form" update="@form"/> 
+                </p:column>  
+                <p:column colspan="4" rendered="${mainIncludeFilesSelect.includeFile == 'addEmployee'}">
+                    <p:commandButton value="Add" actionListener="#{employeesDAO.addEmployees}" process="@form" update="@form"/> 
+                </p:column>  
+            </p:row>
+        </p:panelGrid>
+    </h:form>
+</ui:composition>
+

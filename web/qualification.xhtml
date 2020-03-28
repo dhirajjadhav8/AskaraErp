@@ -1,0 +1,72 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Qualifications Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforqualifications.css"></link> 
+         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}panelstyle.css"></link> 
+         <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforlogout.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px;padding: 0px">
+         <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+         <f:loadBundle basename="employees" var="i18n"/>
+        <h:form styleClass="form">
+            <p:growl id="growlmsg" showDetail="false"/>
+            <div align="center" style="background-color: lightgray;height: 100%;">
+                <p:panel styleClass="mainpanel">
+                    <ui:include src="imageBaner.xhtml"/>
+                   <p:separator styleClass="horizontalSeparator" />
+                    <p:panel header="#{i18n['ui.empqualifications']}" styleClass="addPanel">                      
+                     <table width="60%" align="center">
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.qualifications']} * " />  
+                                </td>
+                                
+                                <td>
+                                    <p:inputText id="empqualification" value="#{qualificationsDAO.qualification.name}" required="true" requiredMessage="Qualification is required.">
+                                        <f:validator validatorId="NameValidater"/>
+                                    </p:inputText><br/>
+                                        <h:message for="empqualification"  style="color: red"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.description']} *"  />   
+                                </td>
+                                <td>
+                                    <p:inputText id="empdescription" value="#{qualificationsDAO.qualification.description}" required="true" requiredMessage="Description is required.">
+                                        <f:validator validatorId="NameValidater"/>
+                                    </p:inputText><br/>
+                                        <h:message for="empdescription"  style="color: red"/>
+                                </td>
+                            </tr>
+                         
+                            <tr>
+                                
+                                <td colspan="2" align="center">
+                                    <p:commandButton value="Add" actionListener="#{qualificationsDAO.addQualifications()}" process="@form" update="@form" />
+                                </td>                             
+                            </tr>                                 
+                        </table>
+                    </p:panel>
+                    <p:dataTable id="tblQualifications" value="#{qualificationsDAO.allQualifications}" var="eachQualification" rowKey="#{eachQualification.id}"  paginator="true" rows="5" paginatorPosition="bottom" >
+                        
+                        <p:column headerText="#{i18n['ui.employeequalifications']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachQualification.name}" />
+                        </p:column>
+                        
+                    </p:dataTable>
+                </p:panel>
+            </div>
+        </h:form>
+          <ui:include src="EmployeeDocumentExpiryCount.xhtml"/> 
+    </h:body>
+</html>
+

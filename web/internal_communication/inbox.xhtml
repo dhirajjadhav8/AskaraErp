@@ -1,0 +1,79 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveAllInboxIntercommunication()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveInboxFolders()}"/>
+    <h:form id="frmInbox">
+        <p:growl id="msgGrowls" showDetail="false"/>
+        <p:dataTable id="inboxtbl" paginator="true" paginatorPosition="bottom" rows="8" selection="#{internalCommunicationDAO.selectedInterCommInboxView}" rowKey="#{eachInbox.id}"
+                     value="#{internalCommunicationDAO.allInboxInterCommunication}" var="eachInbox"
+                     style="text-align: left;height: 85%;width: 90%;position: relative;">
+            <p:ajax event="rowSelectRadio" listener="#{internalCommunicationDAO.removeSelectedTrashInboxMessage()}" process="@form" update="@form :tbvInternalComunication:confirmDlgForInbox"/>
+            <f:facet name="header">
+                <div align="left">
+                    <p:panelGrid style="width: 20%;border-width: 0%;">
+                        <p:row>
+                            <p:column style="background-color: #c4c4c4;">
+                                <h:outputText value="Select Folder :" style="text-align: left;"/>
+                            </p:column>
+                            <p:column style="background-color: #c4c4c4;">
+                                <p:selectOneMenu  id="folders" value="#{internalCommunicationDAO.selectedIcFolder.id}">
+                                    <f:selectItem itemLabel="Select" itemValue=""/>                        
+                                    <f:selectItems value="#{internalCommunicationDAO.allInboxFolderWithDraftTrash}" var="eachFolder" itemLabel="#{eachFolder.name}" itemValue="#{eachFolder.id}"/>
+                                    <p:ajax listener="#{internalCommunicationDAO.onFolderSelectRetrieveInbox}" update="inboxtbl"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </div>
+            </f:facet>
+            <p:column headerText="#{i18n['ui.Date']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInbox.requestDate}"/>
+            </p:column>            
+            <p:column headerText="#{i18n['ui.from']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInbox.requestFrom.firstname} #{eachInbox.requestFrom.lastname}"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.subject']}" styleClass="tblHeader">
+                <h:outputText value="#{eachInbox.subject}"/>
+            </p:column>  
+            <p:column headerText="Empty Selected Trash" selectionMode="single" style="text-align: center" rendered="${internalCommunicationDAO.selectedIcFolder.id == -2}"/>
+            <p:column headerText="ViewInboxMessage" style="text-align: center;">
+                <p:commandButton id="selectButton" actionListener="#{internalCommunicationDAO.viewInbox}" style="height: 80%;" update=":tbvInternalComunication:confirmDlgForInbox" oncomplete="DlgConfirmForInbox.show();" icon="mail-inbox" title="update">  
+                    <f:setPropertyActionListener value="#{eachInbox}" target="#{internalCommunicationDAO.selectedInterCommInboxView}" />                    
+                    <ui:remove> <p:ajax event="rowSelect" listener="#{internalCommunicationDAO.viewInbox}" update=":tbvInternalComunication:confirmDlgForInbox" 
+                                        oncomplete="DlgConfirmForInbox.show();" /> </ui:remove>
+                </p:commandButton>  
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton value="old" oncomplete="DlgConfirmForInbox.show();" process="@this" update=":tbvInternalComunication:confirmDlgForInbox">
+                    <f:setPropertyActionListener value="old" target="#{mainIncludeFilesSelect.includeFile}"/>
+                </p:commandButton>
+                <p:commandButton value="Empty Trash" actionListener="#{internalCommunicationDAO.emptyInboxTrash()}" rendered="${internalCommunicationDAO.selectedIcFolder.id == -2}" process="@form" update=":tbvInternalComunication:frmInbox"/>
+            </f:facet>
+        </p:dataTable>
+    </h:form>   
+    <p:confirmDialog id="confirmDlgForInbox" widgetVar="DlgConfirmForInbox" closable="false" style="width: 80%; height: 60%;left:10%; top: 5%;">
+        <f:facet name="header">
+            <h:outputText value="OLD" rendered="${mainIncludeFilesSelect.includeFile == 'old'}"/>
+            <h:outputText value="View" rendered="${mainIncludeFilesSelect.includeFile == 'viewInbox' || mainIncludeFilesSelect.includeFile =='viewInboxTrash'}"/>
+            <h:outputText value="OLD View" rendered="${mainIncludeFilesSelect.includeFile == 'oldView'}"/>
+        </f:facet>            
+        <h:panelGroup id="pnlOldInbox" rendered="${mainIncludeFilesSelect.includeFile == 'old'}">
+            <ui:include src="oldInbox.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup id="pnlViewInbox" rendered="${mainIncludeFilesSelect.includeFile == 'viewInbox' || mainIncludeFilesSelect.includeFile =='viewInboxTrash'}">
+            <ui:include src="viewInbox.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup id="pnlOldViewInbox" rendered="${mainIncludeFilesSelect.includeFile == 'oldView'}">
+            <ui:include src="oldInboxview.xhtml"/>
+        </h:panelGroup>
+        <p:commandButton value="Finish" actionListener="#{internalCommunicationDAO.finishUploading}" onclick="DlgConfirmForInbox.hide();" 
+                         rendered="${mainIncludeFilesSelect.includeFile == 'old'}"/>
+        <p:commandButton value="Back" actionListener="#{internalCommunicationDAO.backToOldView}" update=":tbvInternalComunication:confirmDlgForInbox" 
+                         rendered="${mainIncludeFilesSelect.includeFile == 'oldView'}"/>
+    </p:confirmDialog>
+</ui:composition>

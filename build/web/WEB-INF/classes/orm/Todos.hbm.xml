@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Todos" table="TODOS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="subject" type="string">
+            <column name="SUBJECT" not-null="true" />
+        </property>
+        <property name="discription" type="string">
+            <column name="DISCRIPTION" length="32672" not-null="true" />
+        </property>
+        <property name="todoDate" type="timestamp">
+            <column name="TODO_DATE" length="29" not-null="true" />
+        </property>
+        <property name="priority" type="char">
+            <column name="PRIORITY" length="1" not-null="true" />
+        </property>
+        <many-to-one name="todofor" class="orm.Employees" fetch="select">
+            <column name="TODOFOR" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="iscompleted" type="boolean">
+            <column name="ISCOMPLETED" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="completeDate" type="timestamp">
+            <column name="COMPLETE_DATE" length="29" />
+        </property>
+    </class>
+</hibernate-mapping>

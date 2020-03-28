@@ -1,0 +1,56 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+  
+        <f:facet name="message"></f:facet>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <table>
+            <tr>
+                <td>
+                    <img id="imgEmp" alt="" src="#{forceSessionCreateA.separator}resources#{forceSessionCreateA.separator}photos#{forceSessionCreateA.separator}up#{forceSessionCreateA.separator}#{employeesDAO.selectedEmployee.id}.jpg"/>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h:outputText value="#{employeesDAO.selectedEmployee.firstname} #{employeesDAO.selectedEmployee.lastname}"/>
+                </td>
+            </tr>
+        </table>   
+        <p:scrollPanel id="scrAdd" style="height: 390px;width: 1200px;" mode="native">
+            <div align="center">
+                <p:messages id="msges"/>
+                <p:tabView id="wizar" widgetVar="wiz" dynamic="true" cache="false">
+                    <p:tab id="personal" title="RegisterselectedEmployee">
+                        <h:form id="frmEmpAdd">
+                            <p:panel  id="panelforselectedEmployeeadd" style="border-style: solid; border:1px solid ;" header="RegistrationForm">
+                                <ui:include src="employeeForm.xhtml"/>
+                            </p:panel>
+                        </h:form>
+                    </p:tab>
+                    <p:tab id="photo" title="UploadPhoto" disabled="#{employeesDAO.tabview}">
+                        <p:panel  id="panel" style="border-style: solid; border:1px solid chartreuse" header="PhotoUpload" >
+                            <p:panelGrid>
+                                <p:row>
+                                    <p:column>
+                                        <p:graphicImage cache="false" alt="click below to insert image." id="image" 
+                                                        value="#{employeesDAO.selectedEmployee.photo}" style="height: 250px ; width: 250px "/>
+                                        <p:fileUpload mode="advanced" value="#{employeesDAO.file}" 
+                                                      fileUploadListener="#{employeesDAO.handleFileUpload}" auto="true" update="image"/>
+                                    </p:column>
+                                </p:row>                                
+                            </p:panelGrid>
+                        </p:panel>
+                    </p:tab>
+                    <p:tab id="selectedEmployeeDesignation" title="selectedEmployeeDesignation" disabled="#{employeesDAO.tabview}">
+                        <p:panel header="employee Designation" style="border: 0%;">
+                            <ui:include src="employeeDesignationInclude.xhtml"/>                          
+                        </p:panel>
+                    </p:tab>
+                </p:tabView>
+            </div>
+        </p:scrollPanel>
+    
+</ui:composition>

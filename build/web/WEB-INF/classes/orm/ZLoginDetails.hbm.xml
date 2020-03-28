@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12 Feb, 2013 3:25:23 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.ZLoginDetails" table="Z_LOGIN_DETAILS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="logindetailsid" type="int">
+            <column name="LOGINDETAILSID" not-null="true" />
+        </property>
+        <property name="ipaddress" type="string">
+            <column name="IPADDRESS" />
+        </property>
+        <property name="loginDate" type="timestamp">
+            <column name="LOGIN_DATE" length="29" />
+        </property>
+        <property name="logoutDate" type="timestamp">
+            <column name="LOGOUT_DATE" length="29" />
+        </property>
+        <property name="issuccess" type="java.lang.Character">
+            <column name="ISSUCCESS" length="1" />
+        </property>
+        <property name="failReason" type="string">
+            <column name="FAIL_REASON" />
+        </property>
+        <property name="username" type="string">
+            <column name="USERNAME" />
+        </property>
+        <property name="sessionid" type="string">
+            <column name="SESSIONID" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

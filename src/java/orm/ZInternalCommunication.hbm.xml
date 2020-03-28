@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.ZInternalCommunication" table="Z_INTERNAL_COMMUNICATION" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="internalcommunicationid" type="int">
+            <column name="INTERNALCOMMUNICATIONID" not-null="true" />
+        </property>
+        <property name="subject" type="string">
+            <column name="SUBJECT" />
+        </property>
+        <property name="status" type="java.lang.Character">
+            <column name="STATUS" length="1" />
+        </property>
+        <property name="requestDate" type="date">
+            <column name="REQUEST_DATE" length="10" />
+        </property>
+        <property name="details" type="string">
+            <column name="DETAILS" length="32672" />
+        </property>
+        <property name="requestFrom" type="java.lang.Integer">
+            <column name="REQUEST_FROM" />
+        </property>
+        <property name="messagetype" type="java.lang.Character">
+            <column name="MESSAGETYPE" length="1" />
+        </property>
+        <property name="icfolderid" type="java.lang.Integer">
+            <column name="ICFOLDERID" />
+        </property>
+        <property name="rejectedReason" type="string">
+            <column name="REJECTED_REASON" />
+        </property>
+        <property name="rejectedDate" type="date">
+            <column name="REJECTED_DATE" length="10" />
+        </property>
+        <property name="notes" type="string">
+            <column name="NOTES" length="32672" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="msgFlag" type="java.lang.Character">
+            <column name="MSG_FLAG" length="1" />
+        </property>
+    </class>
+</hibernate-mapping>

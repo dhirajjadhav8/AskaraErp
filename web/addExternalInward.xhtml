@@ -1,0 +1,95 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <p:scrollPanel id="scrExternalInward" style="width: 600px;height: 220px;" mode="native">
+        <div align="left">
+            <h:form id="frmExternalInward">
+                <p:panelGrid style="width: 100%;">
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.indate']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:calendar mode="popup" value="#{externalInwordDAO.selectedInword.inDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="#{i18n['ui.Bean.StartDate']}" />
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.type']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{externalInwordDAO.selectedInword.type}" required="true" requiredMessage="#{i18n['ui.msg.typerequied']}">
+                                <f:selectItem  itemLabel="Select" itemValue="" />
+                                <f:selectItem itemLabel="Item" itemValue="I"/>
+                                <f:selectItem  itemLabel="Document" itemValue="D"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.deliveryMode']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{externalInwordDAO.selectedInword.deliverymode}" required="true" requiredMessage="#{i18n['ui.msg.deliveryModerequied']}">
+                                <f:selectItem  itemLabel="Select" itemValue="" />
+                                <f:selectItem itemLabel="Post" itemValue="P"/>
+                                <f:selectItem  itemLabel="Hand" itemValue="H"/>
+                                <f:selectItem  itemLabel="Currier" itemValue="C"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.from']}"/>
+                        </p:column>
+                        <p:column>
+                            <p:autoComplete value="#{externalInwordDAO.selectedContact}"   
+                                            id="selectcontact" completeMethod="#{externalInwordDAO.completeContact}"  
+                                            var="c" itemLabel="#{c.name}" itemValue="#{c}" converter="contacts">
+
+                                <f:facet name="itemtip">  
+                                    <h:panelGrid  columns="2" cellpadding="5">  
+                                        <h:outputText value="#{i18n['ui.name']}: " style="font-weight: bold;" />  
+                                        <h:outputText id="modelNo" value="#{c.name}" />  
+
+                                        <h:outputText value="#{i18n['ui.address']}: " style="font-weight: bold;" />  
+                                        <h:outputText id="address" value="#{c.address}" /> 
+                                        <h:outputText value="#{i18n['ui.comments']}: " style="font-weight: bold;" />  
+                                        <h:outputText id="comments" value="#{c.comments}" /> 
+
+                                    </h:panelGrid>  
+                                </f:facet>  
+                            </p:autoComplete>
+                            <ui:remove> <p:selectOneMenu value="#{externalInwordDAO.selectedContact.id}" required="true" requiredMessage="#{i18n['ui.msg.fromrequied']}">
+                                    <f:selectItem  itemLabel="Select" itemValue="" />
+                                    <f:selectItems value="#{externalInwordDAO.allfroms}" var="eachFrom" itemLabel="#{eachFrom.name}" itemValue="#{eachFrom.id}"/>
+
+                                </p:selectOneMenu></ui:remove>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.forwardedto']}"/>
+                        </p:column>
+                        <p:column>
+
+                            <p:autoComplete value="#{externalInwordDAO.selectedEmployee}"   
+                                            id="selectemployee" completeMethod="#{externalInwordDAO.completeEmployee}"  
+                                            var="e" itemLabel="#{e.firstname}" itemValue="#{e}" converter="employees"></p:autoComplete>
+
+                            <ui:remove> <p:selectOneMenu value="#{externalInwordDAO.selectedEmployee.id}" required="true" requiredMessage="#{i18n['ui.msg.forardedtorequied']}">
+                                    <f:selectItem  itemLabel="Select" itemValue="" />
+                                    <f:selectItems value="#{externalInwordDAO.allForwardedTo}" var="eachForwTo" 
+                                                   itemLabel="#{eachForwTo.firstname} #{eachForwTo.lastname}" itemValue="#{eachForwTo.id}"/>                                        
+                                </p:selectOneMenu></ui:remove>
+                        </p:column>                        
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="4">
+                            <p:commandButton value="Add" actionListener="#{externalInwordDAO.addInword()}" process="@form" update="@form :frmAddExternalInword:growlmsg" />
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </p:scrollPanel>
+</ui:composition>

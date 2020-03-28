@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.LoginDetails" table="LOGIN_DETAILS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="ipAddress" type="string">
+            <column name="IPADDRESS" not-null="true"/>
+        </property>        
+        <property name="loginDate" type="timestamp">
+            <column name="LOGIN_DATE"  not-null="true" />
+        </property>
+        <property name="logoutDate" type="timestamp">
+            <column name="LOGOUT_DATE" />
+        </property>
+        <property name="isSuccess" type="char">
+            <column name="ISSUCCESS" length="1" not-null="true"/>
+        </property>
+        <property name="failReason" type="string">
+            <column name="FAIL_REASON" />
+        </property>       
+        <property name="userName" type="string">
+            <column name="USERNAME" not-null="true" />
+        </property>  
+        <property name="sessionId" type="string">
+            <column name="SESSIONID" not-null="true" />
+        </property> 
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

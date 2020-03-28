@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Subtasks" table="SUBTASKS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="targetDate" type="date">
+            <column name="TARGET_DATE" length="10" not-null="true" />
+        </property>
+        <property name="actualDate" type="date">
+            <column name="ACTUAL_DATE" length="10" />
+        </property>
+        <property name="lateReason" type="string">
+            <column name="LATE_REASON" />
+        </property>
+        <many-to-one name="tasks" class="orm.Tasks" fetch="select">
+            <column name="TASKID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

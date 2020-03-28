@@ -1,0 +1,82 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Login Info</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}loginInfo.css"></link>                
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 10px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginDetailsDAO.retrieveAllloginDetails}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmsearchLoginByDate">
+                    <p:growl id="grolwlmsg"/>
+                    <p:panel header="#{i18n['ui.searchLoginDetails']}" styleClass="searchPanel">
+                        <table width="50%">
+                            <tr>
+                                <td>
+                                    <h:outputText value="Todays Date : "/>
+                                    <h:outputText value="#{loginDetailsDAO.currentDate}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="Date From   "/>                                
+                                    <p:calendar id="frmdt" value="#{loginDetailsDAO.loginDetailsfrom.loginDate}" navigator="true" pattern="yyyy-MM-dd" >
+                                        <f:converter converterId="dateToTimestamp"/>
+                                    </p:calendar>
+
+                                    <h:outputText value="  to  "/>
+                                    <p:calendar id="todt" value="#{loginDetailsDAO.loginDetailsto.loginDate}" navigator="true" pattern="yyyy-MM-dd">
+                                        <f:converter converterId="dateToTimestamp"/>
+                                    </p:calendar>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Search" actionListener="#{loginDetailsDAO.searchLoginDetails()}" process="@form" update=":frmsearchLoginByDate:grolwlmsg :frmlogintblinfo"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel>
+                </h:form>
+                <h:form id="frmlogintblinfo">
+                    <p:dataTable id="tblLoginInfo" paginator="true" rows="10" paginatorPosition="bottom" 
+                                 rowIndexVar="srno" value="#{loginDetailsDAO.allLoginDetails}" 
+                                 var="eachLoginDetails" rowKey="#{eachLoginDetails.id}" style="position: absolute;top: 47%;width: 79.5%;">
+                        <p:column headerText="SrNo." styleClass="tblHeader">
+                            #{srno+1}
+                        </p:column>
+                        <p:column headerText="Name" styleClass="tblHeader">
+                            <h:outputText value="#{eachLoginDetails.userName}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Login" styleClass="tblHeader">
+                            <h:outputText value="#{eachLoginDetails.loginDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Logout" styleClass="tblHeader">
+                            <h:outputText value="#{eachLoginDetails.logoutDate}" style="font-weight: bold"/>
+                        </p:column>
+
+                        <p:column headerText="Fail" styleClass="tblHeader">
+                            <h:outputText value="#{eachLoginDetails.isSuccess}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Reason" styleClass="tblHeader">
+                            <h:outputText value="#{eachLoginDetails.failReason}" style="font-weight: bold"/>
+                        </p:column>                        
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>
+

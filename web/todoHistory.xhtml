@@ -1,0 +1,33 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{todosDAO.retrieveTodoHistory()}"/>
+    <h:form id="frmTodoHistory">
+        <p:scrollPanel id="scrAddRoomTypes" style="height: 590px;width: 800px;" mode="native">
+            <p:dataTable value="#{todosDAO.allTodosHistory}" var="eachTodoHistory">
+                <p:column headerText="#{i18n['ui.priority']}" styleClass="tblHeader">
+                    <div style="background-color: #{todosDAO.getColumnStyleClass(eachTodoHistory.priority)}">
+                        <h:outputText value="#{eachTodoHistory.priority}" style="font-weight: bold">
+                            <f:converter converterId="priority"/>
+                        </h:outputText>
+                    </div>
+                </p:column>
+                <p:column headerText="#{i18n['ui.Deadline']}" styleClass="tblHeader">
+                    <h:outputText value="#{eachTodoHistory.todoDate}" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.subject']}" styleClass="tblHeader">
+                    <h:outputText value="#{eachTodoHistory.subject}" style="font-weight: bold"/>
+                </p:column>
+                <p:column headerText="#{i18n['ui.description']}" styleClass="tblHeader">
+                    <h:outputText value="#{eachTodoHistory.discription}" escape="false" style="font-weight: bold"/>
+                </p:column>
+            </p:dataTable>
+        </p:scrollPanel>
+    </h:form>
+</ui:composition>
+

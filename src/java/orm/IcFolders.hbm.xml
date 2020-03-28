@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.IcFolders" table="IC_FOLDERS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <many-to-one name="employees" class="orm.Employees" fetch="select">
+            <column name="EMPLOYEEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="type" type="char">
+            <column name="TYPE" length="1" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="internalcommunication" inverse="true">
+            <key>
+                <column name="OUTBOXICFOLDERID" not-null="false">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.InternalCommunication"/>
+        </set>
+        <set name="icTo" inverse="true">
+            <key>
+                <column name="INBOXICFOLDERID" not-null="false">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.IcTo"/>
+        </set>
+    </class>
+</hibernate-mapping>

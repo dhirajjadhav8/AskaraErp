@@ -1,0 +1,107 @@
+/* 
+    Document   : stylesheetforemployeeQualifications
+    Created on : 18 Oct, 2012, 10:06:13 AM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.body{
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.form{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+
+.mainpanel{
+
+   background-color: white;
+   height: 100%;
+   width: 81%;
+   border-radius: 12px;
+/*   background-image: url(/EmployeeManagement/img/askara.jpg);
+   background-repeat: no-repeat; */
+   -webkit-box-shadow: 5px 5px 4px black;
+    box-shadow: 5px 5px 4px rgb(136 136 136);
+}
+
+.banerimage{
+    
+    padding-left: 0px;
+    height: 14%;
+    width:52.1%;
+    margin-right: 30%; 
+    position: absolute;  
+    left: 9.5%;
+    top: 0.4%;
+    border-radius: 12px;
+}
+
+
+.horizontalSeparator{
+    
+    width: 79%;
+    height: 1.1%;
+    position: absolute;
+    top:14%;
+    left:10% ;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+.addPanel{
+    width: 79.5%; 
+    height: 28%;
+    position: absolute; 
+    top:23%;
+    border-width: 1px;
+    left:9.8% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+
+
+.verticalSeparator{
+    
+    width: 0.1px; 
+    height: 76.2%;
+    position: absolute; 
+    top:9%;
+    left: 49.95%;
+}
+.tblHeader{
+    height: 10%;
+    width: 10%;
+    font-size: 100%;
+}
+
+.hSeparator{
+width: 95%;
+ position: absolute; 
+ top:48.5%;
+ -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:2px 2px 2px darkgray ;
+    height: 1%;
+    
+}
+
+.ui-datatable table {
+border-collapse: collapse;
+width: 100%;
+ 
+}
+
+.ui-menubar {
+ position: absolute;
+    top:17%;
+    width: 79.5%;
+    left:10% ;
+}
+

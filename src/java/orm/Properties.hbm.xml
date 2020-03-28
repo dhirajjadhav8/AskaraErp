@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Properties" table="PROPERTIES" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="assigned" />
+        </id>
+        <property name="name" type="string">
+            <column name="NAME" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" not-null="false" />
+        </property>
+        <property name="p_type" type="char">
+            <column name="P_TYPE" not-null="true" />
+        </property> 
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <set name="employeePropertyIssued" inverse="true">
+            <key>
+                <column name="PROPERTYID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.PropertyIssue"/>
+        </set>
+    </class>
+</hibernate-mapping>

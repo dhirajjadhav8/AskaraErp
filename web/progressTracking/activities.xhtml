@@ -1,0 +1,77 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Activity Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforActivity.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{activitiesDAO.retrieveAllActivities()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{activitiesDAO.retrieveAllMilestones()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="#{forceSessionCreateA.separator}imageBaner.xhtml"/>
+                <ui:include src="#{forceSessionCreateA.separator}includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddActivity" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/> 
+                    <p:panel header="#{i18n['ui.addActivity']}" styleClass="addActivityPanel">
+                        <table width="50%">
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.name']}"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{activitiesDAO.selectedActivity.name}" required="true" requiredMessage="#{i18n['ui.msg.Name']}"/>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.targrtDate']}"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{activitiesDAO.selectedActivity.targetDate}" mindate="#{mainIncludeFilesSelect.currentDate}" required="true" requiredMessage="#{i18n['ui.msg.TargetDate']}" pattern="yyyy-MM-dd"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.Milestone']}"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu id="milestonename" value="#{activitiesDAO.selectedMilestone.id}" required="true" requiredMessage="#{i18n['ui.msg.MilestoneRequired']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>
+                                        <f:selectItems value="#{activitiesDAO.allMilestones}" var="eachMilestone" itemLabel="#{eachMilestone.name}" itemValue="#{eachMilestone.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" actionListener="#{activitiesDAO.addActivity()}"  process="@form" update="@form :frmActivityTbl :frmAddActivity:growlmsg" />
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmActivityTbl">
+                    <p:dataTable id="activityTbl" paginator="true" value="#{activitiesDAO.allActivities}" var="eachActivity" rowKey="#{eachActivity.id}" 
+                                 paginatorPosition="bottom" rows="5" style="position: absolute;top: 44%;width: 79.5%;" resizableColumns="true">
+                        <p:column headerText="#{i18n['ui.name']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachActivity.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.targrtDate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachActivity.targetDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.Milestone']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachActivity.milestones.name}" style="font-weight: bold"/>
+                        </p:column>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

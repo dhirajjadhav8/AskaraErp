@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Login Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforlogin.css"></link>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforlogout.css"></link> 
+
+        <style>
+
+            .ui-icon.loginBtn {
+                width: 16px;
+                height: 16px;
+                background-image: url("/AskaraErp/img/mail-inbox.svg");
+
+            }
+
+        </style>
+    </h:head>
+    <h:body style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{forceSessionCreateA.preRenderView()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <h:form id="frmlogin" style="height: 100%;margin: 0px;padding: 0px;">
+                <p:growl id="grolwlmsg"/>
+                <p:panel id="pnlLogin" styleClass="mainpanel">
+                    <ui:include src="imageBaner.xhtml"/>
+                    <p:separator styleClass="horizontalSeparator"/>  
+                    <img src="#{facesContext.externalContext.requestContextPath}/img/bg_oil_home.jpg" class="mainimage"/>
+                    <p:separator styleClass="verticalSeparator"/>  
+                    <p:panelGrid  id="panelgridforlogin" columns="2"> 
+                        <f:facet name="header" class="text1">
+                            #{i18n['ui.employeeManagementSystem']}
+                        </f:facet>
+                        <p:row>
+                            <p:column >
+                                <h:outputLabel value="#{i18n['ui.username']}" styleClass="outputLables"/>   
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column  styleClass="text1">
+                                <p:inputText id="username" value="#{loginbean.username}" styleClass="inputTxt"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column styleClass="text1">
+                                <h:outputLabel value="#{i18n['ui.password']}" styleClass="outputLables"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column >
+                                <p:inputText id="password" value="#{loginbean.password}" type="Password" styleClass="inputTxt"/>
+                            </p:column>
+                        </p:row>
+                        <p:row>
+                            <p:column colspan="4" styleClass="outputLables" >
+                                <p:commandButton value="#{i18n['ui.login']}" ajax="false" image="loginBtn"  
+                                                 actionListener="#{loginbean.checkLogin()}" update=":frmlogin:pnlLogin"/>
+                            </p:column>
+                        </p:row>                        
+                    </p:panelGrid>
+                </p:panel>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
+

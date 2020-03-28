@@ -1,0 +1,109 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+
+    <p:tabView id="tbvOutbox" dynamic="true" widgetVar="tabwizInComm" cache="false" activeIndex="#{internalCommunicationDAO.activeIndex}">
+        <p:tab id="tbAddOut" title="Add InternalCommunication" disabled="#{!internalCommunicationDAO.activeTab}">
+            <f:view>
+                <h:form id="frmOutAdd">
+                    <p:growl id="growlmsg" showDetail="false"/>   
+                    <p:scrollPanel style="width: 800px;height: 446px;" mode="native">
+                        <div align="center">                             
+                            <p:panelGrid style="width: 100%;">
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{i18n['ui.to']} *"/>
+                                    </p:column>
+                                    <p:column style="text-align: center">
+                                        <p:autoComplete value="#{internalCommunicationDAO.selectedIcTos}"   
+                                                        id="selectemployee" completeMethod="#{internalCommunicationDAO.completeEmployee}"  
+                                                        var="e" itemLabel="#{e.firstname}" itemValue="#{e}" converter="employees" multiple="true">
+                                            <f:facet name="itemtip">  
+                                                <h:panelGrid  columns="2" cellpadding="5">  
+                                                    <h:outputText value="#{i18n['ui.name']}: " style="font-weight: bold;" />  
+                                                    <h:outputText id="modelName" value="#{e.firstname} #{e.lastname}" />  
+                                                </h:panelGrid>  
+                                            </f:facet>  
+                                            <p:ajax event="itemSelect" listener="#{internalCommunicationDAO.checkValidEmployee()}" process="@this" update="@form"/> 
+                                            <p:ajax event="itemUnselect" listener="#{internalCommunicationDAO.handleUnselect}" process="@this" update="@form" /> 
+
+                                        </p:autoComplete><br/>
+                                        <h:outputText id="msgEmp" value="#{internalCommunicationDAO.strCheckEmp}" style="color: red;"/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{i18n['ui.subject']} *"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:inputText value="#{internalCommunicationDAO.selectedInterCommOutAdd.subject}" required="true" requiredMessage="#{i18n['ui.msg.subjectRequired']}" style="width: 100%;"/><br/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{i18n['ui.msgType']} *"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:selectOneMenu value="#{internalCommunicationDAO.selectedInterCommOutAdd.messagetype}"  id="msgType" effect="fade" required="true" requiredMessage="#{i18n['ui.msg.msgTypeRequired']}" >
+                                            <f:selectItem itemLabel="Select" itemValue=""/>  
+                                            <f:selectItem itemLabel="#{i18n['ui.request']}"  itemValue="R"/>
+                                            <f:selectItem itemLabel="#{i18n['ui.message']}" itemValue="M"/>
+                                            <f:selectItem itemLabel="#{i18n['ui.Info']}" itemValue="I"/>
+                                        </p:selectOneMenu><br/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column>
+                                        <h:outputText value="#{i18n['ui.Details']} *"/>
+                                    </p:column>
+                                    <p:column>
+                                        <p:editor value="#{internalCommunicationDAO.selectedInterCommOutAdd.details}" required="true" requiredMessage="#{i18n['ui.msg.details']}"/><br/>
+                                    </p:column>
+                                </p:row>
+                                <p:row>
+                                    <p:column colspan="2">
+                                        <p:commandButton id="sendNewMsg" value="Send" actionListener="#{internalCommunicationDAO.addIntCommOut}" rendered="${mainIncludeFilesSelect.includeFile == 'add'}" process="@form" update="@form :tbvInternalComunication:tbvOutbox"/>
+                                        <p:commandButton id="sendDraftMsg" value="Send" actionListener="#{internalCommunicationDAO.sendDraftMessage()}" rendered="${mainIncludeFilesSelect.includeFile == 'addDraftMessage'}" process="@form" update="@form :tbvInternalComunication:tbvOutbox"/>
+                                        <p:commandButton id="newDraftMsg" value="Save as Draft" action="#{internalCommunicationDAO.addDraftMessage()}" immediate="false" rendered="${mainIncludeFilesSelect.includeFile == 'add'}" process="@form" update="@form :tbvInternalComunication:tbvOutbox">
+                                            <f:phaseListener binding="#{internalCommunicationDAO.phaseListenerImpl}" type="util.PhaseListenerImpl"/>
+                                        </p:commandButton>
+                                        <p:commandButton id="updateDraftMsg" value="Save as Draft" action="#{internalCommunicationDAO.updateDraftMessage()}" rendered="${mainIncludeFilesSelect.includeFile == 'addDraftMessage'}" immediate="false" process="@form" update="@form :tbvInternalComunication:tbvOutbox">
+                                            <f:phaseListener binding="#{internalCommunicationDAO.phaseListenerImpl}" type="util.PhaseListenerImpl"/>
+                                        </p:commandButton>
+                                        <p:commandButton id="discardDraft" value="Discard Draft" actionListener="#{internalCommunicationDAO.discardTrashMessage()}" rendered="${mainIncludeFilesSelect.includeFile == 'addDraftMessage'}" update="@form :tbvInternalComunication:tbvOutbox"/>
+                                    </p:column>
+                                </p:row>
+                            </p:panelGrid>
+                        </div>
+                    </p:scrollPanel>
+                </h:form>
+            </f:view>
+        </p:tab>
+        <p:tab id="tbAddOutFile" title="Attache File" disabled="#{internalCommunicationDAO.activeTab}">
+            <h:form id="frmAddFile" enctype="multipart/form-data">
+                <p:growl id="msgGrowl" showDetail="false"/>
+                <p:scrollPanel style="width: 800px;height: 425px;" mode="native">
+                    <div align="left">
+                        <table>
+                            <tr>
+                                <TD>
+                                    <h:outputLabel value="#{i18n['ui.filename']} "/> 
+                                </TD>
+                                <td>
+                                    <p:fileUpload  fileUploadListener="#{internalCommunicationDAO.handleFileUpload}"  
+                                                   multiple="true"
+                                                   mode="advanced"
+                                                   auto="true" allowTypes="/(\.|\/)(pdf|doc|xls|ppt|docx|xlsx)$/" update="@form"/> 
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </p:scrollPanel>
+            </h:form>
+        </p:tab>
+    </p:tabView>
+</ui:composition>

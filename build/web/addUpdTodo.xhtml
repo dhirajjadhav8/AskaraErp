@@ -1,0 +1,66 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">   
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:loadBundle basename="employees" var="i18n"/>
+    <p:scrollPanel id="scrAddUpdateTodo" style="height: 590px;width: 800px;" mode="native">
+        <h:form id="addupdateTodo">
+            <p:panelGrid style="width: 100%;">
+                <p:row>
+                    <p:column resizable="true">
+                        <h:outputText value="#{i18n['ui.subject']} *" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column>
+                        <p:inputTextarea value="#{todosDAO.selectedTodo.subject}" style="width: 90%;" required="true" requiredMessage="#{i18n['ui.msg.subject']}"/>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{i18n['ui.priority']} *" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column>
+                        <p:selectOneMenu value="#{todosDAO.selectedTodo.priority}" required="true" requiredMessage="#{i18n['ui.msg.priority']}">
+                            <f:selectItem itemLabel="Select" itemValue=""/>
+                            <f:selectItem itemLabel="Low" itemValue="L"/>
+                            <f:selectItem itemLabel="Medium" itemValue="M"/>
+                            <f:selectItem itemLabel="High" itemValue="H"/>
+                            <f:selectItem itemLabel="Imadiate" itemValue="I"/>
+                        </p:selectOneMenu>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{i18n['ui.Deadline']} *" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column>
+                        <p:calendar value="#{todosDAO.selectedTodo.todoDate}" pattern="yyyy-MM-dd HH:mm a" required="true" requiredMessage="#{i18n['ui.msg.todoDate']}">
+                            <f:converter converterId="deadline"/>
+                        </p:calendar>
+                    </p:column>
+                </p:row>
+                <p:row>
+                    <p:column>
+                        <h:outputText value="#{i18n['ui.description']} *" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column>
+                        <p:editor value="#{todosDAO.selectedTodo.discription}" required="true" requiredMessage="#{i18n['ui.msg.description']}"/>
+                    </p:column>
+                </p:row>
+                <p:row rendered="${mainIncludeFilesSelect.includeFile == 'AddTodo'}">
+                    <p:column colspan="2">
+                        <p:commandButton value="Add" actionListener="#{todosDAO.addTodo()}" process="@form" update="@form :frmAddTodo:growlmsg :frmTodotbl:tblTODO"/>
+                    </p:column>
+                </p:row>
+                <p:row rendered="${mainIncludeFilesSelect.includeFile == 'updateTodo'}">
+                    <p:column colspan="2">
+                        <p:commandButton value="Update" actionListener="#{todosDAO.updateTodo()}" process="@form" update="@form :frmAddTodo:growlmsg :frmTodotbl:tblTODO"/>
+                    </p:column>
+                </p:row>
+            </p:panelGrid>
+        </h:form>
+    </p:scrollPanel>
+</ui:composition>
+

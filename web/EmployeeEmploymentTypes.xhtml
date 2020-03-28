@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Designation Responsibilities Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}empEmployment.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:loadBundle basename="employees" var="i18n"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <p:growl id="growlmsgssage" showDetail="false"/>  
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmempEmployment">
+                    <p:panel id="pnlemployment" header="Employees  " styleClass="searchPanel">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Employees " style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu value="#{employeeEmploymentTypesDAO.selectedEmployee}">
+                                        <f:selectItem itemLabel="-------Select---------" itemValue=""/>
+                                        <f:selectItems value="#{employeeEmploymentTypesDAO.employeesList}" 
+                                                       var="eachEmployee" itemLabel="#{eachEmployee.firstname} #{eachEmployee.lastname}" itemValue="#{eachEmployee.id}"/>
+                                        <p:ajax event="change" listener="#{employeeEmploymentTypesDAO.retrieveEmployeeEmploymentDetails()}" process="frmempEmployment"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel> 
+                </h:form>
+                <p:panel id="pnlemploymenttbl" styleClass="tblpanelforEmployment">
+                    <h:form id="frmAddEmployments">
+                        <p:dataTable id="addEmploymentstbl" value="#{employeeEmploymentTypesDAO.employeeEmploymentestoAdd}" 
+                                     selection="#{employeeEmploymentTypesDAO.selectedEmployeeEmploymenttoAdd}" 
+                                     selectionMode="single" var="eachEmploymentToAdd" styleClass="tbl1" paginator="true" rowKey="#{eachEmploymentToAdd.id}" 
+                                     rowStyleClass="rowheights" rows="3" paginatorPosition="bottom" rowIndexVar="srno">
+                            <f:facet name="header">
+                                <h:outputText value="Add Employments"/>
+                            </f:facet>
+                            <p:column headerText="Srno">
+                                #{srno+1}
+                            </p:column>
+                            <p:column headerText="Start Date">
+                                <p:calendar id="start_date" mode="popup" value="#{eachEmploymentToAdd.startDate}" navigator="true" pattern="yyyy-MM-dd" size="10">
+                                </p:calendar>
+                            </p:column>  
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachEmploymentToAdd.empnttypes.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Add" styleClass="btn1" actionListener="#{employeeEmploymentTypesDAO.addEmploymentToEmployee()}" process="frmAddEmployments"/>
+                    </h:form>
+                    <h:form id="frmUpdateEmployments">
+                        <p:dataTable id="employmentstbl" paginator="true" styleClass="tbl2" value="#{employeeEmploymentTypesDAO.employeeEmploymentestoUpdate}"
+                                     selection="#{employeeEmploymentTypesDAO.selectedEmployeeEmploymenttoUpdate}" selectionMode="single" var="eachEmploymentToUpdate"
+                                     rowKey="#{eachEmploymentToUpdate.id}" rowStyleClass="rowheights" rows="2" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <h:outputText value="Assigned Employments"/>
+                            </f:facet>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachEmploymentToUpdate.empnttypes.name}"/>
+                            </p:column>
+                            <p:column headerText="End Date">
+                                <p:calendar id="end_date" mode="popup" navigator="true" value="#{eachEmploymentToUpdate.endDate}" pattern="yyyy-MM-dd" size="10">
+                                </p:calendar>
+                            </p:column>
+                            <p:column headerText="End Reason">
+                                <p:inputTextarea value="#{eachEmploymentToUpdate.endReason}"/>
+                            </p:column>
+                        </p:dataTable>
+                        <p:commandButton value="Update" styleClass="btn2" actionListener="#{employeeEmploymentTypesDAO.updateEmployeeEmployment()}" 
+                                         process="frmUpdateEmployments"/>
+                    </h:form>
+                </p:panel>
+                <p:panel id="pnlEmploymentHistory" styleClass="pnlhistory">
+                    <h:form id="frmHistory">
+                        <p:dataTable id="historytbl" paginator="true" value="#{employeeEmploymentTypesDAO.employeeEmploymentesHistory}" 
+                                     var="eachEmploymentHistory" rowKey="#{eachEmploymentHistory.id}" 
+                                     rowStyleClass="rowheights" rows="1" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <h:outputText value="Employee Employment History"/>
+                            </f:facet>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachEmploymentHistory.empnttypes.name}"/>
+                            </p:column>
+                            <p:column headerText="Description">
+                                <h:outputText value="#{eachEmploymentHistory.empnttypes.description}"/>
+                            </p:column>
+                            <p:column headerText="Start Date">
+                                <h:outputText value="#{eachEmploymentHistory.startDate}"/>
+                            </p:column>
+                            <p:column headerText="End Date">
+                                <h:outputText value="#{eachEmploymentHistory.endDate}"/>
+                            </p:column>
+                            <p:column headerText="End Reason">
+                                <h:outputText value="#{eachEmploymentHistory.endReason}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+            </p:panel>
+        </div>
+        <ui:include src="EmployeeDocumentExpiryCount.xhtml"/> 
+    </h:body>
+</html>
+

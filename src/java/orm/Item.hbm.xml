@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.Item" table="ITEM" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="model" type="string">
+            <column name="MODEL" not-null="true" />
+        </property>
+        <property name="description" type="string">
+            <column name="DESCRIPTION" />
+        </property>
+        <many-to-one name="itype" class="orm.Itype" fetch="select">
+            <column name="ITYPEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <many-to-one name="imake" class="orm.Imake" fetch="select">
+            <column name="IMAKEID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="reorderlevel" type="int">
+            <column name="REORDERLEVEL" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="classification" type="char">
+            <column name="CLASSIFICATION" length="1" not-null="true" />
+        </property>
+        <property name="photo" type="string">
+            <column name="PHOTO" />
+        </property>
+        <set name="itemDetails" inverse="true">
+            <key>
+                <column name="ITEMID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.ItemDetails"/>
+        </set>
+        
+    </class>
+</hibernate-mapping>

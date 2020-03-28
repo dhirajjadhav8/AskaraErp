@@ -1,0 +1,223 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+
+    <p:confirmDialog id="dialogforEmpHistory" message="" widgetVar="dlgEmployeeInfo" header="Employee History Info" style="display: none;border-radius: 12px;" >
+        <f:facet name="message"></f:facet>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <h:form id="frmEmployeeHistory">   
+            <p:scrollPanel id="pnlEmpHistory" style="height: 520px;width: 1000px" mode="native">
+                <div align="center">
+                  <p:panelGrid id="pnlUpdatedEmployee" columns="27">
+                            <f:facet name="header">	
+                                <h:outputText value="Selected Current Employee Record" style="float: left"/>
+                            </f:facet>                       
+
+                            <h:outputText value="ID"/>
+
+                            <h:outputText value="FirstName"/>
+
+                            <h:outputText value="LastName"/>
+
+                            <h:outputText value="JoiningDate"/>
+
+                            <h:outputText value="TempAddress"/>
+
+                            <h:outputText value="PermAddress"/>
+
+                            <h:outputText value="Gender"/>
+
+                            <h:outputText value="MaritalStatus"/>
+
+                            <h:outputText value="TempPin"/>
+
+                            <h:outputText value="PermPin"/>
+
+                            <h:outputText value="BirthDate"/>
+
+                            <h:outputText value="PassportNo"/>
+
+                            <h:outputText value="PassportCopy"/>
+
+                            <h:outputText value="PasportExpDate"/>
+
+                            <h:outputText value="EmerCTC"/>
+
+                            <h:outputText value="EMERCTCNO"/>
+
+                            <h:outputText value="EMERCTCREL"/>
+
+                            <h:outputText value="PHONE"/>
+
+                            <h:outputText value="Nationality"/>
+
+                            <h:outputText value="TempCity"/>
+
+                            <h:outputText value="TempState"/>
+
+                            <h:outputText value="TempCountry"/>
+
+                            <h:outputText value="PermCity"/>
+
+                            <h:outputText value="PermState"/>
+
+                            <h:outputText value="PermCountry"/>
+
+                            <h:outputText value="LeavingDate"/>
+
+                            <h:outputText value="LeavingReason"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.id}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.firstname}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.lastname}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.joiningDate}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.tempAddress}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.permAddress}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.gender}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.maritalStatus}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.tempPin}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.permPin}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.birthDate}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.passportNo}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.passportCopy}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.passportExpdate}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.emerCtc}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.emerCtcNo}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.emerCtcRel}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.phone}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.nationality}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.tempCity}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.tempState}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.tempCountry}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.permCity}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.permState}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.permCountry}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.leavingDate}"/>
+
+                            <h:outputText value="#{employeesDAO.selectedEmployees.leavingReason}"/>
+
+                        </p:panelGrid>
+                   </div>               
+                
+                <p:dataTable id="tblEmpHistory" paginator="true" rowStyleClass="rowheights" rows="4" paginatorPosition="bottom" value="#{employeesDAO.allZEmployees}" rowIndexVar="srno" var="eachZEmployee" style="position: relative;left: -10%;top: 5%;">
+
+                    <f:facet name="header">
+                         <h:outputText value="Selected Employee History" style="float: left"/>                       
+                    </f:facet>
+
+                    <p:column headerText="SrNo.">
+                        #{srno+1}
+                    </p:column>
+                    <p:column headerText="FirstName">
+                        <h:outputText value="#{eachZEmployee.firstname}"/>
+                    </p:column>
+                    <p:column headerText="LastName">
+                        <h:outputText value="#{eachZEmployee.lastname}"/>
+                    </p:column>
+                    <p:column headerText="JoiningDate">
+                        <h:outputText value="#{eachZEmployee.joiningDate}"/>
+                    </p:column>
+                    <p:column headerText="TempAddress">
+                        <h:outputText value="#{eachZEmployee.tempAddress}"/>
+                    </p:column>
+                    <p:column headerText="PermAddress">
+                        <h:outputText value="#{eachZEmployee.permAddress}"/>
+                    </p:column>
+                    <p:column headerText="Gender">
+                        <h:outputText value="#{eachZEmployee.gender}"/>
+                    </p:column>
+                    <p:column headerText="MaritalStatus">
+                        <h:outputText value="#{eachZEmployee.maritalStatus}"/>
+                    </p:column>
+                    <p:column headerText="TempPin">
+                        <h:outputText value="#{eachZEmployee.tempPin}"/>
+                    </p:column>
+                    <p:column headerText="PermPin">
+                        <h:outputText value="#{eachZEmployee.permPin}"/>
+                    </p:column>
+                    <p:column headerText="Birth Date">
+                        <h:outputText value="#{eachZEmployee.birthDate}"/>
+                    </p:column>
+                    <p:column headerText="Passport No.">
+                        <h:outputText value="#{eachZEmployee.passportNo}"/>
+                    </p:column>
+                    <p:column headerText="Passport Copy">
+                        <h:outputText value="#{eachZEmployee.passportCopy}"/>
+                    </p:column>
+                    <p:column headerText="PassportExpDate">
+                        <h:outputText value="#{eachZEmployee.passportExpdate}"/>
+                    </p:column>
+                    <p:column headerText="EmerCtc">
+                        <h:outputText value="#{eachZEmployee.emerCtc}"/>
+                    </p:column>
+                    <p:column headerText="EmerCtcNo">
+                        <h:outputText value="#{eachZEmployee.emerCtcNo}"/>
+                    </p:column>
+                    <p:column headerText="EmerCtcRelation">
+                        <h:outputText value="#{eachZEmployee.emerCtcRel}"/>
+                    </p:column>
+                    <p:column headerText="Phone">
+                        <h:outputText value="#{eachZEmployee.phone}"/>
+                    </p:column>
+                    <p:column headerText="Nationality">
+                        <h:outputText value="#{eachZEmployee.nationality}"/>
+                    </p:column>
+                    <p:column headerText="TempCity">
+                        <h:outputText value="#{eachZEmployee.tempCity}"/>
+                    </p:column>
+                    <p:column headerText="TempState">
+                        <h:outputText value="#{eachZEmployee.tempState}"/>
+                    </p:column>
+                    <p:column headerText="TempCountry">
+                        <h:outputText value="#{eachZEmployee.tempCountry}"/>
+                    </p:column>
+                    <p:column headerText="PermCity">
+                        <h:outputText value="#{eachZEmployee.permCity}"/>
+                    </p:column>
+                    <p:column headerText="PermState">
+                        <h:outputText value="#{eachZEmployee.permState}"/>
+                    </p:column>
+                    <p:column headerText="PermCountry">
+                        <h:outputText value="#{eachZEmployee.permCountry}"/>
+                    </p:column>
+                    <p:column headerText="Leaving Date">
+                        <h:outputText value="#{eachZEmployee.leavingdate}"/>
+                    </p:column>
+                    <p:column headerText="Leaving Reason">
+                        <h:outputText value="#{eachZEmployee.leavingreason}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:scrollPanel>
+        </h:form>
+    </p:confirmDialog>
+</ui:composition>
+

@@ -1,0 +1,83 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:form id="frmItemAddUpd">
+        <p:growl id="msggrol"/>
+        <p:panelGrid id="pnlItemAddUpd" styleClass="panelgridstyle"> 
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.category']}" style="font-weight: bold"/>  
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu value="#{itemDAO.selectedCategory.id}" required="true" requiredMessage="#{i18n['ui.msg.categoryRequied']}">
+                        <f:selectItem  itemLabel="Select" itemValue="" />
+                        <f:selectItems value="#{itemDAO.allCategories}" var="eachCategory" itemLabel="#{eachCategory.name}" itemValue="#{eachCategory.id}"/>
+                        <p:ajax listener="#{itemDAO.retrieveItemType()}" update="itemtypetoAdd"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.type']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="itemtypetoAdd" value="#{itemDAO.selectedType.id}" required="true" requiredMessage="#{i18n['ui.msg.typeRequied']}">
+                        <f:selectItem  itemLabel="Select" itemValue="" />
+                        <f:selectItems value="#{itemDAO.allTypes}" var="eachType" itemLabel="#{eachType.name}" itemValue="#{eachType.id}"/>
+                    </p:selectOneMenu>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.make']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="itemmake" value="#{itemDAO.selectedMake.id}" required="true" requiredMessage="#{i18n['ui.msg.makeRequied']}">
+                        <f:selectItem  itemLabel="Select" itemValue="" />
+                        <f:selectItems value="#{itemDAO.allMakes}" var="eachMake" itemLabel="#{eachMake.name}" itemValue="#{eachMake.id}"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.Model']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{itemDAO.selectedItem.model}" required="true" requiredMessage="#{i18n['ui.msg.modelRequied']}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.classification']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column>
+                    <p:selectOneMenu id="itemClassification" value="#{itemDAO.selectedItem.classification}">
+                        <f:selectItem  itemLabel="Select" itemValue="" />
+                        <f:selectItem itemLabel="Consumable" itemValue="C"/>
+                        <f:selectItem itemLabel="Non_Consumable" itemValue="N"/>
+                    </p:selectOneMenu>
+                </p:column>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.reorderLevel']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column>
+                    <p:inputText value="#{itemDAO.selectedItem.reorderlevel}" required="true" requiredMessage="#{i18n['ui.msg.reorderlevelrequired']}">
+                        <f:validator validatorId="NumberValidaterForOrderLevel"/>
+                    </p:inputText>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column>
+                    <h:outputText value="#{i18n['ui.description']}" style="font-weight: bold"/>
+                </p:column>
+                <p:column colspan="3">
+                    <p:inputTextarea value="#{itemDAO.selectedItem.description}"/>
+                </p:column>
+            </p:row>
+            <p:row>
+                <p:column colspan="4">
+                    <p:commandButton value="Add" actionListener="#{itemDAO.addItem()}" process="@form" update="@form :tbvItem:frmItemAddUpd:msggrol"/>
+                </p:column>
+            </p:row>
+        </p:panelGrid>
+    </h:form>
+</ui:composition>

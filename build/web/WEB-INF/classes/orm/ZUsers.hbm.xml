@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<!-- Generated 12 Feb, 2013 3:25:23 PM by Hibernate Tools 3.2.1.GA -->
+<hibernate-mapping>
+    <class name="orm.ZUsers" table="Z_USERS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="userid" type="int">
+            <column name="USERID" not-null="true" />
+        </property>
+        <property name="username" type="string">
+            <column name="USERNAME" />
+        </property>
+        <property name="password" type="string">
+            <column name="PASSWORD" />
+        </property>
+        <property name="employeeid" type="int">
+            <column name="EMPLOYEEID" not-null="true" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="java.lang.Integer">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="passwordchangedon" type="timestamp">
+            <column name="PASSWORDCHANGEDON" length="29" />
+        </property>
+        <property name="salt" type="string">
+            <column name="SALT" not-null="false" />
+        </property>
+    </class>
+</hibernate-mapping>

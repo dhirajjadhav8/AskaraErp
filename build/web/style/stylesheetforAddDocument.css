@@ -1,0 +1,26 @@
+/* 
+    Document   : stylesheetforAddDocument
+    Created on : 12 Jan, 2013, 12:49:21 PM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+.ui-dialog .ui-dialog-content {
+position: relative;
+border: 0;
+padding:  .1em .1em;
+background: none;
+overflow: visible;
+zoom: 0;
+}
+p {
+    display: none;
+-webkit-margin-before: 0em;
+-webkit-margin-after: 0em;
+-webkit-margin-start: 0px;
+-webkit-margin-end: 0px;
+}

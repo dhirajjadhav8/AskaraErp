@@ -1,0 +1,90 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    
+    <p:growl id="growlmsgess" showDetail="false"/>
+    <p:scrollPanel id="scrlPnl" style="height: 440px;width: 80%;border: 0;" mode="native">
+        <h:form id="frmEmpDesigToAdd">
+            <p:panel id="pnlAddDesigToEmp" style="position: absolute;height: 48%;width: 45%;left: 5%;">
+                <p:dataTable id="addDesignationtbl" value="#{employeeDesignationsDAO.designationToAdd}" var="eachDesignation" rowKey="#{eachDesignation.designations.id}" 
+                             selection="#{employeeDesignationsDAO.selectedEmployeeDesignationToAdd}" selectionMode="single" rowIndexVar="srno" style="width: 100%;height: 30%;"
+                             paginator="true" rows="3" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <h:outputText value="Add Designation"/>
+                    </f:facet>
+                    <p:column headerText="Srno">
+                        #{srno+1}
+                    </p:column>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{eachDesignation.designations.name}"/>
+                    </p:column>
+                    <p:column headerText="Start Date">
+                        <p:calendar id="start_date" mode="popup" navigator="true" value="#{eachDesignation.startDate}" pattern="yyyy-MM-dd" size="10">
+                        </p:calendar>
+                    </p:column>  
+                    <f:facet name="footer">
+                        <p:commandButton value="Add" actionListener="#{employeeDesignationsDAO.addDesignationToEmployee()}" 
+                                 process="@form" 
+                                 update="@(form)"/>
+                    </f:facet>
+                </p:dataTable>
+                
+            </p:panel>
+        </h:form>
+        <h:form id="frmEmpDesigToUpdate">
+            <p:panel id="pnlAssignedDesignation" style="position: absolute;height: 48%;width: 45%;left: 50%;">
+                <p:dataTable id="assignedDesignationtbl"  
+                             value="#{employeeDesignationsDAO.assignedDesignations}" var="eachAssignedDesignation" rowKey="#{eachAssignedDesignation.id}" 
+                             selection="#{employeeDesignationsDAO.selectedEmployeeDesignationToUpdate}" selectionMode="single" style="width: 100%;height: 30%;"
+                             paginator="true" rows="1" paginatorPosition="bottom">
+                    <f:facet name="header">
+                        <h:outputText value="Add Designation"/>
+                    </f:facet>
+                    <p:column headerText="Name">
+                        <h:outputText value="#{eachAssignedDesignation.designations.name}" style="text-align: left;"/>
+                    </p:column>
+                    <p:column headerText="End Date">
+                        <p:calendar id="end_date" mode="popup" navigator="true" value="#{eachAssignedDesignation.endDate}" pattern="yyyy-MM-dd" size="10">
+                        </p:calendar>
+                    </p:column>
+                    <p:column headerText="End Reason">
+                        <p:inputTextarea value="#{eachAssignedDesignation.endReason}" style="position: relative; width:70%;height: 80%;"/>
+                    </p:column>
+                    <f:facet name="footer">
+                        <p:commandButton value="Update" actionListener="#{employeeDesignationsDAO.updateEmployeeDesignations()}" 
+                                 process="@form" 
+                                 update="@form :tbvEmployees:frmEmpDesigToAdd :tbvEmployees:frmEmpDesigToUpdate :tbvEmployees:frmHistoryEmpDesig :tbvEmployees:growlmsgess"/>
+                    </f:facet>
+                </p:dataTable>                
+            </p:panel>
+        </h:form>
+        <h:form id="frmHistoryEmpDesig">
+            <p:panel id="pnlhistory" style="width: 92%;border: 0px;position: absolute; left: 3.8%; top: 62%">
+                <p:dataTable id="historytbl" paginator="true" rowStyleClass="rowheights" rows="3" paginatorPosition="bottom" 
+                             value="#{employeeDesignationsDAO.designationHistory}" var="eachEmployeeDesignation" 
+                             style="height: 40%;width: 98%;position: absolute;text-align: left;">
+                    <f:facet name="header">
+                        <h:outputText value="Designation ResponSibilities History"/>
+                    </f:facet>s
+                    <p:column headerText="Name">
+                        <h:outputText value="#{eachEmployeeDesignation.designations.name}"/>
+                    </p:column>
+                    <p:column headerText="Start Date">
+                        <h:outputText value="#{eachEmployeeDesignation.startDate}"/>
+                    </p:column>
+                    <p:column headerText="End Date">
+                        <h:outputText value="#{eachEmployeeDesignation.endDate}"/>
+                    </p:column>
+                    <p:column headerText="End Reason">
+                        <h:outputText value="#{eachEmployeeDesignation.endReason}"/>
+                    </p:column>
+                </p:dataTable>
+            </p:panel>
+        </h:form>
+    </p:scrollPanel>
+</ui:composition>
+

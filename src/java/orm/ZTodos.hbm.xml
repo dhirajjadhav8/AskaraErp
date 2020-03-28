@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.ZTodos" table="Z_TODOS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="todosid" type="int">
+            <column name="TODOSID" not-null="true" />
+        </property>
+        <property name="subject" type="string">
+            <column name="SUBJECT" />
+        </property>
+        <property name="discription" type="string">
+            <column name="DISCRIPTION" length="32672" />
+        </property>
+        <property name="todoDate" type="timestamp">
+            <column name="TODO_DATE" length="29" />
+        </property>
+        <property name="priority" type="char">
+            <column name="PRIORITY" length="1" />
+        </property>
+        <property name="todofor" type="int">
+            <column name="TODOFOR" />
+        </property>
+        <property name="iscompleted" type="java.lang.Boolean">
+            <column name="ISCOMPLETED" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="completeDate" type="timestamp">
+            <column name="COMPLETE_DATE" length="29" />
+        </property>
+    </class>
+</hibernate-mapping>

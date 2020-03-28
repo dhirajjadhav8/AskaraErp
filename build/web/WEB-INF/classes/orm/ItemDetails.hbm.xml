@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.ItemDetails" table="ITEM_DETAILS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <many-to-one name="item" class="orm.Item" fetch="select">
+            <column name="ITEMID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="manufserialno" type="string">
+            <column name="MANUFSERIALNO" not-null="true" />
+        </property>
+        <property name="purchaseDate" type="date">
+            <column name="PURCHASE_DATE" length="10" />
+        </property>
+        <property name="warrentyexpDate" type="date">
+            <column name="WARRENTYEXP_DATE" length="10" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" not-null="true" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+        <property name="specifications" type="string">
+            <column name="SPECIFICATIONS" length="2000" />
+        </property>
+        <set name="roomFacilities" inverse="true">
+            <key>
+                <column name="ITEMDETAILSID" not-null="true">
+                    <comment/>
+                </column>
+            </key>
+            <one-to-many class="orm.RoomFacilities"/>
+        </set>
+    </class>
+</hibernate-mapping>

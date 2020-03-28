@@ -1,0 +1,104 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Add Project Incharge Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}StylesheetForProjectIncharge.css"></link>
+
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 10px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{projectInchargeDAO.retrieveAllProjectIncharge()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{projectInchargeDAO.retrieveProjects()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddProjectIncharge" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>                   
+                    <p:panel header="#{i18n['ui.Bean.ProjectAddIncharge']}" styleClass="searchPanel">
+                        <table width="40%">
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.searchemployees']} *  " style="font-weight: bold"/>  
+                                </td>
+                                <td>
+                                    <p:inputText value="#{projectInchargeDAO.strEmployeeSearch}">
+                                        <p:ajax listener="#{projectInchargeDAO.retrieveEmployeeBySearch()}" event="keyup" process="@this" update="growlmsg :frmAddProjectIncharge:employeesToAssigned"/>
+                                        <f:validator validatorId="search"/>
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.Bean.Employee']} *  " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="employeesToAssigned" value="#{projectInchargeDAO.selectedEmployee.id}" 
+                                                      effect="fade" required="true" requiredMessage="Please select at least one employee to add.">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{projectInchargeDAO.searchEmployees}" var="eachEmployeeToAdd" itemLabel="#{eachEmployeeToAdd.firstname} #{eachEmployeeToAdd.lastname}" 
+                                                       itemValue="#{eachEmployeeToAdd.id}"/>                                        
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.projectname']} * " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="projectname" value="#{projectInchargeDAO.selectedProject.id}" effect="fade" required="true" requiredMessage="Please select at least one project to add.">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{projectInchargeDAO.allProjects}" var="eachProject" itemLabel="#{eachProject.name}" itemValue="#{eachProject.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <h:outputText value="Start_Date *" style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <p:calendar value="#{projectInchargeDAO.selectedProjectIncharge.startDate}" mode="popup" navigator="true" pattern="yyyy-MM-dd" size="10" required="true" requiredMessage="Start Date is required."/>
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2">
+                                    <p:commandButton value="Add" actionListener="#{projectInchargeDAO.addProjectIncharge()}" process="@form" update=":frmAddProjectIncharge :frmProjectInchTbl"/>
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmProjectInchTbl">
+                    <p:contextMenu for="tblProjIncharge">
+                            <p:menuitem value="Update" actionListener="#{projectInchargeDAO.updateProjectIncharge()}" process="@form" update="@form :frmAddProjectIncharge :frmAddProjectIncharge:growlmsg"/>
+                        </p:contextMenu>
+                    <p:dataTable id="tblProjIncharge" value="#{projectInchargeDAO.allProjectIncharges}" var="eachProjectIncharge" 
+                                 rowKey="#{eachProjectIncharge.id}" paginator="true" paginatorPosition="bottom" rows="3" 
+                                 selection="#{projectInchargeDAO.selectedProjectInchargeToupdate}" selectionMode="single"
+                                 style="position: absolute;top: 41%;width: 79.5%;text-align: left;">
+                        <p:column headerText="Employee" styleClass="tblHeader">
+                            <h:outputText value="#{eachProjectIncharge.employees.firstname} #{eachProjectIncharge.employees.lastname}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Project" styleClass="tblHeader">
+                            <h:outputText value="#{eachProjectIncharge.projects.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Start Date" styleClass="tblHeader">
+                            <h:outputText value="#{eachProjectIncharge.startDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="End Date" styleClass="tblHeader">
+                            <p:calendar value="#{eachProjectIncharge.endDate}" mindate="#{eachProjectIncharge.startDate}" maxdate="#{mainIncludeFilesSelect.currentDate}" mode="popup" navigator="true" pattern="yyyy-MM-dd" size="10"  disabled="${eachProjectIncharge.endDate != null}" />
+                        </p:column> 
+                        <p:column headerText="End Reason" styleClass="tblHeader">
+                            <p:inputTextarea value="#{eachProjectIncharge.endReason}" disabled="${(eachProjectIncharge.endReason == null || eachProjectIncharge.endReason == '')?false:true}" style="width: 80%;"/>
+                        </p:column> 
+                    </p:dataTable>          
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>
+

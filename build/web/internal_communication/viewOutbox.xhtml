@@ -1,0 +1,133 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveOutboxFolders()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.checkStatusForOutboxView}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveAllOutboxViewTos}"/>
+    <p:scrollPanel id="scrOutboxView" style="height: 416px;width: 800px;" mode="native">
+        <div align="center">
+            <h:form id="frmviewOutbox">
+                <p:panelGrid style="width: 100%;"> 
+                    <f:facet name="header">
+                        Outbox
+                    </f:facet>
+                    <p:row rendered="#{mainIncludeFilesSelect.includeFile !='viewTrashMessage'}">
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.moveTo']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column>
+                            <table style="border-color: white;padding: 1px;">
+                                <tr>
+                                    <td>
+                                        <p:selectOneMenu  id="outboxMoveTo" value="#{internalCommunicationDAO.selectedOutBoxFolder.id}">
+                                            <f:selectItem itemLabel="Select" id="Select" itemValue=""/>
+                                            <f:selectItems value="#{internalCommunicationDAO.allOutoxFolderwithoutDraftTrash}" var="eachFolder" itemLabel="#{eachFolder.name}" itemValue="#{eachFolder.id}"/>
+                                            <p:ajax listener="#{internalCommunicationDAO.moveToOutBoxMessageToSelectedFolder()}" process="@this" update=":tbvInternalComunication:frmOutbox"/>
+                                        </p:selectOneMenu>
+                                    </td>
+                                    <td>
+                                        <p:commandButton value="+" actionListener="#{internalCommunicationDAO.removeSelectedOutboxIcFolder()}" update="@form" style="position: relative;left: 15%;height: 66%;"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:column>
+                    </p:row> 
+                    <p:row>
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.to']}" style="font-weight: bold;"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <p:commandButton value="" id="tos" icon="ui-icon-arrowreturnthick-1-e"/>
+                            <p:overlayPanel id="tosPanel" for="tos" showEffect="fade" hideEffect="fade" styleClass="tos" showEvent="mouseover" hideEvent="mouseout" > 
+                                <p:scrollPanel styleClass="tos">
+                                    <ui:repeat value="#{internalCommunicationDAO.allOutBoxViewTos}" var="eachTos">
+                                        <p:graphicImage cache="false" id="images" value="#{eachTos.requestTo.photo}" style="height: 50px ; width: 50px; alignment-adjust: central"/>
+                                        <h:outputText value="#{eachTos.requestTo.firstname} #{eachTos.requestTo.lastname}"/><br/>
+                                    </ui:repeat>  
+                                </p:scrollPanel>
+                            </p:overlayPanel>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.subject']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommOutboxView.subject}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Date']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommOutboxView.requestDate}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.status']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommOutboxView.status}">
+                                <f:converter converterId="status"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.msgType']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommOutboxView.messagetype}">
+                                <f:converter converterId="messageType"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Details']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommOutboxView.details}" escape="false"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isRejected}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.RejectedDate']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:calendar id="rejDates" value="#{internalCommunicationDAO.selectedInterCommOutboxView.rejectedDate}" pattern="yyyy-MM-dd" disabled="true" />
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isRejected}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.RejectedReason']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:inputTextarea id="rejReasons" value="#{internalCommunicationDAO.selectedInterCommOutboxView.rejectedReason}" disabled="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isNotes}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Notes']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:editor id="notes" value="#{internalCommunicationDAO.selectedInterCommOutboxView.notes}" disabled="true"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{mainIncludeFilesSelect.includeFile !='viewTrashMessage'}">
+                        <p:column colspan="2">
+                            <p:commandButton value="MoveToTrash" actionListener="#{internalCommunicationDAO.moveOutboxMsgToTrash()}" process="@form" update="@form :tbvInternalComunication:frmOutbox :tbvInternalComunication:frmOutbox:outboxtbl"/>
+                        </p:column>
+                    </p:row>    
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </p:scrollPanel>
+</ui:composition>
+

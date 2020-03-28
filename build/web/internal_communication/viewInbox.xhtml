@@ -1,0 +1,135 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.checkStatusForInboxView()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveInboxFolders()}"/>
+    <p:scrollPanel id="scrInboxView" style="height: 416px;width: 800px;" mode="native">
+        <div align="center">
+            <h:form id="frmviewInbox">
+                <p:panelGrid style="width: 100%;"> 
+                    <f:facet name="header">
+                        Inbox
+                    </f:facet>
+                    <p:row rendered="#{mainIncludeFilesSelect.includeFile!='viewInboxTrash'}">
+                        <p:column>
+                            <h:outputText value="#{i18n['ui.moveTo']}" style="font-weight: bold;"/>
+                        </p:column>
+                        <p:column>
+                            <table style="border-color: white;padding: 1px;">
+                                <tr>
+                                    <td>
+                                        <p:selectOneMenu  id="inboxMoveTo" value="#{internalCommunicationDAO.selectedIcFolder.id}">
+                                            <f:selectItem itemLabel="Select" id="Select" itemValue=""/>
+                                            <f:selectItems value="#{internalCommunicationDAO.allInboxFolderWithoutDraftTrash}" var="eachFolder" itemLabel="#{eachFolder.name}" itemValue="#{eachFolder.id}"/>
+                                            <p:ajax listener="#{internalCommunicationDAO.moveToInBoxMessageToSelectedFolder()}" process="@this" update=":tbvInternalComunication:frmInbox"/>
+                                        </p:selectOneMenu> 
+                                    </td>
+                                    <td>
+                                        <p:commandButton value="+" actionListener="#{internalCommunicationDAO.removeSelectedInboxIcFolder()}" update="@form" style="position: relative;left: 15%;height: 66%;"/>
+
+                                    </td>
+                                </tr>
+                            </table>
+                        </p:column>
+                    </p:row>    
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.from']}" style="font-weight: bold;"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.requestFrom.firstname} #{internalCommunicationDAO.selectedInterCommInboxView.requestFrom.lastname}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.subject']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.subject}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Date']}" style="font-weight: bold"/> 
+                        </p:column>
+                        <p:column styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.requestDate}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.status']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth" rendered="#{mainIncludeFilesSelect.includeFile!='viewInboxTrash'}">
+                            <p:selectOneMenu  id="inboxStatus" value="#{internalCommunicationDAO.selectedInterCommInboxView.status}">
+                                <f:selectItem itemLabel="Open" id="Open" itemValue="O"/>
+                                <f:selectItem itemLabel="Inprocess" id="Inprocess" itemValue="I"/>
+                                <f:selectItem itemLabel="Rejected" id="Rejected" itemValue="R"/>
+                                <f:selectItem itemLabel="Close" id="Close" itemValue="C"/>
+                                <p:ajax listener="#{internalCommunicationDAO.checkStatusForInboxView}" process="@this" update="@form rejDate rejReason rejReason"/>
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column rendered="#{mainIncludeFilesSelect.includeFile=='viewInboxTrash'}">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.status}">
+                                <f:converter converterId="status"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.msgType']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.messagetype}">
+                                <f:converter converterId="messageType"/>
+                            </h:outputText>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Details']}" style="font-weight: bold"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <h:outputText value="#{internalCommunicationDAO.selectedInterCommInboxView.details}" escape="false"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isRejected}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.RejectedDate']}" style="font-weight: bold" rendered="#{!internalCommunicationDAO.isRejected}"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:calendar id="rejDate" value="#{internalCommunicationDAO.selectedInterCommInboxView.rejectedDate}" pattern="yyyy-MM-dd" disabled="#{internalCommunicationDAO.isRejected}" rendered="#{!internalCommunicationDAO.isRejected}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isRejected}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.RejectedReason']}" style="font-weight: bold" rendered="#{!internalCommunicationDAO.isRejected}"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:inputTextarea id="rejReason" value="#{internalCommunicationDAO.selectedInterCommInboxView.rejectedReason}" disabled="#{internalCommunicationDAO.isRejected}" rendered="#{!internalCommunicationDAO.isRejected}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row rendered="#{!internalCommunicationDAO.isNotes}">
+                        <p:column styleClass="labelfield">
+                            <h:outputText value="#{i18n['ui.Notes']}" style="font-weight: bold" rendered="#{!internalCommunicationDAO.isNotes}"/>   
+                        </p:column>
+                        <p:column  styleClass="columnwidth">
+                            <p:editor id="notes" value="#{internalCommunicationDAO.selectedInterCommInboxView.notes}" disabled="#{internalCommunicationDAO.isNotes}" rendered="#{!internalCommunicationDAO.isNotes}"/>
+                        </p:column>
+                    </p:row>
+                    <p:row>
+                        <p:column colspan="2">
+                            <p:commandButton value="Update" actionListener="#{internalCommunicationDAO.updateSelectedInboxView()}" process="@form" update="@form :tbvInternalComunication:frmInbox" rendered="#{mainIncludeFilesSelect.includeFile!='viewInboxTrash'}"/>
+                            <p:commandButton value="Move To Trash" actionListener="#{internalCommunicationDAO.moveInboxMsgToTrash()}" process="@form" update="@form :tbvInternalComunication:frmInbox" rendered="#{mainIncludeFilesSelect.includeFile!='viewInboxTrash'}"/>
+                            <p:commandButton value="Close" onclick="DlgConfirmForInbox.ide();" process="@form" update="@form :tbvInternalComunication:frmInbox"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+            </h:form>
+        </div>
+    </p:scrollPanel>
+</ui:composition>

@@ -1,0 +1,112 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Add Department Incharge Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}styleSheetforDepartmentIncharge.css"></link>
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 10px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{departmentInchargeDAO.retrieveAllDepartmentIncharge()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{departmentInchargeDAO.retrieveDepartments()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmAddDepartmentIncharge" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>                   
+                    <p:panel header="#{i18n['ui.Bean.DepartmentAddIncharge']}" styleClass="searchPanel">
+                        <table width="40%">
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.searchemployees']} *  " style="font-weight: bold"/>  
+                                </td>
+                                <td>
+                                    <p:inputText value="#{departmentInchargeDAO.strEmployeeSearch}">
+                                        <p:ajax listener="#{departmentInchargeDAO.retrieveEmployeeBySearch()}" event="keyup" 
+                                                process="@this" update="growlmsg :frmAddDepartmentIncharge:empToAssigned"/>
+                                        <f:validator validatorId="search"/>
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.Bean.Employee']} *  " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="empToAssigned" value="#{departmentInchargeDAO.selectedEmployee.id}" 
+                                                      effect="fade" required="true" requiredMessage="#{i18n['ui.msg.SelectEmpToAdd']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{departmentInchargeDAO.searchEmployees}" var="eachEmp" 
+                                                       itemLabel="#{eachEmp.firstname} #{eachEmp.lastname}" itemValue="#{eachEmp.id}"/>                                       
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.department']} * " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="departmentname" value="#{departmentInchargeDAO.selectedDepartment.id}" effect="fade" 
+                                                      required="true" requiredMessage="#{i18n['ui.msg.SelectDepToAdd']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{departmentInchargeDAO.allDepartments}" var="eachDepartment" 
+                                                       itemLabel="#{eachDepartment.name}" itemValue="#{eachDepartment.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <h:outputText value="Start_Date *" style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <p:calendar mode="popup" value="#{departmentInchargeDAO.selectedDepartmentIncharge.startDate}" 
+                                                navigator="true" pattern="yyyy-MM-dd" size="10" required="true" requiredMessage="#{i18n['ui.Bean.StartDate']}"/>
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td colspan="2">
+                                    <p:commandButton value="Add" actionListener="#{departmentInchargeDAO.addDepartmentIncharge()}"  
+                                                     process="@form" update=":frmAddDepartmentIncharge :frmDepartmentInchTbl"/>
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmDepartmentInchTbl">
+                    <p:contextMenu for="tblDepIncharge">
+                        <p:menuitem actionListener="#{departmentInchargeDAO.updateDepartmentIncharge()}" value="Update" 
+                                    process="@form" update="@form :frmAddDepartmentIncharge :frmAddDepartmentIncharge:growlmsg"/>
+                    </p:contextMenu>
+                    <p:dataTable id="tblDepIncharge" paginator="true" paginatorPosition="bottom" rows="4" 
+                                 value="#{departmentInchargeDAO.allDepartmentIncharges}" var="eachDepartmentIncharge" rowKey="#{eachDepartmentIncharge.id}" 
+                                 selection="#{departmentInchargeDAO.selectedDepartmentInchargeToupdate}" selectionMode="single"
+                                 style="position: absolute;top: 41%;width: 79.5%;text-align: left;">
+                        <p:column headerText="Employee" styleClass="tblHeader">
+                            <h:outputText value="#{eachDepartmentIncharge.employees.firstname} #{eachDepartmentIncharge.employees.lastname}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Department" styleClass="tblHeader">
+                            <h:outputText value="#{eachDepartmentIncharge.departments.name}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="Start Date" styleClass="tblHeader">
+                            <h:outputText value="#{eachDepartmentIncharge.startDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="End Date" styleClass="tblHeader">
+                            <p:calendar value="#{eachDepartmentIncharge.endDate}" 
+                                        mindate="#{eachDepartmentIncharge.startDate}" maxdate="#{mainIncludeFilesSelect.currentDate}" mode="popup" navigator="true" pattern="yyyy-MM-dd" size="10" 
+                                        disabled="${eachDepartmentIncharge.endDate != null}"/>
+                        </p:column> 
+                        <p:column headerText="End Reason" styleClass="tblHeader">
+                            <p:inputTextarea value="#{eachDepartmentIncharge.endReason}" 
+                                             disabled="${(eachDepartmentIncharge.endReason == null || eachDepartmentIncharge.endReason == '')?false:true}" style="width: 80%;"/>
+                        </p:column> 
+                    </p:dataTable>          
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>
+

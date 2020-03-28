@@ -1,0 +1,125 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Designation Responsibilities Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}EmployeeResponsibility.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 10px;background-color: white;">
+        <f:loadBundle basename="employees" var="i18n"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{employeeResponsibilitiesDAO.retrieveEmployeeList()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <p:growl id="growlmsgssage" showDetail="false"/>  
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmempResponse">
+                    <p:panel id="pnlemployee" header="Employee  " styleClass="searchPanel">
+                        <table>
+                            <tr>
+                                <td>
+                                    <p:outputLabel value="Employee " style="font-weight: bold"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu value="#{employeeResponsibilitiesDAO.selectedEmployee}">
+                                        <f:selectItem itemLabel="-------Select---------" itemValue=""/>
+                                        <f:selectItems value="#{employeeResponsibilitiesDAO.allEmployees}" var="eachEmployee" 
+                                                       itemLabel="#{eachEmployee.firstname} #{eachEmployee.lastname}" itemValue="#{eachEmployee.id}"/>  
+                                        <p:ajax listener="#{employeeResponsibilitiesDAO.retrieveEmployeeResponsibilities()}" update=":pnlemprespontbl :pnlEmpResponsehistory"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel> 
+                </h:form>
+                <p:panel id="pnlemprespontbl" styleClass="tblpanelforRespon">
+                    <h:form id="frmResponsibilitiestoadd">
+                        <p:dataTable id="addEmpResponsibilitiestbl" styleClass="tbl1" paginator="true"
+                                     value="#{employeeResponsibilitiesDAO.responsibilitiesToAdd}" var="eachEmpResp" rowKey="#{eachEmpResp.responsibilities.id}" 
+                                     selection="#{employeeResponsibilitiesDAO.selectedEmpResponToAdd}" selectionMode="single"
+                                     rowStyleClass="rowheights" rows="3" paginatorPosition="bottom" rowIndexVar="srno">
+                            <f:facet name="header">
+                                <h:outputText value="Add Employee Responsibilities"/>
+                            </f:facet>
+                            <p:column headerText="Srno">
+                                #{srno+1}
+                            </p:column>
+                            <p:column headerText="Start Date">
+                                <p:calendar id="start_date" value="#{eachEmpResp.startDate}" mode="popup" navigator="true" pattern="yyyy-MM-dd" size="10">
+                                </p:calendar>
+                            </p:column>  
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachEmpResp.responsibilities.name}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Add" actionListener="#{employeeResponsibilitiesDAO.addEmployeeResponsibility()}" process="@form" update="@form :frmUpdateEmpResponsibilities :frmHistory" />
+                            </f:facet>
+                        </p:dataTable>
+
+                    </h:form>
+                    <h:form id="frmUpdateEmpResponsibilities">
+                        <p:dataTable id="Emprespontbl" styleClass="tbl2" paginator="true" value="#{employeeResponsibilitiesDAO.assignedResponsibilities}" 
+                                     var="eachAssignRespon" rowKey="#{eachAssignRespon.id}" selection="#{employeeResponsibilitiesDAO.selectedEmpResponToUpdate}" 
+                                     selectionMode="single"
+                                     rowStyleClass="rowheights" rows="2" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <h:outputText value="Assigned Employee Responsibilities"/>
+                            </f:facet>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachAssignRespon.responsibilities.name}" />
+                            </p:column>
+                            <p:column headerText="Description">
+                                <h:outputText value="#{eachAssignRespon.responsibilities.description}"/>
+                            </p:column>
+                            <p:column headerText="End Date">
+                                <p:calendar id="end_date" value="#{eachAssignRespon.endDate}" mindate="#{eachAssignRespon.startDate}" mode="popup" maxdate="#{mainIncludeFilesSelect.currentDate}" navigator="true" pattern="yyyy-MM-dd" size="10">
+                                </p:calendar>
+                            </p:column>
+                            <p:column headerText="End Reason">
+                                <p:inputTextarea value="#{eachAssignRespon.endReason}" />
+                            </p:column>
+                            <f:facet name="footer">
+                                <p:commandButton value="Update" actionListener="#{employeeResponsibilitiesDAO.updateEmployeeResponsibility()}" process="@form"  update="@form :frmResponsibilitiestoadd :frmHistory"/>
+                            </f:facet>   
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+                <p:panel id="pnlEmpResponsehistory" styleClass="pnlhistory">
+                    <h:form id="frmHistory">
+                        <p:dataTable id="historytbl" value="#{employeeResponsibilitiesDAO.empResponsibilityHistory}" var="eachEmpResHistory" 
+                                     rowKey="#{eachEmpResHistory.id}"
+                                     paginator="true" rowStyleClass="rowheights" rows="1" paginatorPosition="bottom">
+                            <f:facet name="header">
+                                <h:outputText value="Employee ResponSibilities History"/>
+                            </f:facet>
+                            <p:column headerText="Name">
+                                <h:outputText value="#{eachEmpResHistory.responsibilities.name}" />
+                            </p:column>
+                            <p:column headerText="Description">
+                                <h:outputText value="#{eachEmpResHistory.responsibilities.description}" />
+                            </p:column>
+                            <p:column headerText="Start Date">
+                                <h:outputText value="#{eachEmpResHistory.startDate}" />
+                            </p:column>
+                            <p:column headerText="End Date">
+                                <h:outputText value="#{eachEmpResHistory.endDate}"/>
+                            </p:column>
+                            <p:column headerText="End Reason">
+                                <h:outputText value="#{eachEmpResHistory.endReason}" />
+                            </p:column>
+                        </p:dataTable>
+                    </h:form>
+                </p:panel>
+            </p:panel>
+        </div> 
+    </h:body>
+</html>
+

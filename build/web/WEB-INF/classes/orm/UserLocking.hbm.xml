@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+    <class name="orm.UserLocking" table="USER_LOCKING" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>             
+        <many-to-one name="users" class="orm.Users" fetch="select">
+            <column name="USERID" not-null="true">
+                <comment/>
+            </column>
+        </many-to-one>
+        <property name="lockDate" type="date">
+            <column name="LOCK_DATE" length="10" />
+        </property>        
+        <property name="lockReason" type="string">
+            <column name="LOCK_REASON" />
+        </property>
+        <property name="unlockDate" type="date">
+            <column name="UNLOCK_DATE" length="10" />
+        </property>
+        <property name="createdby" type="int">
+            <column name="CREATEDBY" not-null="true" />
+        </property>
+        <property name="createdon" type="timestamp">
+            <column name="CREATEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

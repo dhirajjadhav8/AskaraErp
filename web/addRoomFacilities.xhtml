@@ -1,0 +1,156 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Add Room Facilities Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforRoomFacilities.css"></link> 
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{roomFacilitiesDAO.retrieveAllCategories()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{roomFacilitiesDAO.retrieveRoomFacilities()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmaddRoomFacilities" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>                   
+                    <p:panel header="#{i18n['ui.addRoomFacilities']}" styleClass="roomFacilities">
+                        <table width="100%">
+                            <tr>                                
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.category']} *  " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="category" value="#{roomFacilitiesDAO.selectedCategory.id}" effect="fade" required="true" requiredMessage="#{i18n['ui.msg.categoryRequied']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{roomFacilitiesDAO.allCategories}" var="eachCategory" itemLabel="#{eachCategory.name}" itemValue="#{eachCategory.id}"/>
+                                        <p:ajax process="@this"/>
+                                    </p:selectOneMenu>
+
+                                </td>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.Room']} *  " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:autoComplete value="#{roomFacilitiesDAO.selectedRoom}"   
+                                                    id="selectedRoom" completeMethod="#{roomFacilitiesDAO.completeRoom}"  
+                                                    var="r" itemLabel="#{r.name}" itemValue="#{r}" converter="rooms">
+
+                                        <f:facet name="itemtip">  
+                                            <h:panelGrid  columns="2" cellpadding="5">  
+                                                <h:outputText value="#{i18n['ui.name']}: " style="font-weight: bold;" />  
+                                                <h:outputText value="#{r.name}" />  
+                                                <h:outputText value="#{i18n['ui.RoomType']}: " style="font-weight: bold;" />  
+                                                <h:outputText value="#{r.roomtypes.name}" />  
+                                            </h:panelGrid>  
+                                        </f:facet>  
+                                    </p:autoComplete>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.ItemDetails']}*   " style="font-weight: bold"/>   
+                                </td>
+                                <td>
+                                    <p:autoComplete value="#{roomFacilitiesDAO.selectedItemDetails}"   
+                                                    id="selectedItemDetails" completeMethod="#{roomFacilitiesDAO.completeItemDetails}"  
+                                                    var="itemdetail" itemLabel="#{itemdetail.code}" itemValue="#{itemdetail}" converter="itemDetails">
+
+                                        <f:facet name="itemtip">  
+                                            <h:panelGrid  columns="2" cellpadding="5">  
+                                                <h:outputText value="#{i18n['ui.code']}: " style="font-weight: bold;" />  
+                                                <h:outputText value="#{itemdetail.code}" />  
+                                                <h:outputText value="#{i18n['ui.Model']}: " style="font-weight: bold;" />  
+                                                <h:outputText value="#{itemdetail.item.model}" />  
+                                                <h:outputText value="#{i18n['ui.typeName']}: " style="font-weight: bold;" />  
+                                                <h:outputText value="#{itemdetail.item.itype.name}" />  
+                                            </h:panelGrid>  
+                                        </f:facet>  
+                                    </p:autoComplete>
+                                </td>
+
+                                <td>
+                                    <h:outputLabel value="#{i18n['ui.startDate']} " style="font-weight: bold"/> 
+                                </td>
+                                <td>
+                                    <p:calendar id="startdate" value="#{roomFacilitiesDAO.selectedRoomFacilities.startDate}" pattern="yyyy-MM-dd" required="true" requiredMessage="#{i18n['ui.Bean.StartDate']}"/>
+
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    <p:commandButton value="Add" actionListener="#{roomFacilitiesDAO.addRoomFacilities}" process="@form :frmaddRoomFacilities" update="@form :frmRoomFacilitiesTable"/>
+                                </td>
+                            </tr>
+                        </table>  
+                    </p:panel>
+                </h:form>
+                <h:form id="frmRoomFacilitiesTable">
+                    <p:contextMenu for="roomfacilitiestbl">  
+                        <p:menuitem value="Update" icon="ui-icon-search" actionListener="#{roomFacilitiesDAO.updateRoomFacilities}" process="@form" update="@form :frmaddRoomFacilities"/>                
+                    </p:contextMenu> 
+                    <p:dataTable id="roomfacilitiestbl" value="#{roomFacilitiesDAO.allRoomFacilities}" var="eachRoomFacility" 
+                                 selection="#{roomFacilitiesDAO.selectedRoomFacilityToUpdate}" selectionMode="single"
+                                 rowKey="#{eachRoomFacility.id}" paginator="true" paginatorPosition="bottom" rows="3" style="position: absolute;top: 47%;width: 79.5%;">
+                        <p:column headerText="#{i18n['ui.serialNo']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachRoomFacility.itemdetails.manufserialno}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.code']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachRoomFacility.itemdetails.code}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.startDate']}" styleClass="tblHeader">
+                            <h:outputText value="#{eachRoomFacility.startDate}" style="font-weight: bold"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.expdate']}" styleClass="tblHeader">
+                            <p:calendar value="#{eachRoomFacility.endDate}" pattern="yyyy-MM-dd" mindate="#{eachRoomFacility.startDate}" maxdate="#{mainIncludeFilesSelect.currentDate}" disabled="#{eachRoomFacility.endDate != null}"/>
+                        </p:column>
+                        <p:column headerText="#{i18n['ui.endReason']}" styleClass="tblHeader">
+                            <p:inputTextarea value="#{eachRoomFacility.endReason}" disabled="#{eachRoomFacility.endDate != null}"/>
+                        </p:column>
+                        <f:facet name="footer">
+                            <p:commandButton value="History" onclick="DlgConfirmHistory.show()" actionListener="#{roomFacilitiesDAO.retrieveAllRoomFacilitiesHistory()}" update=":frmHistoryRoomFacilities" />
+                        </f:facet>
+                    </p:dataTable>
+                </h:form>
+            </p:panel>
+        </div>
+        <p:confirmDialog id="confirmDlgforHistory" widgetVar="DlgConfirmHistory" closable="false" style="width: 80%; height: 60%;left: 5%; top: 5%;">
+            <f:facet name="header">
+                <h:outputText value="Room Facilities History"/>
+            </f:facet>
+            <h:form id="frmHistoryRoomFacilities">
+                <p:dataTable id="roomFacilityHistorytbl" value="#{roomFacilitiesDAO.allRoomFacilitiesHistory}" var="eachRoomFacilityHistory" rowKey="#{eachRoomFacilityHistory.id}" 
+                             paginator="true" paginatorPosition="bottom" rows="5">
+                    <p:column headerText="#{i18n['ui.Room']}" styleClass="tblHeader" filterBy="#{eachRoomFacilityHistory.rooms.name}">
+                        <h:outputText value="#{eachRoomFacilityHistory.rooms.name}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.code']}" styleClass="tblHeader" filterBy="#{eachRoomFacilityHistory.rooms.code}">
+                        <h:outputText value="#{eachRoomFacilityHistory.rooms.code}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.item']}" styleClass="tblHeader" filterBy="#{eachRoomFacilityHistory.itemdetails.item.model}">
+                        <h:outputText value="#{eachRoomFacilityHistory.itemdetails.item.model}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.startDate']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachRoomFacilityHistory.startDate}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.expdate']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachRoomFacilityHistory.endDate}" style="font-weight: bold"/>
+                    </p:column>
+                    <p:column headerText="#{i18n['ui.endReason']}" styleClass="tblHeader">
+                        <h:outputText value="#{eachRoomFacilityHistory.endReason}" style="font-weight: bold"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+            <p:commandButton value="Finish" oncomplete="DlgConfirmHistory.hide()"/>
+        </p:confirmDialog>
+    </h:body>
+</html>

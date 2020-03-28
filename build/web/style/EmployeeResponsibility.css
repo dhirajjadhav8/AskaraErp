@@ -1,0 +1,149 @@
+/* 
+    Document   : EmployeeResponsibility
+    Created on : 25 Feb, 2013, 3:07:52 PM
+    Author     : dhirajj
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+.body{
+    height: 100%;
+    margin: 0px;
+    padding: 0px
+}
+
+.form{
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+}
+.rowheights{
+    height: 10%;
+}
+.banerimage{
+    
+    padding-left: 0px;
+    height: 14%;
+    width:52.1%;
+    margin-right: 30%; 
+    position: absolute;  
+    left: 9.5%;
+    top: 0.4%;
+    border-radius: 12px;
+}
+.mainpanel{
+
+   background-color: white;
+   height: 100%;
+   width: 81%;
+   border-radius: 12px;
+/*   background-image: url(/EmployeeManagement/img/askara.jpg);
+   background-repeat: no-repeat; */
+   -webkit-box-shadow: 5px 5px 4px black;
+    box-shadow: 5px 5px 4px rgb(136 136 136);
+}
+
+.horizontalSeparator{
+    
+    width: 79.5%;
+    height: 1.1%;
+    position: absolute;
+    top:14%;
+    left:10% ;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+.searchPanel{
+    width: 79.5%; 
+    height: 10%;
+    position: absolute; 
+    top:22%;
+    border-width: 1px;
+    left:10% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+.ui-menubar {
+ position: absolute;
+    top:17%;
+    width: 79.5%;
+    left:10% ;
+}
+.tbl1 {
+    border-collapse: collapse;
+    width: 48%;
+    height: 89%;
+    position: absolute; 
+/*    top:30.5%;*/
+    border-radius: 12px; 
+    text-align: center;
+    border-width: 1px;resize: none;
+   -webkit-box-shadow: 4px 5px 6px 1px darkgray;
+    box-shadow:5px 5px 6px 1px darkgray;
+}
+.tbl2 {
+    border-collapse: collapse;
+    width: 48%;
+    height: 89%;
+    left: 50%;
+    position: absolute; 
+    vertical-align: top;
+/*    top:30.5%;*/
+    border-radius: 12px; 
+    text-align: center;
+    border-width: 1px;resize: none;
+   -webkit-box-shadow: 4px 5px 6px 1px darkgray;
+    box-shadow:5px 5px 6px 1px darkgray;
+}
+.btn1{
+    position: absolute; 
+    top: 81.5%;
+    
+}
+.btn2{
+    position: absolute; 
+    top: 81.5%;
+    left: 50%;
+}
+.tblpanelforRespon{
+    width: 79.5%; 
+    height: 37%;
+    position: absolute; 
+    top:34%;
+    border-width: 1px;
+    left:10% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+}
+.pnlhistory{
+     width: 79.5%; 
+    height: 23%;
+    position: absolute; 
+    top:73%;
+    border-width: 1px;
+    left:10% ;
+    text-align: left;
+    border-radius: 12px;
+    resize: horizontal;
+    -webkit-box-shadow: 3px 3px 9px 1px darkgray;
+    box-shadow:5px 4px 4px darkgray ;
+    
+}
+.tblhistory {
+    border-collapse: collapse;
+    width: 79.5%;
+    height: 60%;
+    position: absolute; 
+    top:70%;
+    border-radius: 12px; 
+    text-align: center;
+    border-width: 1px;resize: none;
+   -webkit-box-shadow: 4px 5px 6px 1px darkgray;
+    box-shadow:5px 5px 6px 1px darkgray;
+}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.ZIcFolders" table="Z_IC_FOLDERS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="cfolderid" type="int">
+            <column name="CFOLDERID" not-null="true" />
+        </property>
+        <property name="name" type="string">
+            <column name="Name" />
+        </property>
+        <property name="employeeid" type="int">
+            <column name="EMPLOYEEID" />
+        </property>
+        <property name="type" type="java.lang.Character">
+            <column name="TYPE" length="1" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

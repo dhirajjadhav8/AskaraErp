@@ -1,0 +1,101 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets">
+    <h:head>
+        <title>Add Storage Page</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}styleSheetForStorage.css"></link> 
+        <script type="text/javascript">
+            function check(){
+                var isloc = true;
+                alert("hiiiiiiiiiiiii");
+                /*if(document.getElementById("locable").value == true){
+                    alert("hellllllloooooooo");aaa
+                    update :inptKeyNo;
+                }*/
+            }
+        </script>
+    </h:head>
+    <h:body  style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{storageDAO.retrieveAllStorageTypes()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{storageDAO.retrieveAllAreas()}"/>
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{storageDAO.retrieveAllStorages()}"/> 
+        <f:loadBundle basename="employees" var="i18n"/>
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain" widgetVar="wpnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+                <ui:include src="includeMenuBar.xhtml" />
+                <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frmADDStorage" styleClass="form">
+                    <p:growl id="growlmsg" showDetail="false"/>  
+                    <p:panel header="#{i18n['ui.addStorage']}" styleClass="addStoragePanel">
+                        <table>
+
+                            <tr>                               
+                                <td>
+                                    <h:outputText value="#{i18n['ui.storageType']} *"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="storageType" value="#{storageDAO.selectedStorageTypes.id}" required="true" 
+                                                      requiredMessage="#{i18n['ui.selectStorageType']}" effect="fade">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{storageDAO.allStorageTypes}" var="eachStorageType" 
+                                                       itemLabel="#{eachStorageType.name}" itemValue="#{eachStorageType.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.Area']} *"/>
+                                </td>
+                                <td>
+                                    <p:selectOneMenu  id="area" value="#{storageDAO.selectedArea.id}" effect="fade" required="true" requiredMessage="#{i18n['ui.SelectAreaAdd']}">
+                                        <f:selectItem itemLabel="Select" itemValue=""/>  
+                                        <f:selectItems value="#{storageDAO.allArea}" var="eachArea" 
+                                                       itemLabel="#{eachArea.code}" itemValue="#{eachArea.id}"/>
+                                    </p:selectOneMenu>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.code']} *"/>
+                                </td>
+                                <td>
+                                    <p:inputText value="#{storageDAO.selectedStorage.code}" required="true" requiredMessage="#{i18n['ui.codeRequired']}">
+                                        <f:validateLength maximum="2" minimum="2">                                          
+                                        </f:validateLength>
+                                    </p:inputText>
+                                </td>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.Locked']}"/>
+                                </td>
+                                <td>
+                                    <p:selectBooleanCheckbox id="locable">                                        
+                                    </p:selectBooleanCheckbox>
+                                </td>  
+
+                            </tr>
+                            <tr>
+                                <td>
+                                    <h:outputText value="#{i18n['ui.KeyNo']}"/>
+                                </td>
+                                <td>
+                                    <p:inputText id="inptKeyNo" value="#{storageDAO.selectedStorage.kyeNo}" disabled="true"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <p:commandButton value="Add" actionListener="#{storageDAO.addStorage()}" process="@form" update="@form"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </p:panel>
+                </h:form>
+            </p:panel>
+        </div>
+    </h:body>
+</html>

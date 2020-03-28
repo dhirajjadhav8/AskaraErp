@@ -1,0 +1,78 @@
+<ui:composition 
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:ui="http://java.sun.com/jsf/facelets">
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveOutboxFolders()}"/>
+    <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{internalCommunicationDAO.retrieveAllOutboxIntercommunication}"/>
+    <h:form id="frmOutbox">
+        <p:growl id="msggrowls" showDetail="false"/>
+        <p:dataTable id="outboxtbl" paginator="true" paginatorPosition="bottom" rows="8"
+                     value="#{internalCommunicationDAO.allOutboxInterCommunication}" selection="#{internalCommunicationDAO.selectedInterCommOutboxView}" 
+                     var="eachOutbox"  rowKey="#{eachOutbox.id}" 
+                     style="text-align: left;height: 85%;width: 90%;position: relative;">
+            <p:ajax event="rowSelectRadio" listener="#{internalCommunicationDAO.removeSelectedTrashOutboxMessage()}" process="@form" update="@form :tbvInternalComunication:frmOutbox"/>
+            <f:facet name="header">
+                <div align="left">
+                    <p:panelGrid style="width: 20%;border-width: 0%;">
+                        <p:row>
+                            <p:column style="background-color: #c4c4c4;">
+                                <h:outputText value="Select Folder :" style="text-align: left;"/>
+                            </p:column>
+                            <p:column style="background-color: #c4c4c4;">
+                                <p:selectOneMenu  id="folders" value="#{internalCommunicationDAO.selectedOutBoxFolder.id}" >
+                                    <f:selectItem itemLabel="Select" itemValue=""/>  
+                                    <f:selectItems value="#{internalCommunicationDAO.allOutoxFolderwithDraftTrash}" var="eachFolder" itemLabel="#{eachFolder.name}" itemValue="#{eachFolder.id}"/>
+                                    <p:ajax  listener="#{internalCommunicationDAO.onFolderSelectRetrieveOutbox}" update="outboxtbl"/>
+                                </p:selectOneMenu>
+                            </p:column>
+                        </p:row>
+                    </p:panelGrid>
+                </div>
+            </f:facet>
+            <p:column headerText="#{i18n['ui.subject']}" styleClass="tblHeader">
+                <h:outputText value="#{eachOutbox.subject}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="#{i18n['ui.Date']}" styleClass="tblHeader">
+                <h:outputText value="#{eachOutbox.requestDate}" style="font-weight: bold"/>
+            </p:column>
+            <p:column headerText="Empty Selected Trash" selectionMode="single" style="text-align: center" rendered="${internalCommunicationDAO.selectedOutBoxFolder.id == -2}"/>
+            <p:column headerText="ViewOutboxMessage" style="text-align: center;">
+                <p:commandButton id="selectButton" actionListener="#{internalCommunicationDAO.viewOutbox}" icon="mail-outbox" style="height: 80%;" update=":tbvInternalComunication:confirmDlgForOutbox" oncomplete="DlgConfirmForOutbox.show();" title="view Outbox message">  
+                    <f:setPropertyActionListener value="#{eachOutbox}" target="#{internalCommunicationDAO.selectedInterCommOutboxView}" />                    
+                    <ui:remove> <p:ajax event="rowSelect" listener="#{internalCommunicationDAO.viewInbox}" update=":tbvInternalComunication:confirmDlgForInbox" 
+                                        oncomplete="DlgConfirmForInbox.show();" /> </ui:remove>
+                </p:commandButton>  
+            </p:column>
+            <f:facet name="footer">
+                <p:commandButton value="Old" oncomplete="DlgConfirmForOutbox.show();" process="@this" update="@form :tbvInternalComunication:confirmDlgForOutbox">
+                    <f:setPropertyActionListener value="old" target="#{mainIncludeFilesSelect.includeFile}"/>
+                </p:commandButton>
+                <p:commandButton value="Add" oncomplete="DlgConfirmForOutbox.show();" process="@this" update="@form :tbvInternalComunication:confirmDlgForOutbox">
+                    <f:setPropertyActionListener value="add" target="#{mainIncludeFilesSelect.includeFile}"/>
+                </p:commandButton>
+                <p:commandButton value="Empty Trash" actionListener="#{internalCommunicationDAO.emptyOutboxTrash()}" process="@this" update=":tbvInternalComunication:frmOutbox" rendered="${internalCommunicationDAO.selectedOutBoxFolder.id == -2}"/>
+            </f:facet>
+        </p:dataTable>
+    </h:form>
+    <p:confirmDialog id="confirmDlgForOutbox" widgetVar="DlgConfirmForOutbox" closable="false" style="width: 80%; height: 60%;left:10%; top: 5%;">
+        <f:facet name="header">
+            <h:outputText value="OLD" rendered="${mainIncludeFilesSelect.includeFile == 'old'}"/>
+            <h:outputText value="View" rendered="${mainIncludeFilesSelect.includeFile == 'viewOutbox' || mainIncludeFilesSelect.includeFile =='viewTrashMessage'}"/>
+            <h:outputText value="Add" rendered="${mainIncludeFilesSelect.includeFile == 'add'}"/>
+            <h:outputText value="Add Draft Message" rendered="${mainIncludeFilesSelect.includeFile == 'addDraftMessage'}"/>
+        </f:facet>            
+        <h:panelGroup id="pnlOldOutbox" rendered="${mainIncludeFilesSelect.includeFile == 'old'}">
+            <ui:include src="old.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup id="pnlAddOutbox" rendered="${mainIncludeFilesSelect.includeFile == 'add' || mainIncludeFilesSelect.includeFile == 'addDraftMessage'}">
+            <ui:include src="addInternalCommunication.xhtml"/>
+        </h:panelGroup>
+        <h:panelGroup id="pnlViewOutbox" rendered="${mainIncludeFilesSelect.includeFile == 'viewOutbox' || mainIncludeFilesSelect.includeFile == 'viewTrashMessage'}">
+            <ui:include src="viewOutbox.xhtml"/>
+        </h:panelGroup>
+        <p:commandButton value="Finish" actionListener="#{internalCommunicationDAO.finishUploading()}" onclick="DlgConfirmForOutbox.hide();" />
+    </p:confirmDialog>
+</ui:composition>

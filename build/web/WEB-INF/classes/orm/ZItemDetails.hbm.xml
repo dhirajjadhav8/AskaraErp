@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+  <class name="orm.ZItemDetails" table="Z_ITEM_DETAILS" schema="ERP">
+        <id name="id" type="int">
+            <column name="ID" />
+            <generator class="native" />
+        </id>
+        <property name="itemdetailsid" type="int">
+            <column name="ITEMDETAILSID" not-null="true" />
+        </property>
+        <property name="itemid" type="int">
+            <column name="ITEMID" />
+        </property>
+        <property name="manufserialno" type="string">
+            <column name="MANUFSERIALNO" />
+        </property>
+        <property name="purchaseDate" type="date">
+            <column name="PURCHASE_DATE" length="10" />
+        </property>
+        <property name="warrentyexpDate" type="date">
+            <column name="WARRENTYEXP_DATE" length="10" />
+        </property>
+        <property name="code" type="string">
+            <column name="CODE" />
+        </property>
+        <property name="opcode" type="char">
+            <column name="OPCODE" length="1" not-null="true" />
+        </property>
+        <property name="modifiedby" type="int">
+            <column name="MODIFIEDBY" />
+        </property>
+        <property name="modifiedon" type="timestamp">
+            <column name="MODIFIEDON" length="29" not-null="true" />
+        </property>
+        <property name="specifications" type="string">
+            <column name="SPECIFICATIONS" length="2000" />
+        </property>
+    </class>
+</hibernate-mapping>

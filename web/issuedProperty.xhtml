@@ -1,0 +1,94 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      style="height: 97%;margin: 0px;padding: 3px;background-color: lightgray "
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:c="http://java.sun.com/jsp/jstl/core">
+    <h:head>
+        <title>Issued Property</title>
+        <link rel="stylesheet" type="text/css" href="#{facesContext.externalContext.requestContextPath}#{forceSessionCreateA.separator}style#{forceSessionCreateA.separator}stylesheetforissuedProperty.css"></link>         
+    </h:head>
+    <h:body style="height: 100%;margin: 0px 0px 0px 0px;font-family: Arial, Verdana, Helvetica, sans-serif;color: #444;font-size: 12px;background-color: white;">
+        <f:event type="javax.faces.event.PreRenderViewEvent" listener="#{loginbean.checkAccess()}"/>
+        <f:loadBundle basename="employees" var="i18n"/>       
+        <div align="center" style="background-color: lightgray;height: 100%;">
+            <p:panel styleClass="mainpanel" id="pnlMain">
+                <ui:include src="imageBaner.xhtml"/>
+               <p:separator styleClass="horizontalSeparator" />
+                <h:form id="frIssueEmpProperty">
+                    <p:growl id="growlmessages" showDetail="false"/>
+                    <p:panel id="mainpnlforEmpProperty" styleClass="addPanel">
+                        <p:panel id="addEmpProperty" styleClass="addPnlToProperty">
+                            <table id="addtblEmpProperty">
+                                <tr>
+                                    <td valign="top">
+                                        <h:outputLabel id="employee" value="#{i18n['ui.employee']}*" style="font-weight: bold"/>
+                                    </td>
+                                    <td valign="middle">                              
+                                        <p:selectOneMenu  id="employeeforissuePro" value="#{issuedPropertyDAO.selectedEmployee}" effect="fade" required="true" requiredMessage="Please select at least one employee.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/>
+                                            <f:selectItems value="#{issuedPropertyDAO.allEmployees}" var="employeeforcombo" itemLabel="#{employeeforcombo.firstname} #{employeeforcombo.lastname}" itemValue="#{employeeforcombo.id}"/>  
+                                            <p:ajax listener="#{issuedPropertyDAO.retrieveIssuedPropertyByEmployee()}" event="change" update="tblissuedEmpProperty,properties,qty,unites,comment" process="@this"/>
+                                        </p:selectOneMenu> &nbsp;&nbsp;&nbsp;                               
+                                    </td>
+                                    <td valign="top">
+                                        <h:outputLabel id="property" value="#{i18n['ui.properties']}" style="font-weight: bold"/>
+                                    </td>
+                                    <td valign="middle">                              
+                                        <p:selectOneMenu  id="properties" value="#{issuedPropertyDAO.selectedProperty}" effect="fade" required="true" requiredMessage="Please select at least one property.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/>
+                                            <f:selectItems value="#{issuedPropertyDAO.allProperties}" var="propertyforcombo" itemLabel="#{propertyforcombo.name}" itemValue="#{propertyforcombo.id}"/>                                       
+                                        </p:selectOneMenu> &nbsp;&nbsp;&nbsp;                               
+                                    </td>
+                                    <td valign="top">
+                                        <h:outputLabel id="quantity" value="#{i18n['ui.quantity']}*" style="font-weight: bold"/>
+                                    </td>  
+                                    <td valign="top">
+                                        <p:inputText id="qty" value="#{issuedPropertyDAO.issuedEmpProperty.quantity}" required="true" validatorMessage="Enter only numbers." requiredMessage="Quantity is required.">
+                                            <f:validateRegex pattern="^[0-9]$" for="qty"/>
+                                        </p:inputText>
+                                    </td>
+                                    <td valign="middle">
+                                        <p:selectOneMenu  id="unites" value="#{issuedPropertyDAO.selectedUnit}" effect="fade" required="true" requiredMessage="Please select at least one unit.">
+                                            <f:selectItem itemLabel="Select" itemValue=""/>
+                                            <f:selectItems value="#{issuedPropertyDAO.allUnites}" var="unitforcombo" itemLabel="#{unitforcombo.name}" itemValue="#{unitforcombo.id}"/>                                       
+                                        </p:selectOneMenu> &nbsp;&nbsp;&nbsp;
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <h:outputLabel id="comments" value="#{i18n['ui.comments']}" style="font-weight: bold"/>
+                                    </td> 
+                                    <td>
+                                        <p:inputTextarea id="comment" value="#{issuedPropertyDAO.issuedEmpProperty.comments}" autoResize="false" style="height: 70%;width: 160%;"/>
+                                    </td>    
+                                </tr>
+                               <tr>
+                                    <td>
+                                        <p:commandButton value="Add" actionListener="#{issuedPropertyDAO.addIssuedProperty()}" onclick="clearForm(this.form);" process="@form" update="@form,tblissuedEmpProperty,growlmessages"/>
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </p:panel>                        
+                        <p:separator style=" width: 95.5%;height: 1.1%; position: absolute;top:39%;-webkit-box-shadow: 3px 3px 9px 1px darkgray;box-shadow:5px 4px 4px darkgray ;"/>
+                        <p:dataTable id="tblissuedEmpProperty" value="#{issuedPropertyDAO.issuedEmployeeProperty}" var="eachEmpProperty" rowKey="#{eachEmpProperty.id}" paginator="true" paginatorPosition="bottom" rows="4" style="width: 95.5%">
+                            <p:column headerText="Property Name" styleClass="tblHeader">
+                                <h:outputText value="#{eachEmpProperty.properties.name}"/>
+                            </p:column>
+                            <p:column headerText="IssueDate" styleClass="tblHeader">
+                                <h:outputText value="#{eachEmpProperty.issueDate}"/>
+                            </p:column>
+                            <p:column headerText="Quantity" styleClass="tblHeader">
+                                <h:outputText value="#{eachEmpProperty.quantity}#{eachEmpProperty.unites.name}"/>
+                            </p:column>
+                        </p:dataTable>
+                    </p:panel> 
+                </h:form>
+                 <ui:include src="EmployeeDocumentExpiryCount.xhtml"/> 
+            </p:panel>
+        </div>
+    </h:body>
+</html>
